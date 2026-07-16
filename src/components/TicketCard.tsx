@@ -53,7 +53,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
     }
   };
 
-  // Build grid column span classes dynamically
+  // Build grid column & row span classes dynamically
   let colSpanClass = 'md:col-span-1';
   if (ticket.gridSpan?.cols === 3) {
     colSpanClass = 'md:col-span-3';
@@ -61,8 +61,13 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
     colSpanClass = 'md:col-span-2';
   }
 
+  let rowSpanClass = '';
+  if (ticket.gridSpan?.rows === 2) {
+    rowSpanClass = 'md:row-span-2';
+  }
+
   // Card container class
-  const containerClass = `group relative border border-foreground/20 shadow-sm flex flex-col justify-between hover:shadow-md transition-all cursor-pointer ${colSpanClass} ${
+  const containerClass = `group relative border border-foreground/20 shadow-sm flex flex-col justify-between hover:shadow-md transition-all cursor-pointer ${colSpanClass} ${rowSpanClass} ${
     isAccent ? 'bg-[#5c3a28] text-background' : 'bg-background text-foreground'
   }`;
 
