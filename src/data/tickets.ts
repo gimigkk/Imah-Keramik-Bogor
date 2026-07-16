@@ -1,0 +1,192 @@
+import { Ticket } from '../types/ticket';
+
+export const keramikTickets: Ticket[] = [
+  {
+    id: 'cac',
+    code: 'IKB-CAC',
+    title: 'Ceramic Art Class (CAC)',
+    price: 'Rp 200.000',
+    unit: 'per_orang',
+    unitLabel: '/orang/sesi',
+    badge: 'favorit',
+    featured: true,
+    gridSpan: { cols: 2, rows: 2 },
+    image: 'https://images.unsplash.com/photo-1662844681461-8c16d05b0582?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    tags: [
+      'Factory Visit',
+      'Kelas Tutorial Pembuatan Keramik',
+      'Alat & Bahan',
+      '2x Pembakaran',
+      'Glazur 1 Warna',
+    ],
+    description:
+      'Kelas utama seni pembuatan keramik secara mendalam. Peserta akan diajak melakukan tur pabrik pengolahan, mengikuti sesi tutorial pembentukan keramik bersama instruktur berpengalaman, mendapatkan fasilitas penuh alat dan bahan baku, 2 kali proses pembakaran kiln, serta pewarnaan glazur 1 warna.',
+    category: 'keramik',
+  },
+  {
+    id: 'fun-clay',
+    code: 'IKB-FCL',
+    title: 'Fun Clay',
+    price: 'Rp 75.000',
+    unit: 'per_orang',
+    unitLabel: '/orang/sesi',
+    gridSpan: { cols: 1, rows: 1 },
+    image: 'https://images.unsplash.com/photo-1621846323386-a60faf26f962?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    tags: [
+      'Factory Visit',
+      'Kelas Tutorial Membentuk Tanah Liat',
+      'Alat & Bahan',
+    ],
+    description:
+      'Sesi kreatif membentuk tanah liat bebas yang ramah untuk pemula dan keluarga. Termasuk tur pabrik pengolahan tanah liat, bimbingan tutorial membentuk karya tangan, serta penyediaan alat dan bahan tanah liat siap pakai.',
+    category: 'keramik',
+  },
+  {
+    id: 'glaze-coloring',
+    code: 'IKB-GLZ',
+    title: 'Glaze Coloring',
+    price: 'Rp 200.000',
+    unit: 'per_orang',
+    unitLabel: '/orang/sesi',
+    gridSpan: { cols: 1, rows: 1 },
+    image: 'https://images.unsplash.com/photo-1582140099533-11fe4d348e01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    tags: [
+      '1 Body Bisque',
+      'Tutorial Mewarnai Glazur',
+      'Beragam Pilihan Warna',
+      '1x Pembakaran Glazur',
+    ],
+    description:
+      'Seni dekorasi keramik dengan teknik glazur cair khusus. Peserta mendapatkan 1 buah produk bisque (keramik matang belum diglazur), tutorial teknik pewarnaan, bebas memilih beragam variasi warna glazur premium, dan 1 kali proses pembakaran glazur akhir.',
+    category: 'keramik',
+  },
+  {
+    id: 'bundling-1',
+    code: 'IKB-BND1',
+    title: 'Bundling 1',
+    price: 'Rp 100.000',
+    unit: 'per_orang',
+    unitLabel: '/orang/sesi',
+    badge: 'hemat',
+    isAccent: true,
+    gridSpan: { cols: 3, rows: 1 },
+    image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    tags: ['Fun Clay + Membatik Paket 1'],
+    description:
+      'Paket bundling paling favorit dan hemat! Nikmati dua pengalaman seru sekaligus dalam satu kunjungan: kreasi tanah liat Fun Clay dan seni kerajinan kayu Membatik Paket 1 (termasuk alat, bahan, dan bimbingan tutorial).',
+    category: 'keramik',
+  },
+];
+
+export const membatikTickets: Ticket[] = [
+  {
+    id: 'membatik-kayu',
+    code: 'IKB-MBK',
+    title: 'Paket Membatik Kayu',
+    price: 'Rp 50.000 – Rp 150.000',
+    unit: 'per_orang',
+    unitLabel: '/orang/sesi',
+    badge: '4_pilihan',
+    gridSpan: { cols: 2, rows: 1 },
+    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    tags: [
+      'Paket 1: Rp 50.000',
+      'Paket 2: Rp 75.000',
+      'Paket 3: Rp 100.000',
+      'Paket 4: Rp 150.000',
+    ],
+    description:
+      'Pengalaman membuat kerajinan batik di atas media kayu pilihan. Tersedia 4 pilihan variasi paket yang disesuaikan dengan media kayu dan jumlah warna. Semua opsi paket sudah mencakup bimbingan tutorial serta alat dan bahan lengkap.',
+    tiers: [
+      { name: 'Paket 1', price: 'Rp 50.000', detail: '1 centong, 1 warna (termasuk tutorial, alat & bahan)' },
+      { name: 'Paket 2', price: 'Rp 75.000', detail: '2 centong, 1 warna (termasuk tutorial, alat & bahan)' },
+      { name: 'Paket 3', price: 'Rp 100.000', detail: '1 pigura, 1 centong, 1 warna (termasuk tutorial, alat & bahan)' },
+      { name: 'Paket 4', price: 'Rp 150.000', detail: '1 talenan, 2 warna (termasuk tutorial, alat & bahan)' },
+    ],
+    category: 'membatik',
+  },
+  {
+    id: 'bundling-2',
+    code: 'IKB-BND2',
+    title: 'Bundling 2',
+    price: 'Rp 225.000',
+    unit: 'per_orang',
+    unitLabel: '/orang/sesi',
+    badge: 'hemat',
+    isAccent: true,
+    gridSpan: { cols: 2, rows: 1 },
+    image: 'https://images.unsplash.com/photo-1508269151431-a34449ca161d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    tags: ['CAC / Glaze Coloring + Membatik Paket 1'],
+    description:
+      'Paket bundling premium serba lengkap! Pilih salah satu kelas keramik tingkat lanjutan (Ceramic Art Class atau Glaze Coloring) dan gabungkan dengan sesi Membatik Kayu Paket 1 untuk hasil karya seni ganda.',
+    category: 'membatik',
+  },
+];
+
+export const infoUmumTickets: Ticket[] = [
+  {
+    id: 'htm',
+    code: 'IKB-HTM',
+    title: 'HTM (Tiket Masuk Studio)',
+    price: 'Rp 15.000',
+    unit: 'per_orang',
+    unitLabel: '/orang',
+    gridSpan: { cols: 2, rows: 1 },
+    tags: [
+      'Melihat proses pengolahan bahan baku',
+      'Proses putar & mug tuang',
+      'Proses dekor kerok & glazur celup',
+      'Tungku bakar / kiln',
+    ],
+    description:
+      'Tiket Masuk Studio (HTM) untuk pengunjung yang ingin melihat langsung area produksi keramik Imah Keramik Bogor. Menyaksikan langsung proses pengolahan bahan baku tanah liat, teknik meja putar, pencetakan mug tuang, pengerjaan dekorasi kerok, pencelupan warna glazur, hingga melihat tungku pembakaran keramik (kiln).',
+    category: 'info_umum',
+  },
+  {
+    id: 'workshop',
+    code: 'IKB-WKS',
+    title: 'Workshop Custom',
+    price: 'Sesuai kelas dipilih',
+    unit: 'kustom',
+    unitLabel: '(kustom)',
+    badge: 'kustom',
+    gridSpan: { cols: 1, rows: 1 },
+    tags: ['Transportasi & akomodasi di luar harga kelas'],
+    description:
+      'Layanan workshop privat/kustom untuk instansi, perusahaan, sekolah, atau rombongan khusus. Kurikulum dan aktivitas dapat disesuaikan dengan permintaan. Transportasi dan akomodasi di luar harga kelas.',
+    category: 'info_umum',
+  },
+  {
+    id: 'paket-usaha',
+    code: 'IKB-USH',
+    title: 'Paket Usaha',
+    price: 'Rp 200.000',
+    unit: 'per_paket',
+    unitLabel: '/orang/paket',
+    badge: 'expert',
+    gridSpan: { cols: 1, rows: 1 },
+    tags: [
+      'Bahan baku lengkap',
+      '6 warna glazur',
+      '2x pembakaran',
+      'Peserta level expert',
+    ],
+    description:
+      'Program khusus bagi peserta level expert atau pengusaha pemula yang ingin memproduksi keramik secara independen. Termasuk pasokan bahan baku keramik siap pakai, 6 variasi warna glazur cair, dan pembakaran kiln sebanyak 2 kali.',
+    category: 'info_umum',
+  },
+  {
+    id: 'sewa-aula',
+    code: 'IKB-AUL',
+    title: 'Sewa Aula',
+    price: 'Rp 300.000',
+    unit: 'per_2jam',
+    unitLabel: '/2 jam (maks. 30 orang)',
+    gridSpan: { cols: 2, rows: 1 },
+    addons: ['+Rp 150.000 /jam tambahan', '+Rp 10.000 /orang tambahan'],
+    tags: ['Kapasitas maks. 30 orang', 'Fasilitas area studio'],
+    description:
+      'Penyewaan ruangan aula Imah Keramik Bogor untuk kegiatan gathering, rapat, reuni, atau acara kelompok (maksimal 30 orang per sesi 2 jam). Tersedia opsi penambahan durasi jam serta penambahan kapasitas peserta.',
+    category: 'info_umum',
+  },
+];
