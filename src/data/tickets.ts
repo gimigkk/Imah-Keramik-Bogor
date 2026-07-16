@@ -131,7 +131,7 @@ export const infoUmumTickets: Ticket[] = [
     price: 'Rp 15.000',
     unit: 'per_orang',
     unitLabel: '/orang',
-    gridSpan: { cols: 2, rows: 1 },
+    gridSpan: { cols: 1, rows: 1 },
     tags: [
       'Melihat proses pengolahan bahan baku',
       'Proses putar & mug tuang',
@@ -150,10 +150,24 @@ export const infoUmumTickets: Ticket[] = [
     unit: 'kustom',
     unitLabel: '(kustom)',
     badge: 'kustom',
-    gridSpan: { cols: 1, rows: 1 },
+    gridSpan: { cols: 2, rows: 1 },
     tags: ['Transportasi & akomodasi di luar harga kelas'],
     description:
       'Layanan workshop privat/kustom untuk instansi, perusahaan, sekolah, atau rombongan khusus. Kurikulum dan aktivitas dapat disesuaikan dengan permintaan. Transportasi dan akomodasi di luar harga kelas.',
+    category: 'info_umum',
+  },
+  {
+    id: 'sewa-aula',
+    code: 'IKB-AUL',
+    title: 'Sewa Aula',
+    price: 'Rp 300.000',
+    unit: 'per_2jam',
+    unitLabel: '/2 jam (maks. 30 orang)',
+    gridSpan: { cols: 1, rows: 1 },
+    addons: ['+Rp 150.000 /jam tambahan', '+Rp 10.000 /orang tambahan'],
+    tags: ['Kapasitas maks. 30 orang', 'Fasilitas area studio'],
+    description:
+      'Penyewaan ruangan aula Imah Keramik Bogor untuk kegiatan gathering, rapat, reuni, atau acara kelompok (maksimal 30 orang per sesi 2 jam). Tersedia opsi penambahan durasi jam serta penambahan kapasitas peserta.',
     category: 'info_umum',
   },
   {
@@ -164,7 +178,7 @@ export const infoUmumTickets: Ticket[] = [
     unit: 'per_paket',
     unitLabel: '/orang/paket',
     badge: 'expert',
-    gridSpan: { cols: 1, rows: 1 },
+    gridSpan: { cols: 2, rows: 1 },
     tags: [
       'Bahan baku lengkap',
       '6 warna glazur',
@@ -173,20 +187,6 @@ export const infoUmumTickets: Ticket[] = [
     ],
     description:
       'Program khusus bagi peserta level expert atau pengusaha pemula yang ingin memproduksi keramik secara independen. Termasuk pasokan bahan baku keramik siap pakai, 6 variasi warna glazur cair, dan pembakaran kiln sebanyak 2 kali.',
-    category: 'info_umum',
-  },
-  {
-    id: 'sewa-aula',
-    code: 'IKB-AUL',
-    title: 'Sewa Aula',
-    price: 'Rp 300.000',
-    unit: 'per_2jam',
-    unitLabel: '/2 jam (maks. 30 orang)',
-    gridSpan: { cols: 2, rows: 1 },
-    addons: ['+Rp 150.000 /jam tambahan', '+Rp 10.000 /orang tambahan'],
-    tags: ['Kapasitas maks. 30 orang', 'Fasilitas area studio'],
-    description:
-      'Penyewaan ruangan aula Imah Keramik Bogor untuk kegiatan gathering, rapat, reuni, atau acara kelompok (maksimal 30 orang per sesi 2 jam). Tersedia opsi penambahan durasi jam serta penambahan kapasitas peserta.',
     category: 'info_umum',
   },
 ];
