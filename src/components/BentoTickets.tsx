@@ -64,18 +64,18 @@ export const BentoTickets: React.FC = () => {
           </span>
         </div>
 
-        {/* TAB 1: KERAMIK (3-column Bento Grid) */}
+        {/* TAB 1: KERAMIK (4-column Bento Grid) */}
         {activeTab === 'keramik' && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
             {keramikTickets.map((ticket) => (
               <TicketCard key={ticket.id} ticket={ticket} onClick={setSelectedTicket} />
             ))}
           </div>
         )}
 
-        {/* TAB 2: MEMBATIK KAYU (2-column Bento Grid) */}
+        {/* TAB 2: MEMBATIK KAYU (4-column Bento Grid) */}
         {activeTab === 'membatik' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
             {membatikTickets.map((ticket) => (
               <TicketCard key={ticket.id} ticket={ticket} onClick={setSelectedTicket} />
             ))}

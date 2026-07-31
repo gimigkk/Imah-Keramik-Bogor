@@ -98,7 +98,9 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
 
   // Build grid column & row span/start classes dynamically
   let colSpanClass = 'md:col-span-1';
-  if (ticket.gridSpan?.cols === 3) {
+  if (ticket.gridSpan?.cols === 4) {
+    colSpanClass = 'md:col-span-4';
+  } else if (ticket.gridSpan?.cols === 3) {
     colSpanClass = 'md:col-span-3';
   } else if (ticket.gridSpan?.cols === 2) {
     colSpanClass = 'md:col-span-2';
