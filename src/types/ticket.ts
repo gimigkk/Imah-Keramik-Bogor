@@ -30,4 +30,8 @@ export type Ticket = {
     cols?: number;
     rows?: number;
   };
+  gridPosition?: {
+    colStart: number;
+    rowStart: number;
+  };
 };

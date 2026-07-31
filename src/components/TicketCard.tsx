@@ -6,6 +6,49 @@ interface TicketCardProps {
   onClick: (ticket: Ticket) => void;
 }
 
+interface TicketPriceFooterProps {
+  ticket: Ticket;
+  isAccent?: boolean;
+  large?: boolean;
+}
+
+// Single shared Price Footer Component used by all cards (featured & regular)
+const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent, large }) => (
+  <div className={`w-full p-4 px-6 flex items-center justify-between ${isAccent ? 'bg-background/5' : 'bg-secondary/10'}`}>
+    <div>
+      <span className={`font-mono font-bold block ${large ? 'text-lg md:text-xl' : 'text-base md:text-lg'} ${isAccent ? 'text-background' : 'text-foreground'}`}>
+        {ticket.price}
+      </span>
+      {ticket.unitLabel && (
+        <span className={`font-sans text-[10px] block ${isAccent ? 'text-background/60' : 'text-muted-foreground'}`}>
+          {ticket.unitLabel}
+        </span>
+      )}
+    </div>
+    <span className={`font-mono text-[10px] uppercase tracking-widest border-b transition-colors ${
+      isAccent
+        ? 'text-background/80 border-background/40 group-hover:text-background group-hover:border-background'
+        : 'text-foreground/70 border-foreground/30 group-hover:text-foreground group-hover:border-foreground'
+    }`}>
+      Detail →
+    </span>
+  </div>
+);
+
+const colStartClasses: Record<number, string> = {
+  1: 'md:col-start-1',
+  2: 'md:col-start-2',
+  3: 'md:col-start-3',
+  4: 'md:col-start-4',
+};
+
+const rowStartClasses: Record<number, string> = {
+  1: 'md:row-start-1',
+  2: 'md:row-start-2',
+  3: 'md:row-start-3',
+  4: 'md:row-start-4',
+};
+
 export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
   const isAccent = ticket.isAccent;
   const isFeatured = ticket.featured;
@@ -53,7 +96,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
     }
   };
 
-  // Build grid column & row span classes dynamically
+  // Build grid column & row span/start classes dynamically
   let colSpanClass = 'md:col-span-1';
   if (ticket.gridSpan?.cols === 3) {
     colSpanClass = 'md:col-span-3';
@@ -66,22 +109,26 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
     rowSpanClass = 'md:row-span-2';
   }
 
+  const colStartClass = ticket.gridPosition?.colStart ? colStartClasses[ticket.gridPosition.colStart] || '' : '';
+  const rowStartClass = ticket.gridPosition?.rowStart ? rowStartClasses[ticket.gridPosition.rowStart] || '' : '';
+
   // Card container class
-  const containerClass = `group relative border border-foreground/20 shadow-sm flex flex-col justify-between hover:shadow-md transition-all cursor-pointer ${colSpanClass} ${rowSpanClass} ${
+  const containerClass = `group relative border border-foreground/20 shadow-sm flex flex-col justify-between hover:shadow-md transition-all cursor-pointer ${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass} ${
     isAccent ? 'bg-[#5c3a28] text-background' : 'bg-background text-foreground'
   }`;
 
-  // FEATURED / HERO CAC CARD (2 cols)
+  // FEATURED / HERO CAC CARD (2 cols x 2 rows)
   if (isFeatured) {
     return (
       <div onClick={() => onClick(ticket)} className={containerClass}>
-        <div className="flex-1 p-6 md:p-8 flex flex-col justify-between">
+        {/* Top Content Wrapper: top-aligned flex column without justify-between */}
+        <div className="p-6 md:p-8 flex flex-col flex-1">
           <div className="flex justify-between items-start mb-4">
             {renderBadge()}
             <span className="font-mono text-sm text-muted-foreground tracking-widest">{ticket.code}</span>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-6 h-full mt-2">
+          <div className="flex flex-col md:flex-row gap-6 flex-1 mt-2">
             <div className="flex-1 flex flex-col justify-center">
               <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-3 leading-tight">
                 {ticket.title}
@@ -106,7 +153,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
             </div>
 
             {ticket.image && (
-              <div className="w-full md:w-5/12 aspect-video md:aspect-auto h-full border border-foreground/10 overflow-hidden bg-muted relative min-h-[160px]">
+              <div className="w-full md:w-5/12 aspect-video md:aspect-auto flex-1 h-full border border-foreground/10 overflow-hidden bg-muted relative min-h-[160px]">
                 <img
                   src={ticket.image}
                   alt={ticket.title}
@@ -125,16 +172,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
           <div className="sm:hidden absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l border-foreground/20" />
         </div>
 
-        {/* Bottom Price Strip */}
-        <div className="w-full p-6 md:p-8 flex flex-col justify-center items-center text-center bg-secondary/10 border-t border-foreground/10">
-          <div className="w-full">
-            <p className="uppercase tracking-[0.2em] text-[10px] text-muted-foreground mb-1 font-mono">Harga Tiket</p>
-            <p className="font-mono text-2xl md:text-3xl text-foreground font-bold mb-1">{ticket.price}</p>
-            {ticket.unitLabel && (
-              <p className="font-sans text-[11px] text-muted-foreground">{ticket.unitLabel}</p>
-            )}
-          </div>
-        </div>
+        {/* Shared Price Footer Component */}
+        <TicketPriceFooter ticket={ticket} isAccent={isAccent} large={true} />
       </div>
     );
   }
@@ -214,26 +253,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
         <div className={`absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l ${isAccent ? 'border-background/20' : 'border-foreground/20'}`} />
       </div>
 
-      {/* Price Footer Strip */}
-      <div className={`w-full p-4 px-6 flex items-center justify-between ${isAccent ? 'bg-background/5' : 'bg-secondary/10'}`}>
-        <div>
-          <span className={`font-mono text-base md:text-lg font-bold block ${isAccent ? 'text-background' : 'text-foreground'}`}>
-            {ticket.price}
-          </span>
-          {ticket.unitLabel && (
-            <span className={`font-sans text-[10px] block ${isAccent ? 'text-background/60' : 'text-muted-foreground'}`}>
-              {ticket.unitLabel}
-            </span>
-          )}
-        </div>
-        <span className={`font-mono text-[10px] uppercase tracking-widest border-b transition-colors ${
-          isAccent
-            ? 'text-background/80 border-background/40 group-hover:text-background group-hover:border-background'
-            : 'text-foreground/70 border-foreground/30 group-hover:text-foreground group-hover:border-foreground'
-        }`}>
-          Detail →
-        </span>
-      </div>
+      {/* Shared Price Footer Component */}
+      <TicketPriceFooter ticket={ticket} isAccent={isAccent} large={false} />
     </div>
   );
 };

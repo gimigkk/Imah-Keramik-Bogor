@@ -11,6 +11,7 @@ export const keramikTickets: Ticket[] = [
     badge: 'favorit',
     featured: true,
     gridSpan: { cols: 2, rows: 2 },
+    gridPosition: { colStart: 1, rowStart: 1 },
     image: 'https://images.unsplash.com/photo-1662844681461-8c16d05b0582?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: [
       'Factory Visit',
@@ -30,6 +31,7 @@ export const keramikTickets: Ticket[] = [
     unit: 'per_orang',
     unitLabel: '/orang/sesi',
     gridSpan: { cols: 1, rows: 1 },
+    gridPosition: { colStart: 3, rowStart: 1 },
     image: 'https://images.unsplash.com/photo-1621846323386-a60faf26f962?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: [
       'Factory Visit',
@@ -47,6 +49,7 @@ export const keramikTickets: Ticket[] = [
     unit: 'per_orang',
     unitLabel: '/orang/sesi',
     gridSpan: { cols: 1, rows: 1 },
+    gridPosition: { colStart: 3, rowStart: 2 },
     image: 'https://images.unsplash.com/photo-1582140099533-11fe4d348e01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: [
       '1 Body Bisque',
@@ -67,6 +70,7 @@ export const keramikTickets: Ticket[] = [
     badge: 'hemat',
     isAccent: true,
     gridSpan: { cols: 3, rows: 1 },
+    gridPosition: { colStart: 1, rowStart: 3 },
     image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: ['Fun Clay + Membatik Paket 1'],
     description: 'Paket hemat menggabungkan Fun Clay tanah liat dan Membatik Kayu Paket 1.',
@@ -84,6 +88,7 @@ export const membatikTickets: Ticket[] = [
     unitLabel: '/orang/sesi',
     badge: '4_pilihan',
     gridSpan: { cols: 2, rows: 1 },
+    gridPosition: { colStart: 1, rowStart: 1 },
     image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: [
       'Paket 1: Rp 50.000',
@@ -110,6 +115,7 @@ export const membatikTickets: Ticket[] = [
     badge: 'hemat',
     isAccent: true,
     gridSpan: { cols: 2, rows: 1 },
+    gridPosition: { colStart: 1, rowStart: 2 },
     image: 'https://images.unsplash.com/photo-1508269151431-a34449ca161d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: ['CAC / Glaze Coloring + Membatik Paket 1'],
     description: 'Kombinasi kelas keramik lanjutan (CAC/Glaze) dan Membatik Kayu Paket 1.',
@@ -126,6 +132,7 @@ export const infoUmumTickets: Ticket[] = [
     unit: 'per_orang',
     unitLabel: '/orang',
     gridSpan: { cols: 1, rows: 2 },
+    gridPosition: { colStart: 1, rowStart: 1 },
     tags: [
       'Melihat proses pengolahan bahan baku',
       'Proses putar & mug tuang',
@@ -143,6 +150,7 @@ export const infoUmumTickets: Ticket[] = [
     unit: 'per_2jam',
     unitLabel: '/2 jam (maks. 30 orang)',
     gridSpan: { cols: 1, rows: 2 },
+    gridPosition: { colStart: 2, rowStart: 1 },
     addons: ['+Rp 150.000 /jam tambahan', '+Rp 10.000 /orang tambahan'],
     tags: ['Kapasitas maks. 30 orang', 'Fasilitas area studio'],
     description: 'Sewa ruang aula studio untuk gathering, rapat, atau acara privat.',
@@ -157,6 +165,7 @@ export const infoUmumTickets: Ticket[] = [
     unitLabel: '(kustom)',
     badge: 'kustom',
     gridSpan: { cols: 2, rows: 1 },
+    gridPosition: { colStart: 3, rowStart: 1 },
     tags: ['Transportasi & akomodasi di luar harga kelas'],
     description: 'Sesi privat khusus rombongan/instansi disesuaikan kebutuhan acara Anda.',
     category: 'info_umum',
@@ -170,6 +179,7 @@ export const infoUmumTickets: Ticket[] = [
     unitLabel: '/orang/paket',
     badge: 'expert',
     gridSpan: { cols: 2, rows: 1 },
+    gridPosition: { colStart: 3, rowStart: 2 },
     tags: [
       'Bahan baku lengkap',
       '6 warna glazur',
