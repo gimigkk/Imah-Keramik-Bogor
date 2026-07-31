@@ -123,8 +123,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
   if (isFeatured) {
     return (
       <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col`}>
-        {/* Top Content Area: Title & Content, with Image UNDER title/content */}
-        <div className="p-6 md:p-8 flex flex-col flex-1 justify-between">
+        {/* Top Content Area: Title & Content at top, Image expands to fill remaining space */}
+        <div className="p-6 md:p-8 flex flex-col flex-1 gap-4">
           <div>
             <div className="flex justify-between items-start mb-3">
               {renderBadge()}
@@ -140,7 +140,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
 
             {/* Tags / Included items chips */}
             {ticket.tags && ticket.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mb-4">
+              <div className="flex flex-wrap gap-1.5">
                 {ticket.tags.map((tag, idx) => (
                   <span
                     key={idx}
@@ -153,9 +153,9 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
             )}
           </div>
 
-          {/* Image placed UNDER title/content */}
+          {/* Image expands to fill all remaining vertical space */}
           {ticket.image && (
-            <div className="w-full flex-1 min-h-[160px] max-h-[220px] border border-foreground/10 overflow-hidden bg-muted relative my-2">
+            <div className="w-full flex-1 min-h-[200px] border border-foreground/10 overflow-hidden bg-muted relative mt-1">
               <img
                 src={ticket.image}
                 alt={ticket.title}
