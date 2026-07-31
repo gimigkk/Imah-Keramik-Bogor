@@ -25,6 +25,7 @@ export type Ticket = {
   category: TicketCategory;
   featured?: boolean;
   isAccent?: boolean;
+  isHorizontal?: boolean;
   addons?: string[];
   gridSpan?: {
     cols?: number;

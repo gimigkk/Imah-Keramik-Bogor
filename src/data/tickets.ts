@@ -87,6 +87,7 @@ export const membatikTickets: Ticket[] = [
     unit: 'per_orang',
     unitLabel: '/orang/sesi',
     badge: '4_pilihan',
+    isHorizontal: true,
     gridSpan: { cols: 4, rows: 1 },
     gridPosition: { colStart: 1, rowStart: 1 },
     image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',

@@ -177,18 +177,22 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
     );
   }
 
-  // 2. BUNDLING HORIZONTAL TICKET (isAccent — Horizontal ticket: Image on Left of title/content, Vertical Rip on Right)
-  if (isAccent) {
+  // 2. HORIZONTAL TICKET BRANCH (Bundling & Membatik Kayu — Image on Left, Content in Middle, Vertical Rip & Price Stub on Right)
+  if (isAccent || ticket.isHorizontal) {
     return (
       <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col md:flex-row`}>
         {/* Left Side: Image on left of title/content */}
         <div className="flex-1 p-6 flex flex-col md:flex-row gap-6 items-center">
           {ticket.image && (
-            <div className="w-full md:w-5/12 aspect-video md:aspect-auto h-full min-h-[120px] max-h-[180px] border border-background/20 overflow-hidden bg-muted relative flex-shrink-0">
+            <div className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full min-h-[120px] max-h-[180px] overflow-hidden border relative flex-shrink-0 ${
+              isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
+            }`}>
               <img
                 src={ticket.image}
                 alt={ticket.title}
-                className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700 mix-blend-luminosity"
+                className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ${
+                  isAccent ? 'mix-blend-luminosity opacity-70' : ''
+                }`}
               />
             </div>
           )}
@@ -196,12 +200,18 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
           <div className="flex-1 w-full flex flex-col justify-between h-full">
             <div>
               <div className="flex justify-between items-start mb-3">
-                {renderBadge()}
-                <span className="font-mono text-sm tracking-widest text-background/50">{ticket.code}</span>
+                {renderBadge() || <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Info</span>}
+                <span className={`font-mono text-sm tracking-widest ${isAccent ? 'text-background/50' : 'text-muted-foreground'}`}>
+                  {ticket.code}
+                </span>
               </div>
 
-              <h3 className="font-serif text-2xl md:text-3xl text-background mb-2">{ticket.title}</h3>
-              <p className="font-sans text-xs md:text-sm text-background/80 mb-3 leading-relaxed">{ticket.description}</p>
+              <h3 className={`font-serif text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>
+                {ticket.title}
+              </h3>
+              <p className={`font-sans text-xs md:text-sm mb-3 leading-relaxed ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
+                {ticket.description}
+              </p>
             </div>
 
             {ticket.tags && ticket.tags.length > 0 && (
@@ -209,7 +219,11 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
                 {ticket.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded-sm bg-background/10 text-background/90 border-background/20"
+                    className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded-sm ${
+                      isAccent
+                        ? 'bg-background/10 text-background/90 border-background/20'
+                        : 'bg-secondary/30 text-foreground border-foreground/15'
+                    }`}
                   >
                     {tag}
                   </span>
@@ -220,21 +234,49 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
         </div>
 
         {/* Vertical Perforated Rip Line on the Right */}
-        <div className="relative border-t-2 md:border-t-0 md:border-l-2 border-dashed border-background/30 flex-shrink-0">
-          <div className="hidden md:block absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-b border-background/20" />
-          <div className="hidden md:block absolute bottom-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 translate-y-1/2 border-t border-background/20" />
-          <div className="md:hidden absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-r border-background/20" />
-          <div className="md:hidden absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l border-background/20" />
+        <div className={`relative border-t-2 md:border-t-0 md:border-l-2 border-dashed flex-shrink-0 ${
+          isAccent ? 'border-background/30' : 'border-foreground/20'
+        }`}>
+          <div className={`hidden md:block absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-b ${
+            isAccent ? 'border-background/20' : 'border-foreground/20'
+          }`} />
+          <div className={`hidden md:block absolute bottom-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 translate-y-1/2 border-t ${
+            isAccent ? 'border-background/20' : 'border-foreground/20'
+          }`} />
+          <div className={`md:hidden absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-r ${
+            isAccent ? 'border-background/20' : 'border-foreground/20'
+          }`} />
+          <div className={`md:hidden absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l ${
+            isAccent ? 'border-background/20' : 'border-foreground/20'
+          }`} />
         </div>
 
         {/* Right Side Price Stub */}
-        <div className="w-full md:w-56 p-6 flex flex-col justify-center items-center text-center bg-background/5 flex-shrink-0">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-background/60 mb-1">Harga Bundling</span>
-          <span className="font-mono text-xl md:text-2xl font-bold text-background block mb-1">{ticket.price}</span>
+        <div className={`w-full md:w-56 p-6 flex flex-col justify-center items-center text-center flex-shrink-0 ${
+          isAccent ? 'bg-background/5' : 'bg-secondary/10'
+        }`}>
+          <span className={`font-mono text-[10px] uppercase tracking-[0.2em] mb-1 ${
+            isAccent ? 'text-background/60' : 'text-muted-foreground'
+          }`}>
+            Harga Tiket
+          </span>
+          <span className={`font-mono text-xl md:text-2xl font-bold block mb-1 ${
+            isAccent ? 'text-background' : 'text-foreground'
+          }`}>
+            {ticket.price}
+          </span>
           {ticket.unitLabel && (
-            <span className="font-sans text-[10px] text-background/60 block mb-3">{ticket.unitLabel}</span>
+            <span className={`font-sans text-[10px] block mb-3 ${
+              isAccent ? 'text-background/60' : 'text-muted-foreground'
+            }`}>
+              {ticket.unitLabel}
+            </span>
           )}
-          <span className="font-mono text-[10px] uppercase tracking-widest border-b text-background/80 border-background/40 group-hover:text-background group-hover:border-background transition-colors">
+          <span className={`font-mono text-[10px] uppercase tracking-widest border-b transition-colors ${
+            isAccent
+              ? 'text-background/80 border-background/40 group-hover:text-background group-hover:border-background'
+              : 'text-foreground/70 border-foreground/30 group-hover:text-foreground group-hover:border-foreground'
+          }`}>
             Detail →
           </span>
         </div>
