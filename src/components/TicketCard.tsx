@@ -12,7 +12,7 @@ interface TicketPriceFooterProps {
   large?: boolean;
 }
 
-// Single shared Price Footer Component used by all cards (featured & regular)
+// Single shared Price Footer Component used by vertical cards
 const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent, large }) => (
   <div className={`w-full p-4 px-6 flex items-center justify-between ${isAccent ? 'bg-background/5' : 'bg-secondary/10'}`}>
     <div>
@@ -115,74 +115,136 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
   const rowStartClass = ticket.gridPosition?.rowStart ? rowStartClasses[ticket.gridPosition.rowStart] || '' : '';
 
   // Card container class
-  const containerClass = `group relative border border-foreground/20 shadow-sm flex flex-col justify-between hover:shadow-md transition-all cursor-pointer ${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass} ${
+  const containerClass = `group relative border border-foreground/20 shadow-sm flex justify-between hover:shadow-md transition-all cursor-pointer ${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass} ${
     isAccent ? 'bg-[#5c3a28] text-background' : 'bg-background text-foreground'
   }`;
 
-  // FEATURED / HERO CAC CARD (2 cols x 2 rows)
+  // 1. FEATURED VERTICAL TICKET (CAC — 2 cols x 2 rows vertical ticket, image under title/content)
   if (isFeatured) {
     return (
-      <div onClick={() => onClick(ticket)} className={containerClass}>
-        {/* Top Content Wrapper: top-aligned flex column without justify-between */}
-        <div className="p-6 md:p-8 flex flex-col flex-1">
-          <div className="flex justify-between items-start mb-4">
-            {renderBadge()}
-            <span className="font-mono text-sm text-muted-foreground tracking-widest">{ticket.code}</span>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-6 flex-1 mt-2">
-            <div className="flex-1 flex flex-col justify-center">
-              <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-3 leading-tight">
-                {ticket.title}
-              </h3>
-              <p className="text-muted-foreground font-sans text-sm max-w-md mb-4 leading-relaxed">
-                {ticket.description}
-              </p>
-
-              {/* Tags / Included items chips */}
-              {ticket.tags && ticket.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mt-2">
-                  {ticket.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 bg-secondary/30 text-foreground border border-foreground/10 rounded-sm"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+      <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col`}>
+        {/* Top Content Area: Title & Content, with Image UNDER title/content */}
+        <div className="p-6 md:p-8 flex flex-col flex-1 justify-between">
+          <div>
+            <div className="flex justify-between items-start mb-3">
+              {renderBadge()}
+              <span className="font-mono text-sm text-muted-foreground tracking-widest">{ticket.code}</span>
             </div>
 
-            {ticket.image && (
-              <div className="w-full md:w-5/12 aspect-video md:aspect-auto flex-1 h-full border border-foreground/10 overflow-hidden bg-muted relative min-h-[160px]">
-                <img
-                  src={ticket.image}
-                  alt={ticket.title}
-                  className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                />
+            <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-2 leading-tight">
+              {ticket.title}
+            </h3>
+            <p className="text-muted-foreground font-sans text-sm max-w-md mb-3 leading-relaxed">
+              {ticket.description}
+            </p>
+
+            {/* Tags / Included items chips */}
+            {ticket.tags && ticket.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {ticket.tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 bg-secondary/30 text-foreground border border-foreground/10 rounded-sm"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             )}
           </div>
+
+          {/* Image placed UNDER title/content */}
+          {ticket.image && (
+            <div className="w-full flex-1 min-h-[160px] max-h-[220px] border border-foreground/10 overflow-hidden bg-muted relative my-2">
+              <img
+                src={ticket.image}
+                alt={ticket.title}
+                className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+              />
+            </div>
+          )}
         </div>
 
-        {/* Perforated Divider */}
-        <div className="relative border-t-2 sm:border-t-0 sm:border-l-2 border-dashed border-foreground/20 flex-shrink-0">
-          <div className="hidden sm:block absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-b border-foreground/20" />
-          <div className="hidden sm:block absolute bottom-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 translate-y-1/2 border-t border-foreground/20" />
-          <div className="sm:hidden absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-r border-foreground/20" />
-          <div className="sm:hidden absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l border-foreground/20" />
+        {/* Horizontal Perforated Divider */}
+        <div className="relative border-t-2 border-dashed border-foreground/20 flex-shrink-0 w-full">
+          <div className="absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-r border-foreground/20" />
+          <div className="absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l border-foreground/20" />
         </div>
 
-        {/* Shared Price Footer Component */}
+        {/* Shared Bottom Price Footer */}
         <TicketPriceFooter ticket={ticket} isAccent={isAccent} large={true} />
       </div>
     );
   }
 
-  // ALL OTHER CARDS (Bundling, Consolidated Membatik, Regular 1x1, Info Umum)
+  // 2. BUNDLING HORIZONTAL TICKET (isAccent — Horizontal ticket: Image on Left of title/content, Vertical Rip on Right)
+  if (isAccent) {
+    return (
+      <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col md:flex-row`}>
+        {/* Left Side: Image on left of title/content */}
+        <div className="flex-1 p-6 flex flex-col md:flex-row gap-6 items-center">
+          {ticket.image && (
+            <div className="w-full md:w-5/12 aspect-video md:aspect-auto h-full min-h-[120px] max-h-[180px] border border-background/20 overflow-hidden bg-muted relative flex-shrink-0">
+              <img
+                src={ticket.image}
+                alt={ticket.title}
+                className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700 mix-blend-luminosity"
+              />
+            </div>
+          )}
+
+          <div className="flex-1 w-full flex flex-col justify-between h-full">
+            <div>
+              <div className="flex justify-between items-start mb-3">
+                {renderBadge()}
+                <span className="font-mono text-sm tracking-widest text-background/50">{ticket.code}</span>
+              </div>
+
+              <h3 className="font-serif text-2xl md:text-3xl text-background mb-2">{ticket.title}</h3>
+              <p className="font-sans text-xs md:text-sm text-background/80 mb-3 leading-relaxed">{ticket.description}</p>
+            </div>
+
+            {ticket.tags && ticket.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {ticket.tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded-sm bg-background/10 text-background/90 border-background/20"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Vertical Perforated Rip Line on the Right */}
+        <div className="relative border-t-2 md:border-t-0 md:border-l-2 border-dashed border-background/30 flex-shrink-0">
+          <div className="hidden md:block absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-b border-background/20" />
+          <div className="hidden md:block absolute bottom-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 translate-y-1/2 border-t border-background/20" />
+          <div className="md:hidden absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-r border-background/20" />
+          <div className="md:hidden absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l border-background/20" />
+        </div>
+
+        {/* Right Side Price Stub */}
+        <div className="w-full md:w-56 p-6 flex flex-col justify-center items-center text-center bg-background/5 flex-shrink-0">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-background/60 mb-1">Harga Bundling</span>
+          <span className="font-mono text-xl md:text-2xl font-bold text-background block mb-1">{ticket.price}</span>
+          {ticket.unitLabel && (
+            <span className="font-sans text-[10px] text-background/60 block mb-3">{ticket.unitLabel}</span>
+          )}
+          <span className="font-mono text-[10px] uppercase tracking-widest border-b text-background/80 border-background/40 group-hover:text-background group-hover:border-background transition-colors">
+            Detail →
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. REGULAR VERTICAL CARDS (Fun Clay, Glaze Coloring, Membatik, HTM, Sewa Aula, Workshop, Paket Usaha)
   return (
-    <div onClick={() => onClick(ticket)} className={containerClass}>
+    <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col`}>
       <div className="flex-1 p-6 flex flex-col justify-between">
         <div>
           <div className="flex justify-between items-start mb-4">
@@ -200,7 +262,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
             {ticket.description}
           </p>
 
-          {/* Render Chips/Tags (Included items or Tier chips) */}
+          {/* Render Chips/Tags */}
           {ticket.tags && ticket.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mb-4">
               {ticket.tags.map((tag, idx) => (
