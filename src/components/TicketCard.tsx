@@ -177,12 +177,17 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
 
   // 2. HORIZONTAL TICKET BRANCH (Bundling & Membatik Kayu — Image on Left, Content in Middle, Vertical Rip & Price Stub on Right)
   if (isAccent || ticket.isHorizontal) {
+    const isDoubleTall = ticket.gridSpan?.rows === 2;
     return (
-      <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col md:flex-row`}>
+      <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col md:flex-row ${
+        isDoubleTall ? 'min-h-[280px] md:min-h-[340px]' : ''
+      }`}>
         {/* Left Side: Image on left of title/content */}
-        <div className="flex-1 p-6 flex flex-col md:flex-row gap-6 items-center">
+        <div className={`flex-1 p-6 ${isDoubleTall ? 'md:p-8' : ''} flex flex-col md:flex-row gap-6 items-center`}>
           {ticket.image && (
-            <div className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full min-h-[140px] overflow-hidden border relative flex-shrink-0 ${
+            <div className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full overflow-hidden border relative flex-shrink-0 ${
+              isDoubleTall ? 'min-h-[200px] md:min-h-[260px]' : 'min-h-[140px]'
+            } ${
               isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
             }`}>
               <img
