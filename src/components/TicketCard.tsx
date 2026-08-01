@@ -182,7 +182,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
         {/* Left Side: Image on left of title/content */}
         <div className="flex-1 p-6 flex flex-col md:flex-row gap-6 items-center">
           {ticket.image && (
-            <div className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full min-h-[120px] max-h-[180px] overflow-hidden border relative flex-shrink-0 ${
+            <div className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full min-h-[140px] overflow-hidden border relative flex-shrink-0 ${
               isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
             }`}>
               <img

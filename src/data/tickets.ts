@@ -88,7 +88,7 @@ export const membatikTickets: Ticket[] = [
     unitLabel: '/orang/sesi',
     badge: '4_pilihan',
     isHorizontal: true,
-    gridSpan: { cols: 4, rows: 1 },
+    gridSpan: { cols: 4, rows: 2 },
     gridPosition: { colStart: 1, rowStart: 1 },
     image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: [
@@ -116,7 +116,7 @@ export const membatikTickets: Ticket[] = [
     badge: 'hemat',
     isAccent: true,
     gridSpan: { cols: 4, rows: 1 },
-    gridPosition: { colStart: 1, rowStart: 2 },
+    gridPosition: { colStart: 1, rowStart: 3 },
     image: 'https://images.unsplash.com/photo-1508269151431-a34449ca161d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: ['CAC / Glaze Coloring + Membatik Paket 1'],
     description: 'Kombinasi kelas keramik lanjutan (CAC/Glaze) dan Membatik Kayu Paket 1.',

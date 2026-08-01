@@ -26,7 +26,7 @@ export const BentoTickets: React.FC = () => {
         <div className="mb-6 md:mb-6 md:flex justify-between items-end gap-8 border-b border-foreground/20 pb-4">
           <div>
             <h2 className="font-serif text-5xl md:text-8xl text-foreground uppercase tracking-tighter leading-[0.85]">
-              Pilih Wisata.
+              Aktivitas Kita.
             </h2>
           </div>
           <p className="text-muted-foreground font-sans text-sm max-w-sm mt-6 md:mt-0 text-left md:text-right">
@@ -39,21 +39,19 @@ export const BentoTickets: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('keramik')}
-              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${
-                activeTab === 'keramik'
+              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'keramik'
                   ? 'bg-foreground text-background border-foreground'
                   : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
-              }`}
+                }`}
             >
               Keramik
             </button>
             <button
               onClick={() => setActiveTab('membatik')}
-              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${
-                activeTab === 'membatik'
+              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'membatik'
                   ? 'bg-foreground text-background border-foreground'
                   : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
-              }`}
+                }`}
             >
               Membatik Kayu
             </button>
