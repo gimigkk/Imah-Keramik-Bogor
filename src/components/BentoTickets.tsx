@@ -66,7 +66,7 @@ export const BentoTickets: React.FC = () => {
 
         {/* TAB 1: KERAMIK (4-column Bento Grid) */}
         {activeTab === 'keramik' && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-20">
             {keramikTickets.map((ticket) => (
               <TicketCard key={ticket.id} ticket={ticket} onClick={setSelectedTicket} />
             ))}
@@ -75,7 +75,7 @@ export const BentoTickets: React.FC = () => {
 
         {/* TAB 2: MEMBATIK KAYU (4-column Bento Grid) */}
         {activeTab === 'membatik' && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-20">
             {membatikTickets.map((ticket) => (
               <TicketCard key={ticket.id} ticket={ticket} onClick={setSelectedTicket} />
             ))}
@@ -93,7 +93,7 @@ export const BentoTickets: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             {infoUmumTickets.map((ticket) => (
               <TicketCard key={ticket.id} ticket={ticket} onClick={setSelectedTicket} />
             ))}
