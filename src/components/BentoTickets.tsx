@@ -23,7 +23,7 @@ export const BentoTickets: React.FC = () => {
 
       <Container className="relative z-10">
         {/* Section Header */}
-        <div className="mb-12 md:mb-16 md:flex justify-between items-end gap-8 border-b border-foreground/20 pb-8">
+        <div className="mb-6 md:mb-6 md:flex justify-between items-end gap-8 border-b border-foreground/20 pb-4">
           <div>
             <h2 className="font-serif text-5xl md:text-8xl text-foreground uppercase tracking-tighter leading-[0.85]">
               Pilih Wisata.
@@ -34,25 +34,25 @@ export const BentoTickets: React.FC = () => {
           </p>
         </div>
 
-        {/* Tab Switcher (2 tabs only: Keramik | Membatik kayu) */}
-        <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="flex border border-foreground/20 bg-background p-1 w-full sm:w-auto">
+        {/* Tab Switcher (Simple 2 button design) */}
+        <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('keramik')}
-              className={`flex-1 sm:flex-none px-6 py-2.5 font-mono text-xs uppercase tracking-widest font-bold transition-all ${
+              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${
                 activeTab === 'keramik'
-                  ? 'bg-foreground text-background shadow-sm'
-                  : 'text-foreground/70 hover:text-foreground hover:bg-secondary/30'
+                  ? 'bg-foreground text-background border-foreground'
+                  : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
               }`}
             >
               Keramik
             </button>
             <button
               onClick={() => setActiveTab('membatik')}
-              className={`flex-1 sm:flex-none px-6 py-2.5 font-mono text-xs uppercase tracking-widest font-bold transition-all ${
+              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${
                 activeTab === 'membatik'
-                  ? 'bg-foreground text-background shadow-sm'
-                  : 'text-foreground/70 hover:text-foreground hover:bg-secondary/30'
+                  ? 'bg-foreground text-background border-foreground'
+                  : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
               }`}
             >
               Membatik Kayu
