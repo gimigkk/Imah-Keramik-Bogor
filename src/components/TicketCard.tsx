@@ -25,10 +25,8 @@ const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent,
         </span>
       )}
     </div>
-    <span className={`font-mono text-[10px] uppercase tracking-widest border-b transition-colors ${
-      isAccent
-        ? 'text-background/80 border-background/40 group-hover:text-background group-hover:border-background'
-        : 'text-foreground/70 border-foreground/30 group-hover:text-foreground group-hover:border-foreground'
+    <span className={`font-mono text-[10px] uppercase tracking-widest border-b ${
+      isAccent ? 'text-background/80 border-background/40' : 'text-foreground/70 border-foreground/30'
     }`}>
       Detail →
     </span>
@@ -114,8 +112,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
   const colStartClass = ticket.gridPosition?.colStart ? colStartClasses[ticket.gridPosition.colStart] || '' : '';
   const rowStartClass = ticket.gridPosition?.rowStart ? rowStartClasses[ticket.gridPosition.rowStart] || '' : '';
 
-  // Card container class
-  const containerClass = `group relative border border-foreground/20 shadow-sm flex justify-between hover:shadow-md transition-all cursor-pointer ${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass} ${
+  // Card container class (no hover shadow or scale transitions)
+  const containerClass = `group relative border border-foreground/20 shadow-sm flex justify-between cursor-pointer ${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass} ${
     isAccent ? 'bg-[#5c3a28] text-background' : 'bg-background text-foreground'
   }`;
 
@@ -153,13 +151,13 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
             )}
           </div>
 
-          {/* Image expands to fill all remaining vertical space */}
+          {/* Image stays desaturated with no hover effects */}
           {ticket.image && (
             <div className="w-full flex-1 min-h-[200px] border border-foreground/10 overflow-hidden bg-muted relative mt-1">
               <img
                 src={ticket.image}
                 alt={ticket.title}
-                className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                className="absolute inset-0 w-full h-full object-cover grayscale opacity-80"
               />
             </div>
           )}
@@ -190,7 +188,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
               <img
                 src={ticket.image}
                 alt={ticket.title}
-                className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ${
+                className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${
                   isAccent ? 'mix-blend-luminosity opacity-70' : ''
                 }`}
               />
@@ -272,10 +270,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
               {ticket.unitLabel}
             </span>
           )}
-          <span className={`font-mono text-[10px] uppercase tracking-widest border-b transition-colors ${
-            isAccent
-              ? 'text-background/80 border-background/40 group-hover:text-background group-hover:border-background'
-              : 'text-foreground/70 border-foreground/30 group-hover:text-foreground group-hover:border-foreground'
+          <span className={`font-mono text-[10px] uppercase tracking-widest border-b ${
+            isAccent ? 'text-background/80 border-background/40' : 'text-foreground/70 border-foreground/30'
           }`}>
             Detail →
           </span>
@@ -345,8 +341,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
             <img
               src={ticket.image}
               alt={ticket.title}
-              className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ${
-                isAccent ? 'mix-blend-luminosity opacity-70 group-hover:opacity-95' : ''
+              className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${
+                isAccent ? 'mix-blend-luminosity opacity-70' : ''
               }`}
             />
           </div>
