@@ -141,7 +141,7 @@ export const bundlingTickets: Ticket[] = [
   {
     id: 'bundling-2',
     code: 'IKB-BND2',
-    title: 'Paket: CAC / Glaze Coloring + Membatik',
+    title: 'Paket: CAC + Membatik',
     price: 'Rp 225.000',
     unit: 'per_orang',
     unitLabel: '/orang/sesi',

@@ -45,7 +45,7 @@ const TicketPerforation: React.FC<TicketPerforationProps> = ({ horizontal = fals
 
 // Single shared Price Footer Component used by all vertical cards
 const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent }) => (
-  <div className={`ticket-notch-stub w-full py-7 md:py-8 px-6 md:px-8 min-h-[96px] flex items-center justify-between ${
+  <div className={`ticket-notch-stub w-full shrink-0 py-7 md:py-8 px-6 md:px-8 min-h-[96px] flex items-center justify-between ${
     isAccent ? 'bg-[#644431]' : 'bg-[#f9f5ef]'
   }`}>
     <div>
@@ -80,7 +80,12 @@ const rowStartClasses: Record<number, string> = {
   4: 'md:row-start-4',
 };
 
-export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick, standalone = false, className = '' }) => {
+export const TicketCard: React.FC<TicketCardProps> = ({
+  ticket,
+  onClick,
+  standalone = false,
+  className = '',
+}) => {
   const isAccent = ticket.isAccent;
   const isFeatured = ticket.featured;
 
@@ -156,7 +161,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick, standal
   // 1. FEATURED VERTICAL TICKET (CAC — 2 cols x 2 rows vertical ticket, image under title/content)
   if (isFeatured) {
     return (
-      <div onClick={onClick ? () => onClick(ticket) : undefined} className={`${containerClass} flex-col`}>
+      <div
+        onClick={onClick ? () => onClick(ticket) : undefined}
+        className={`${containerClass} flex-col`}
+        data-ticket-id={ticket.id}
+        data-ticket-surface={standalone ? 'modal' : 'grid'}
+      >
         {/* Top Content Area: Title & Content at top, Image expands to fill remaining space */}
         <div className="ticket-notch-body bg-background p-6 md:p-8 flex flex-col flex-1 gap-4">
           <div>
@@ -189,7 +199,10 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick, standal
 
           {/* Image stays desaturated with no hover effects */}
           {ticket.image && (
-            <div className="w-full flex-1 min-h-[200px] border border-foreground/10 overflow-hidden bg-muted relative mt-1">
+            <div
+              data-ticket-image
+              className="w-full flex-1 min-h-[200px] border border-foreground/10 overflow-hidden bg-muted relative mt-1"
+            >
               <img
                 src={ticket.image}
                 alt={ticket.title}
@@ -211,19 +224,27 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick, standal
   if (isAccent || ticket.isHorizontal) {
     const isDoubleTall = ticket.gridSpan?.rows === 2;
     return (
-      <div onClick={onClick ? () => onClick(ticket) : undefined} className={`${containerClass} ticket-horizontal flex-col md:flex-row ${
-        isDoubleTall ? 'min-h-[280px] md:min-h-[340px]' : ''
-      }`}>
+      <div
+        onClick={onClick ? () => onClick(ticket) : undefined}
+        className={`${containerClass} ticket-horizontal flex-col md:flex-row ${
+          isDoubleTall ? 'min-h-[280px] md:min-h-[340px]' : ''
+        }`}
+        data-ticket-id={ticket.id}
+        data-ticket-surface={standalone ? 'modal' : 'grid'}
+      >
         {/* Left Side: Image on left of title/content */}
         <div className={`ticket-notch-body flex-1 p-6 ${isDoubleTall ? 'md:p-8' : ''} flex flex-col md:flex-row gap-6 items-center ${
           isAccent ? 'bg-[#5c3a28]' : 'bg-background'
         }`}>
           {ticket.image && (
-            <div className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full overflow-hidden border relative flex-shrink-0 ${
-              isDoubleTall ? 'min-h-[200px] md:min-h-[260px]' : 'min-h-[140px]'
-            } ${
-              isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
-            }`}>
+            <div
+              data-ticket-image
+              className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full overflow-hidden border relative flex-shrink-0 ${
+                isDoubleTall ? 'min-h-[200px] md:min-h-[260px]' : 'min-h-[140px]'
+              } ${
+                isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
+              }`}
+            >
               <img
                 src={ticket.image}
                 alt={ticket.title}
@@ -305,7 +326,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick, standal
 
   // 3. REGULAR VERTICAL CARDS (Fun Clay, Glaze Coloring, Membatik, HTM, Sewa Aula, Workshop, Paket Usaha)
   return (
-    <div onClick={onClick ? () => onClick(ticket) : undefined} className={`${containerClass} flex-col`}>
+    <div
+      onClick={onClick ? () => onClick(ticket) : undefined}
+      className={`${containerClass} flex-col`}
+      data-ticket-id={ticket.id}
+      data-ticket-surface={standalone ? 'modal' : 'grid'}
+    >
       <div className={`ticket-notch-body flex-1 p-6 flex flex-col justify-between ${
         isAccent ? 'bg-[#5c3a28]' : 'bg-background'
       }`}>
@@ -360,13 +386,16 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick, standal
 
         {/* Optional Card Image slot */}
         {ticket.image && (
-          <div className={`w-full bg-muted overflow-hidden border relative my-2 ${
-            standalone
-              ? 'min-h-[160px] flex-1'
-              : ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2
-                ? 'h-36 md:h-44'
-                : 'h-28 md:h-32'
-          } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}>
+          <div
+            data-ticket-image
+            className={`w-full bg-muted overflow-hidden border relative my-2 ${
+              standalone
+                ? 'min-h-[160px] flex-1'
+                : ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2
+                  ? 'h-36 md:h-44'
+                  : 'h-28 md:h-32'
+            } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
+          >
             <img
               src={ticket.image}
               alt={ticket.title}
