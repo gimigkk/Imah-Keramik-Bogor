@@ -12,22 +12,22 @@ interface TicketPriceFooterProps {
   large?: boolean;
 }
 
-// Single shared Price Footer Component used by vertical cards
-const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent, large }) => (
-  <div className={`w-full ${large ? 'py-6 md:py-8 px-6 md:px-8' : 'py-5 md:py-6 px-6'} flex items-center justify-between ${
+// Single shared Price Footer Component used by all vertical cards
+const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent }) => (
+  <div className={`w-full py-5 px-6 flex items-center justify-between ${
     isAccent ? 'bg-background/5' : 'bg-secondary/10'
   }`}>
     <div>
-      <span className={`font-mono font-bold block ${large ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'} ${isAccent ? 'text-background' : 'text-foreground'}`}>
+      <span className={`font-mono font-bold block text-base md:text-lg ${isAccent ? 'text-background' : 'text-foreground'}`}>
         {ticket.price}
       </span>
       {ticket.unitLabel && (
-        <span className={`font-sans text-[11px] block mt-0.5 ${isAccent ? 'text-background/60' : 'text-muted-foreground'}`}>
+        <span className={`font-sans text-[10px] block mt-0.5 ${isAccent ? 'text-background/60' : 'text-muted-foreground'}`}>
           {ticket.unitLabel}
         </span>
       )}
     </div>
-    <span className={`font-mono text-xs uppercase tracking-widest border-b ${
+    <span className={`font-mono text-[10px] uppercase tracking-widest border-b ${
       isAccent ? 'text-background/80 border-background/40' : 'text-foreground/70 border-foreground/30'
     }`}>
       Detail →
@@ -172,7 +172,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
         </div>
 
         {/* Shared Bottom Price Footer */}
-        <TicketPriceFooter ticket={ticket} isAccent={isAccent} large={true} />
+        <TicketPriceFooter ticket={ticket} isAccent={isAccent} />
       </div>
     );
   }
