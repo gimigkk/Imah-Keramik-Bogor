@@ -3,7 +3,7 @@ import { Ticket } from '../types/ticket';
 
 interface TicketCardProps {
   ticket: Ticket;
-  onClick: (ticket: Ticket) => void;
+  onClick?: (ticket: Ticket) => void;
 }
 
 interface TicketPriceFooterProps {
@@ -12,25 +12,54 @@ interface TicketPriceFooterProps {
   large?: boolean;
 }
 
+interface TicketPerforationProps {
+  horizontal?: boolean;
+}
+
+const NotchOutline: React.FC<{ className: string }> = ({ className }) => (
+  <span
+    aria-hidden="true"
+    className={`pointer-events-none absolute h-6 w-6 rounded-full border border-[var(--ticket-edge)] ${className}`}
+  />
+);
+
+const TicketPerforation: React.FC<TicketPerforationProps> = ({ horizontal = false }) => (
+  <div
+    aria-hidden="true"
+    className={horizontal ? 'relative z-10 h-0 w-full shrink-0 md:h-auto md:w-0' : 'relative z-10 h-0 w-full shrink-0'}
+  >
+    <NotchOutline
+      className={horizontal
+        ? '-left-3 -top-3 [clip-path:inset(0_0_0_50%)] md:[clip-path:inset(50%_0_0_0)]'
+        : '-left-3 -top-3 [clip-path:inset(0_0_0_50%)]'}
+    />
+    <NotchOutline
+      className={horizontal
+        ? '-right-3 -top-3 [clip-path:inset(0_50%_0_0)] md:-bottom-3 md:-left-3 md:right-auto md:top-auto md:[clip-path:inset(0_0_50%_0)]'
+        : '-right-3 -top-3 [clip-path:inset(0_50%_0_0)]'}
+    />
+  </div>
+);
+
 // Single shared Price Footer Component used by all vertical cards
 const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent }) => (
-  <div className={`w-full py-5 px-6 flex items-center justify-between ${
-    isAccent ? 'bg-background/5' : 'bg-secondary/10'
+  <div className={`ticket-notch-stub w-full py-7 md:py-8 px-6 md:px-8 min-h-[96px] flex items-center justify-between ${
+    isAccent ? 'bg-[#644431]' : 'bg-[#f9f5ef]'
   }`}>
     <div>
-      <span className={`font-mono font-bold block text-base md:text-lg ${isAccent ? 'text-background' : 'text-foreground'}`}>
+      <span className={`font-mono font-bold block text-xl md:text-2xl ${isAccent ? 'text-background' : 'text-foreground'}`}>
         {ticket.price}
       </span>
       {ticket.unitLabel && (
-        <span className={`font-sans text-[10px] block mt-0.5 ${isAccent ? 'text-background/60' : 'text-muted-foreground'}`}>
+        <span className={`font-sans text-xs block mt-1 ${isAccent ? 'text-background/60' : 'text-muted-foreground'}`}>
           {ticket.unitLabel}
         </span>
       )}
     </div>
-    <span className={`font-mono text-[10px] uppercase tracking-widest border-b ${
+    <span className={`font-mono text-xs uppercase tracking-widest border-b ${
       isAccent ? 'text-background/80 border-background/40' : 'text-foreground/70 border-foreground/30'
     }`}>
-      Detail →
+      Detail
     </span>
   </div>
 );
@@ -65,7 +94,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
         );
       case 'hemat':
         return (
-          <span className="uppercase tracking-widest text-[10px] font-mono border border-background/50 px-2 py-1 bg-background text-foreground font-bold">
+          <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-2 py-1 bg-foreground text-background font-bold">
             hemat
           </span>
         );
@@ -115,16 +144,16 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
   const rowStartClass = ticket.gridPosition?.rowStart ? rowStartClasses[ticket.gridPosition.rowStart] || '' : '';
 
   // Card container class (no hover shadow or scale transitions)
-  const containerClass = `group relative border border-foreground/20 shadow-sm flex justify-between cursor-pointer ${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass} ${
-    isAccent ? 'bg-[#5c3a28] text-background' : 'bg-background text-foreground'
+  const containerClass = `ticket-shell group relative flex justify-between ${onClick ? 'cursor-pointer' : 'cursor-default'} ${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass} ${
+    isAccent ? 'ticket-accent text-background' : 'text-foreground'
   }`;
 
   // 1. FEATURED VERTICAL TICKET (CAC — 2 cols x 2 rows vertical ticket, image under title/content)
   if (isFeatured) {
     return (
-      <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col`}>
+      <div onClick={onClick ? () => onClick(ticket) : undefined} className={`${containerClass} flex-col`}>
         {/* Top Content Area: Title & Content at top, Image expands to fill remaining space */}
-        <div className="p-6 md:p-8 flex flex-col flex-1 gap-4">
+        <div className="ticket-notch-body bg-background p-6 md:p-8 flex flex-col flex-1 gap-4">
           <div>
             <div className="flex justify-between items-start mb-3">
               {renderBadge()}
@@ -165,11 +194,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
           )}
         </div>
 
-        {/* Horizontal Perforated Divider */}
-        <div className="relative border-t-2 border-dashed border-foreground/20 flex-shrink-0 w-full">
-          <div className="absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-r border-foreground/20" />
-          <div className="absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l border-foreground/20" />
-        </div>
+        <TicketPerforation />
 
         {/* Shared Bottom Price Footer */}
         <TicketPriceFooter ticket={ticket} isAccent={isAccent} />
@@ -177,15 +202,17 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
     );
   }
 
-  // 2. HORIZONTAL TICKET BRANCH (Bundling & Membatik Kayu — Image on Left, Content in Middle, Vertical Rip & Price Stub on Right)
+  // 2. HORIZONTAL TICKET BRANCH (Bundling — Image on Left, Content in Middle, Vertical Rip & Price Stub on Right)
   if (isAccent || ticket.isHorizontal) {
     const isDoubleTall = ticket.gridSpan?.rows === 2;
     return (
-      <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col md:flex-row ${
+      <div onClick={onClick ? () => onClick(ticket) : undefined} className={`${containerClass} ticket-horizontal flex-col md:flex-row ${
         isDoubleTall ? 'min-h-[280px] md:min-h-[340px]' : ''
       }`}>
         {/* Left Side: Image on left of title/content */}
-        <div className={`flex-1 p-6 ${isDoubleTall ? 'md:p-8' : ''} flex flex-col md:flex-row gap-6 items-center`}>
+        <div className={`ticket-notch-body flex-1 p-6 ${isDoubleTall ? 'md:p-8' : ''} flex flex-col md:flex-row gap-6 items-center ${
+          isAccent ? 'bg-[#5c3a28]' : 'bg-background'
+        }`}>
           {ticket.image && (
             <div className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full overflow-hidden border relative flex-shrink-0 ${
               isDoubleTall ? 'min-h-[200px] md:min-h-[260px]' : 'min-h-[140px]'
@@ -238,27 +265,11 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
           </div>
         </div>
 
-        {/* Vertical Perforated Rip Line on the Right */}
-        <div className={`relative border-t-2 md:border-t-0 md:border-l-2 border-dashed flex-shrink-0 ${
-          isAccent ? 'border-background/30' : 'border-foreground/20'
-        }`}>
-          <div className={`hidden md:block absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-b ${
-            isAccent ? 'border-background/20' : 'border-foreground/20'
-          }`} />
-          <div className={`hidden md:block absolute bottom-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 translate-y-1/2 border-t ${
-            isAccent ? 'border-background/20' : 'border-foreground/20'
-          }`} />
-          <div className={`md:hidden absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-r ${
-            isAccent ? 'border-background/20' : 'border-foreground/20'
-          }`} />
-          <div className={`md:hidden absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l ${
-            isAccent ? 'border-background/20' : 'border-foreground/20'
-          }`} />
-        </div>
+        <TicketPerforation horizontal />
 
         {/* Right Side Price Stub */}
-        <div className={`w-full md:w-56 p-6 flex flex-col justify-center items-center text-center flex-shrink-0 ${
-          isAccent ? 'bg-background/5' : 'bg-secondary/10'
+        <div className={`ticket-notch-stub w-full md:w-56 p-6 flex flex-col justify-center items-center text-center flex-shrink-0 ${
+          isAccent ? 'bg-[#644431]' : 'bg-[#f5f1eb]'
         }`}>
           <span className={`font-mono text-[10px] uppercase tracking-[0.2em] mb-1 ${
             isAccent ? 'text-background/60' : 'text-muted-foreground'
@@ -280,7 +291,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
           <span className={`font-mono text-[10px] uppercase tracking-widest border-b ${
             isAccent ? 'text-background/80 border-background/40' : 'text-foreground/70 border-foreground/30'
           }`}>
-            Detail →
+            Detail
           </span>
         </div>
       </div>
@@ -289,8 +300,10 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
 
   // 3. REGULAR VERTICAL CARDS (Fun Clay, Glaze Coloring, Membatik, HTM, Sewa Aula, Workshop, Paket Usaha)
   return (
-    <div onClick={() => onClick(ticket)} className={`${containerClass} flex-col`}>
-      <div className="flex-1 p-6 flex flex-col justify-between">
+    <div onClick={onClick ? () => onClick(ticket) : undefined} className={`${containerClass} flex-col`}>
+      <div className={`ticket-notch-body flex-1 p-6 flex flex-col justify-between ${
+        isAccent ? 'bg-[#5c3a28]' : 'bg-background'
+      }`}>
         <div>
           <div className="flex justify-between items-start mb-4">
             {renderBadge() || <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Info</span>}
@@ -356,11 +369,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
         )}
       </div>
 
-      {/* Perforated Cut Notch Divider */}
-      <div className={`relative border-t-2 border-dashed flex-shrink-0 w-full ${isAccent ? 'border-background/30' : 'border-foreground/20'}`}>
-        <div className={`absolute top-[-1px] left-[-1px] w-6 h-6 bg-card rounded-full -translate-x-1/2 -translate-y-1/2 border-r ${isAccent ? 'border-background/20' : 'border-foreground/20'}`} />
-        <div className={`absolute top-[-1px] right-[-1px] w-6 h-6 bg-card rounded-full translate-x-1/2 -translate-y-1/2 border-l ${isAccent ? 'border-background/20' : 'border-foreground/20'}`} />
-      </div>
+      <TicketPerforation />
 
       {/* Shared Price Footer Component */}
       <TicketPriceFooter ticket={ticket} isAccent={isAccent} large={false} />

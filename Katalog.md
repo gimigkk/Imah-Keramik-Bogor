@@ -10,12 +10,14 @@ Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disa
 - **Email:** imahkeramikbogor@gmail.com
 - **Alamat:** Jl. Pembangunan No. 22 & 23a, RT 3/RW 5, Kedung Halang Talang, Bogor Utara 16158, Jawa Barat, Indonesia
 - **Instagram:** @imahkeramikbogor
+- **Booking:** https://docs.google.com/forms/d/e/1FAIpQLSdYfzKKOYyJkbt2PyLRDvcVpGok2952CudmO0qcbFfwm7WxkQ/viewform
 
 ## Struktur kategori (untuk tampilan web)
 
 - **Info Umum** — HTM, Workshop, Paket Usaha, Sewa Aula. Selalu tampil, tidak masuk tab. Sesuai brosur asli, kelompok ini tidak berada di bawah header "KERAMIK".
-- **Keramik** — tab pertama (default aktif): Fun Clay, Ceramic Art Class, Glaze Coloring, Bundling 1.
-- **Membatik Kayu** — tab kedua: Paket 1–4 (dikonsolidasi jadi satu tiket), Bundling 2.
+- **Keramik** — tab pertama (default aktif): Fun Clay, Ceramic Art Class, dan Glaze Coloring.
+- **Membatik Kayu** — tab kedua: Paket 1–4, masing-masing sebagai tiket terpisah.
+- **Bundling** — tab ketiga: Paket Fun Clay + Membatik serta Paket CAC/Glaze Coloring + Membatik.
 
 ---
 
@@ -75,43 +77,43 @@ Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disa
 - **Termasuk (dari brosur):** 1 body bisque, tutorial mewarnai glazur, beragam pilihan warna, 1x pembakaran glazur.
 - **Gambar:** wajib
 
-### Bundling 1
-- **Harga:** Rp 100.000 / orang / sesi
-- **Unit:** `per_orang`
-- **Badge (UX):** Hemat
-- **Isi (dari brosur):** Fun Clay + Membatik Paket 1
-- **Gambar:** wajib
-- **Catatan tampilan:** kartu full-width, style aksen beda dari tiket biasa (menandakan gabungan lintas kategori)
-
----
-
 ## 3. Membatik Kayu
 
-### Paket Membatik Kayu (konsolidasi Paket 1–4)
-- **Harga ditampilkan:** Rp 50.000 – Rp 150.000 / orang / sesi (range)
-- **Badge (UX):** 4 pilihan
-- **Termasuk semua tier (dari brosur):** Tutorial, alat dan bahan.
+### Paket Membatik Kayu 1–4
+- **Tampilan:** setiap paket memiliki tiket dan modal detailnya sendiri.
+- **Termasuk di semua paket (dari brosur):** Tutorial, alat dan bahan.
 - **Gambar:** wajib
-- **Catatan tampilan:** satu tiket, klik untuk buka modal berisi 4 tier di bawah ini.
 
-| Tier | Harga | Produk (dari brosur) |
+| Tiket | Harga | Produk (dari brosur) |
 |---|---|---|
 | Paket 1 | Rp 50.000 /orang/sesi | 1 centong, 1 warna |
 | Paket 2 | Rp 75.000 /orang/sesi | 2 centong, 1 warna |
 | Paket 3 | Rp 100.000 /orang/sesi | 1 pigura, 1 centong, 1 warna |
 | Paket 4 | Rp 150.000 /orang/sesi | 1 talenan, 2 warna |
 
-### Bundling 2
+---
+
+## 4. Bundling
+
+### Paket: Fun Clay + Membatik
+- **Harga:** Rp 100.000 / orang / sesi
+- **Unit:** `per_orang`
+- **Badge (UX):** Hemat
+- **Isi (dari brosur):** Fun Clay + Membatik Paket 1
+- **Gambar:** wajib
+- **Catatan tampilan:** kartu full-width dengan warna tiket standar.
+
+### Paket: CAC / Glaze Coloring + Membatik
 - **Harga:** Rp 225.000 / orang / sesi
 - **Unit:** `per_orang`
 - **Badge (UX):** Hemat
 - **Isi (dari brosur):** CAC/GC (Ceramic Art Class atau Glaze Coloring) + Membatik Paket 1
 - **Gambar:** wajib
-- **Catatan tampilan:** kartu full-width, style aksen sama seperti Bundling 1
+- **Catatan tampilan:** kartu full-width dengan warna tiket standar.
 
 ---
 
-## 4. Data terstruktur (opsional, siap pakai untuk kode)
+## 5. Data terstruktur (opsional, siap pakai untuk kode)
 
 Sesuai tipe `Ticket` yang dipakai di spek layout — bisa langsung dijadikan seed data / JSON di project.
 
@@ -182,7 +184,7 @@ Sesuai tipe `Ticket` yang dipakai di spek layout — bisa langsung dijadikan see
     "tags": [],
     "description": "Termasuk: factory visit, kelas tutorial membentuk tanah liat, alat dan bahan.",
     "tiers": null,
-    "category": "keramik",
+    "category": "bundling",
     "featured": false
   },
   {
@@ -214,7 +216,7 @@ Sesuai tipe `Ticket` yang dipakai di spek layout — bisa langsung dijadikan see
   },
   {
     "id": "bundling1",
-    "title": "Bundling 1",
+    "title": "Paket: Fun Clay + Membatik",
     "price": "Rp 100.000",
     "unit": "per_orang",
     "badge": "hemat",
@@ -227,27 +229,22 @@ Sesuai tipe `Ticket` yang dipakai di spek layout — bisa langsung dijadikan see
     "gridSpan": { "cols": 3, "rows": 1 }
   },
   {
-    "id": "membatik",
-    "title": "Paket Membatik Kayu",
-    "price": "Rp 50.000 – Rp 150.000",
+    "id": "membatik-kayu-1",
+    "title": "Paket Membatik Kayu 1",
+    "price": "Rp 50.000",
     "unit": "per_orang",
-    "badge": "4_pilihan",
+    "badge": null,
     "image": "membatik.jpg",
-    "tags": ["Paket 1: Rp50rb", "Paket 2: Rp75rb", "Paket 3: Rp100rb", "Paket 4: Rp150rb"],
-    "description": "Semua paket termasuk tutorial, alat dan bahan. Pilih tier saat reservasi.",
-    "tiers": [
-      { "name": "Paket 1", "price": "Rp 50.000", "detail": "1 centong, 1 warna" },
-      { "name": "Paket 2", "price": "Rp 75.000", "detail": "2 centong, 1 warna" },
-      { "name": "Paket 3", "price": "Rp 100.000", "detail": "1 pigura, 1 centong, 1 warna" },
-      { "name": "Paket 4", "price": "Rp 150.000", "detail": "1 talenan, 2 warna" }
-    ],
+    "tags": ["1 centong", "1 warna", "Tutorial membatik", "Alat & bahan"],
+    "description": "Belajar membatik kayu pada satu centong dengan satu pilihan warna.",
+    "tiers": null,
     "category": "membatik",
     "featured": false,
-    "gridSpan": { "cols": 2, "rows": 1 }
+    "gridSpan": { "cols": 1, "rows": 1 }
   },
   {
     "id": "bundling2",
-    "title": "Bundling 2",
+    "title": "Paket: CAC / Glaze Coloring + Membatik",
     "price": "Rp 225.000",
     "unit": "per_orang",
     "badge": "hemat",
@@ -255,7 +252,7 @@ Sesuai tipe `Ticket` yang dipakai di spek layout — bisa langsung dijadikan see
     "tags": [],
     "description": "Gabungan CAC/Glaze Coloring + Membatik Paket 1 dalam satu sesi.",
     "tiers": null,
-    "category": "membatik",
+    "category": "bundling",
     "featured": false,
     "gridSpan": { "cols": 2, "rows": 1 }
   }
@@ -267,5 +264,5 @@ Sesuai tipe `Ticket` yang dipakai di spek layout — bisa langsung dijadikan see
 ## Catatan akurasi
 
 - Semua harga, satuan, dan isi paket di atas disalin persis dari brosur asli.
-- Yang **bukan** dari brosur (murni keputusan UX untuk kebutuhan tampilan web): badge (`favorit`, `hemat`, `kustom`, `expert`, `4_pilihan`), tags/chip di tiap kartu, penggabungan Paket 1–4 jadi satu tiket, dan `gridSpan` untuk ukuran kartu di bento grid.
+- Yang **bukan** dari brosur (murni keputusan UX untuk kebutuhan tampilan web): badge (`favorit`, `hemat`, `kustom`, `expert`), tags/chip di tiap kartu, pemisahan Paket Membatik 1–4 menjadi tiket individual, tab Bundling, dan `gridSpan` untuk ukuran kartu di bento grid.
 - Pengelompokan "Info Umum" (HTM, Workshop, Paket Usaha, Sewa Aula) mengikuti struktur brosur asli — bukan bagian dari kategori "Keramik".

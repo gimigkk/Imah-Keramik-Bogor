@@ -2,12 +2,13 @@ export type TicketUnit = 'per_orang' | 'per_paket' | 'per_2jam' | 'kustom';
 
 export type TicketBadge = 'favorit' | 'hemat' | 'kustom' | 'expert' | '4_pilihan' | null;
 
-export type TicketCategory = 'keramik' | 'membatik' | 'info_umum';
+export type TicketCategory = 'keramik' | 'membatik' | 'bundling' | 'info_umum';
 
 export type TicketTier = {
   name: string;
   price: string;
   detail: string;
+  items?: string[];
 };
 
 export type Ticket = {

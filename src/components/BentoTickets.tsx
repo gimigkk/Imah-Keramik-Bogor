@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Container } from './Container';
-import { keramikTickets, membatikTickets, infoUmumTickets } from '../data/tickets';
+import { bundlingTickets, keramikTickets, membatikTickets, infoUmumTickets } from '../data/tickets';
 import { Ticket } from '../types/ticket';
 import { TicketCard } from './TicketCard';
 import { TicketModal } from './TicketModal';
 
 export const BentoTickets: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'keramik' | 'membatik'>('keramik');
+  const [activeTab, setActiveTab] = useState<'keramik' | 'membatik' | 'bundling'>('keramik');
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
   return (
@@ -34,9 +34,9 @@ export const BentoTickets: React.FC = () => {
           </p>
         </div>
 
-        {/* Tab Switcher (Simple 2 button design) */}
+        {/* Activity category tabs */}
         <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setActiveTab('keramik')}
               className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'keramik'
@@ -55,16 +55,27 @@ export const BentoTickets: React.FC = () => {
             >
               Membatik Kayu
             </button>
+            <button
+              onClick={() => setActiveTab('bundling')}
+              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'bundling'
+                  ? 'bg-foreground text-background border-foreground'
+                  : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
+                }`}
+            >
+              Bundling
+            </button>
           </div>
 
           <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">
-            {activeTab === 'keramik' ? '3 Pilihan Kelas & 1 Bundling' : '1 Paket Membatik & 1 Bundling'}
+            {activeTab === 'keramik' && '3 Pilihan Kelas'}
+            {activeTab === 'membatik' && '4 Pilihan Paket'}
+            {activeTab === 'bundling' && '2 Pilihan Bundling'}
           </span>
         </div>
 
         {/* TAB 1: KERAMIK (4-column Bento Grid) */}
         {activeTab === 'keramik' && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-20">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
             {keramikTickets.map((ticket) => (
               <TicketCard key={ticket.id} ticket={ticket} onClick={setSelectedTicket} />
             ))}
@@ -73,8 +84,17 @@ export const BentoTickets: React.FC = () => {
 
         {/* TAB 2: MEMBATIK KAYU (4-column Bento Grid) */}
         {activeTab === 'membatik' && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-20">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
             {membatikTickets.map((ticket) => (
+              <TicketCard key={ticket.id} ticket={ticket} onClick={setSelectedTicket} />
+            ))}
+          </div>
+        )}
+
+        {/* TAB 3: BUNDLING (Full-width combination tickets) */}
+        {activeTab === 'bundling' && (
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
+            {bundlingTickets.map((ticket) => (
               <TicketCard key={ticket.id} ticket={ticket} onClick={setSelectedTicket} />
             ))}
           </div>
@@ -91,7 +111,7 @@ export const BentoTickets: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
             {infoUmumTickets.map((ticket) => (
               <TicketCard key={ticket.id} ticket={ticket} onClick={setSelectedTicket} />
             ))}

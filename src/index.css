@@ -43,6 +43,67 @@
   }
 }
 
+@layer components {
+  .ticket-shell {
+    --ticket-edge: color-mix(in srgb, var(--foreground) 16%, transparent);
+    filter: drop-shadow(0 3px 5px color-mix(in srgb, var(--foreground) 7%, transparent));
+  }
+
+  .ticket-shell.ticket-accent {
+    --ticket-edge: color-mix(in srgb, var(--background) 28%, transparent);
+  }
+
+  .ticket-notch-body {
+    border: 1px solid var(--ticket-edge);
+    border-bottom-width: 0;
+    -webkit-mask-image:
+      radial-gradient(12px at 0 100%, transparent 98%, #000),
+      radial-gradient(12px at 100% 100%, transparent 98%, #000);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      radial-gradient(12px at 0 100%, transparent 98%, #000),
+      radial-gradient(12px at 100% 100%, transparent 98%, #000);
+    mask-composite: intersect;
+  }
+
+  .ticket-notch-stub {
+    border: 1px solid var(--ticket-edge);
+    border-top: 2px dashed var(--ticket-edge);
+    -webkit-mask-image:
+      radial-gradient(12px at 0 0, transparent 98%, #000),
+      radial-gradient(12px at 100% 0, transparent 98%, #000);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      radial-gradient(12px at 0 0, transparent 98%, #000),
+      radial-gradient(12px at 100% 0, transparent 98%, #000);
+    mask-composite: intersect;
+  }
+
+  @media (min-width: 48rem) {
+    .ticket-horizontal .ticket-notch-body {
+      border-right-width: 0;
+      border-bottom-width: 1px;
+      -webkit-mask-image:
+        radial-gradient(12px at 100% 0, transparent 98%, #000),
+        radial-gradient(12px at 100% 100%, transparent 98%, #000);
+      mask-image:
+        radial-gradient(12px at 100% 0, transparent 98%, #000),
+        radial-gradient(12px at 100% 100%, transparent 98%, #000);
+    }
+
+    .ticket-horizontal .ticket-notch-stub {
+      border-top: 1px solid var(--ticket-edge);
+      border-left: 2px dashed var(--ticket-edge);
+      -webkit-mask-image:
+        radial-gradient(12px at 0 0, transparent 98%, #000),
+        radial-gradient(12px at 0 100%, transparent 98%, #000);
+      mask-image:
+        radial-gradient(12px at 0 0, transparent 98%, #000),
+        radial-gradient(12px at 0 100%, transparent 98%, #000);
+    }
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
