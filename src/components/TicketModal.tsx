@@ -37,7 +37,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose }) => 
 
   return (
     <div
-      className="ticket-modal-backdrop fixed inset-0 z-50 overflow-y-auto bg-[#292a27] p-3 md:p-6"
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/45 p-3 backdrop-blur-sm md:p-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -46,7 +46,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose }) => 
         role="dialog"
         aria-modal="true"
         aria-labelledby="activity-detail-heading"
-        className="relative mx-auto flex min-h-full w-full max-w-6xl items-center py-12"
+        className="relative mx-auto flex min-h-full w-full max-w-6xl items-center py-12 lg:py-0"
         onMouseDown={(event) => {
           if (event.target === event.currentTarget) onClose();
         }}
@@ -60,22 +60,28 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose }) => 
           <X size={19} />
         </button>
 
-        <div className="w-full">
+        <div className="w-full lg:h-[min(54rem,calc(100dvh-3rem))]">
           {isWideTicket ? (
-            <div className="grid gap-4">
-              <TicketCard ticket={ticket} />
-              <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]">
-                <ActivityDetails ticket={ticket} whatsappHref={whatsappHref} />
-                <PackageCards ticket={ticket} />
-              </div>
+            <div className="grid gap-4 lg:h-full lg:grid-cols-[minmax(0,1.28fr)_minmax(0,0.72fr)] lg:grid-rows-[14rem_minmax(0,1fr)]">
+              <TicketCard ticket={ticket} standalone className="w-full lg:col-span-2 lg:h-full lg:min-h-0" />
+              <ActivityDetails
+                ticket={ticket}
+                whatsappHref={whatsappHref}
+                className="lg:min-h-0 lg:overflow-y-auto"
+              />
+              <PackageCards ticket={ticket} className="lg:min-h-0 lg:overflow-y-auto" />
             </div>
           ) : (
-            <div className="grid items-start gap-4 lg:grid-cols-[minmax(300px,0.78fr)_minmax(0,1.22fr)]">
-              <div className="lg:row-span-2">
-                <TicketCard ticket={ticket} />
+            <div className="grid gap-4 lg:h-full lg:grid-cols-[minmax(300px,0.78fr)_minmax(0,1.22fr)] lg:grid-rows-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+              <div className="lg:row-span-2 lg:min-h-0">
+                <TicketCard ticket={ticket} standalone className="h-full" />
               </div>
-              <ActivityDetails ticket={ticket} whatsappHref={whatsappHref} />
-              <PackageCards ticket={ticket} />
+              <ActivityDetails
+                ticket={ticket}
+                whatsappHref={whatsappHref}
+                className="lg:min-h-0 lg:overflow-y-auto"
+              />
+              <PackageCards ticket={ticket} className="lg:min-h-0 lg:overflow-y-auto" />
             </div>
           )}
         </div>

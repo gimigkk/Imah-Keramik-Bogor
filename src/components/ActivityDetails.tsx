@@ -5,6 +5,7 @@ import { Ticket } from '../types/ticket';
 interface ActivityDetailsProps {
   ticket: Ticket;
   whatsappHref: string;
+  className?: string;
 }
 
 const categoryLabels: Record<Ticket['category'], string> = {
@@ -14,10 +15,10 @@ const categoryLabels: Record<Ticket['category'], string> = {
   info_umum: 'Kunjungan & Fasilitas',
 };
 
-export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, whatsappHref }) => (
+export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, whatsappHref, className = '' }) => (
   <section
     aria-labelledby="activity-detail-heading"
-    className="flex flex-col border border-foreground/20 border-t-4 border-t-foreground bg-card p-5 shadow-xl md:p-7"
+    className={`flex flex-col border border-foreground/20 bg-card p-5 shadow-xl md:p-7 ${className}`}
   >
     <p className="mb-6 border-b border-foreground/15 pb-3 font-mono text-[9px] font-bold uppercase tracking-[0.24em] text-muted-foreground">
       Detail reservasi · {ticket.code}
@@ -49,7 +50,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, whatsa
       </div>
     </dl>
 
-    <div className="mt-6 border-t border-dashed border-foreground/25 pt-5">
+    <div className="mt-auto border-t border-dashed border-foreground/25 pt-5">
       <p className="mb-4 text-xs leading-5 text-muted-foreground">
         Tanyakan jadwal dan ketersediaan tempat langsung kepada tim studio.
       </p>

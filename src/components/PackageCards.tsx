@@ -4,9 +4,10 @@ import { Ticket } from '../types/ticket';
 
 interface PackageCardsProps {
   ticket: Ticket;
+  className?: string;
 }
 
-export const PackageCards: React.FC<PackageCardsProps> = ({ ticket }) => {
+export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, className = '' }) => {
   const packages = ticket.tiers?.length
     ? ticket.tiers.map((tier) => ({
         name: tier.name,
@@ -24,7 +25,7 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket }) => {
   return (
     <section
       aria-labelledby="package-heading"
-      className="border border-foreground/20 border-t-4 border-t-foreground bg-card p-5 shadow-xl md:p-7"
+      className={`flex flex-col border border-foreground/20 bg-card p-5 shadow-xl md:p-7 ${className}`}
     >
       <div className="mb-4 flex items-end justify-between gap-4 border-b border-foreground/20 pb-3">
         <div>
@@ -40,9 +41,9 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket }) => {
         </span>
       </div>
 
-      <div className={`grid gap-3 ${packages.length > 1 ? 'sm:grid-cols-2' : 'grid-cols-1'}`}>
+      <div className={`grid flex-1 gap-3 ${packages.length > 1 ? 'sm:grid-cols-2' : 'grid-cols-1'}`}>
         {packages.map((item, index) => (
-          <article key={`${item.name}-${index}`} className="flex min-h-[180px] flex-col border border-foreground/20 bg-background p-5">
+          <article key={`${item.name}-${index}`} className="flex h-full min-h-[180px] flex-col border border-foreground/20 bg-background p-5">
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <span className="mb-2 block font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">

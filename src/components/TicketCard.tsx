@@ -4,6 +4,8 @@ import { Ticket } from '../types/ticket';
 interface TicketCardProps {
   ticket: Ticket;
   onClick?: (ticket: Ticket) => void;
+  standalone?: boolean;
+  className?: string;
 }
 
 interface TicketPriceFooterProps {
@@ -78,7 +80,7 @@ const rowStartClasses: Record<number, string> = {
   4: 'md:row-start-4',
 };
 
-export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
+export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick, standalone = false, className = '' }) => {
   const isAccent = ticket.isAccent;
   const isFeatured = ticket.featured;
 
@@ -144,7 +146,10 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
   const rowStartClass = ticket.gridPosition?.rowStart ? rowStartClasses[ticket.gridPosition.rowStart] || '' : '';
 
   // Card container class (no hover shadow or scale transitions)
-  const containerClass = `ticket-shell group relative flex justify-between ${onClick ? 'cursor-pointer' : 'cursor-default'} ${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass} ${
+  const gridPlacementClass = standalone
+    ? ''
+    : `${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass}`;
+  const containerClass = `ticket-shell group relative flex justify-between ${onClick ? 'cursor-pointer' : 'cursor-default'} ${gridPlacementClass} ${className} ${
     isAccent ? 'ticket-accent text-background' : 'text-foreground'
   }`;
 
@@ -356,7 +361,11 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onClick }) => {
         {/* Optional Card Image slot */}
         {ticket.image && (
           <div className={`w-full bg-muted overflow-hidden border relative my-2 ${
-            ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2 ? 'h-36 md:h-44' : 'h-28 md:h-32'
+            standalone
+              ? 'min-h-[160px] flex-1'
+              : ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2
+                ? 'h-36 md:h-44'
+                : 'h-28 md:h-32'
           } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}>
             <img
               src={ticket.image}
