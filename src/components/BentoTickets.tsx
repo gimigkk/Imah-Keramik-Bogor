@@ -64,6 +64,10 @@ export const BentoTickets: React.FC = () => {
     const originalImageMinHeight = animatedImage?.style.minHeight ?? '';
     const originalImageFlex = animatedImage?.style.flex ?? '';
     const originalTransform = element.style.transform;
+    const computedFilter = window.getComputedStyle(element).filter;
+    const baseFilter = computedFilter === 'none' ? '' : `${computedFilter} `;
+    const travelDistance = Math.hypot(to.left - from.left, to.top - from.top);
+    const peakBlur = Math.min(8, Math.max(3, travelDistance / 110));
     const initialScrollX = window.scrollX;
     const initialScrollY = window.scrollY;
     const syncWithDocumentScroll = () => {
@@ -123,6 +127,22 @@ export const BentoTickets: React.FC = () => {
     animation.pause();
     animation.currentTime = 0;
 
+    const blurAnimation = element.animate(
+      [
+        { filter: `${baseFilter}blur(0px)`, offset: 0 },
+        { filter: `${baseFilter}blur(${peakBlur}px)`, offset: 0.2 },
+        { filter: `${baseFilter}blur(${peakBlur * 0.45}px)`, offset: 0.68 },
+        { filter: `${baseFilter}blur(0px)`, offset: 1 },
+      ],
+      {
+        duration,
+        easing: 'cubic-bezier(0.15, 0.01, 0.16, 1.02)',
+        fill: 'both',
+      }
+    );
+    blurAnimation.pause();
+    blurAnimation.currentTime = 0;
+
     const imageAnimation = animatedImage && fromImageHeight !== undefined && toImageHeight !== undefined
       ? animatedImage.animate(
           [
@@ -151,6 +171,7 @@ export const BentoTickets: React.FC = () => {
       animatedImage.style.height = `${toImageHeight}px`;
     }
     animation.play();
+    blurAnimation.play();
     imageAnimation?.play();
 
     let hasSettled = false;
@@ -163,6 +184,7 @@ export const BentoTickets: React.FC = () => {
       if (hasSettled) return;
       hasSettled = true;
       animation.cancel();
+      blurAnimation.cancel();
       imageAnimation?.cancel();
       if (trackDocumentScroll) {
         window.removeEventListener('scroll', syncWithDocumentScroll);
@@ -181,7 +203,7 @@ export const BentoTickets: React.FC = () => {
       resolveFinished();
     };
 
-    void Promise.all([animation.finished, imageAnimation?.finished]).then(settle, settle);
+    void Promise.all([animation.finished, blurAnimation.finished, imageAnimation?.finished]).then(settle, settle);
 
     return {
       cancel: settle,
