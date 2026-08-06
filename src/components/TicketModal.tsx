@@ -1,10 +1,12 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { Ticket } from '../types/ticket';
+import { getTicketWhatsappMessage } from '../data/tickets';
 import { ActivityDetails } from './ActivityDetails';
 import { PackageCards } from './PackageCards';
 import { TicketCard } from './TicketCard';
 import { haltSmoothScrollMomentum } from './SmoothScroll';
+
 
 interface TicketModalProps {
   ticket: Ticket | null;
@@ -72,10 +74,9 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
   if (!ticket) return null;
 
   const isWideTicket = ticket.isHorizontal || (ticket.gridSpan?.cols ?? 1) >= 4;
-  const whatsappMessage = encodeURIComponent(
-    `Halo Imah Keramik Bogor, saya mau tanya / booking tiket "${ticket.title}" (${ticket.code}).`
-  );
+  const whatsappMessage = encodeURIComponent(getTicketWhatsappMessage(ticket));
   const whatsappHref = `https://wa.me/628128145417?text=${whatsappMessage}`;
+
   const showPanels = isVisible && !isClosing;
   const detailMotion = `modal-reveal-panel ${
     showPanels ? 'modal-reveal-panel-visible reveal-delay-1' : ''
@@ -115,7 +116,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
           <X size={19} />
         </button>
 
-        <div className="w-full lg:h-[min(54rem,calc(100dvh-3rem))]">
+        <div className={`w-full ${isWideTicket ? 'lg:h-[min(54rem,calc(100dvh-3rem))]' : ''}`}>
           {isWideTicket ? (
             <div className="grid gap-4 lg:h-full lg:grid-cols-[minmax(0,1.28fr)_minmax(0,0.72fr)] lg:grid-rows-[14rem_minmax(0,1fr)]">
               <div className="relative z-70 lg:col-span-2 lg:min-h-0">
@@ -123,17 +124,17 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
               </div>
               <ActivityDetails
                 ticket={ticket}
-                whatsappHref={whatsappHref}
                 className={`${detailMotion} lg:min-h-0 lg:overflow-y-auto`}
               />
               <PackageCards
                 ticket={ticket}
+                whatsappHref={whatsappHref}
                 className={`${packageMotion} lg:min-h-0 lg:overflow-y-auto`}
               />
             </div>
           ) : (
-            <div className="grid gap-4 lg:h-full lg:grid-cols-[minmax(300px,0.78fr)_minmax(0,1.22fr)] lg:grid-rows-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-              <div className="relative z-70 lg:row-span-2 lg:min-h-0">
+            <div className="grid items-start gap-4 lg:grid-cols-[minmax(300px,0.78fr)_minmax(0,1.22fr)]">
+              <div className="relative z-70 lg:row-span-2 lg:h-full">
                 <TicketCard
                   key={ticket.id}
                   ticket={ticket}
@@ -143,12 +144,12 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
               </div>
               <ActivityDetails
                 ticket={ticket}
-                whatsappHref={whatsappHref}
-                className={`${detailMotion} lg:min-h-0 lg:overflow-y-auto`}
+                className={detailMotion}
               />
               <PackageCards
                 ticket={ticket}
-                className={`${packageMotion} lg:min-h-0 lg:overflow-y-auto`}
+                whatsappHref={whatsappHref}
+                className={packageMotion}
               />
             </div>
           )}

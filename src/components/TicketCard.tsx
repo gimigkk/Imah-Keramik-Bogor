@@ -171,7 +171,6 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           <div>
             <div className="flex justify-between items-start mb-3">
               {renderBadge()}
-              <span className="font-mono text-sm text-muted-foreground tracking-widest">{ticket.code}</span>
             </div>
 
             <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-2 leading-tight">
@@ -258,9 +257,6 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             <div>
               <div className="flex justify-between items-start mb-3">
                 {renderBadge() || <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Info</span>}
-                <span className={`font-mono text-sm tracking-widest ${isAccent ? 'text-background/50' : 'text-muted-foreground'}`}>
-                  {ticket.code}
-                </span>
               </div>
 
               <h3 className={`font-serif text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>
@@ -337,9 +333,6 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         <div>
           <div className="flex justify-between items-start mb-4">
             {renderBadge() || <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Info</span>}
-            <span className={`font-mono text-sm tracking-widest ${isAccent ? 'text-background/50' : 'text-muted-foreground'}`}>
-              {ticket.code}
-            </span>
           </div>
 
           <h3 className={`font-serif text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>

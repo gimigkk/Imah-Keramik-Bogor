@@ -45,7 +45,7 @@ const Hero = () => (
           poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
           className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-90"
         >
-          <source src="/hero-video.mp4" type="video/mp4" />
+          <source src="/assets/videos/hero/studio-process.mp4" type="video/mp4" />
         </video>
         <div className="absolute top-6 left-6 bg-background/90 backdrop-blur px-4 py-2 text-xs font-mono uppercase tracking-widest hidden md:block border border-foreground/10">
           Vid. 1: Teknik Putar

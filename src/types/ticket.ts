@@ -2,6 +2,21 @@ export type TicketBadge = 'favorit' | 'hemat' | 'kustom' | 'expert' | '4_pilihan
 
 export type TicketCategory = 'keramik' | 'membatik' | 'bundling' | 'info_umum';
 
+export type TicketId =
+  | 'cac'
+  | 'fun-clay'
+  | 'glaze-coloring'
+  | 'membatik-kayu-1'
+  | 'membatik-kayu-2'
+  | 'membatik-kayu-3'
+  | 'membatik-kayu-4'
+  | 'bundling-1'
+  | 'bundling-2'
+  | 'htm'
+  | 'sewa-aula'
+  | 'workshop'
+  | 'paket-usaha';
+
 export type TicketTier = {
   name: string;
   price: string;
@@ -9,9 +24,13 @@ export type TicketTier = {
   items?: string[];
 };
 
+export type TicketVideo = {
+  title: string;
+  src: string;
+};
+
 export type Ticket = {
-  id: string;
-  code: string;
+  id: TicketId;
   title: string;
   price: string;
   unitLabel?: string;
@@ -19,12 +38,14 @@ export type Ticket = {
   image?: string;
   tags?: string[];
   description: string;
+  additionalDetails: string;
   tiers?: TicketTier[];
   category: TicketCategory;
   featured?: boolean;
   isAccent?: boolean;
   isHorizontal?: boolean;
   addons?: string[];
+  videos?: TicketVideo[];
   gridSpan?: {
     cols?: number;
     rows?: number;
@@ -33,4 +54,6 @@ export type Ticket = {
     colStart: number;
     rowStart: number;
   };
+  whatsappMessage?: string;
 };
+

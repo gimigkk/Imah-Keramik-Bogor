@@ -1,9 +1,9 @@
 import { Ticket } from '../types/ticket';
+import { ticketVideoGalleries } from './ticketMedia';
 
 export const keramikTickets: Ticket[] = [
   {
     id: 'cac',
-    code: 'IKB-CAC',
     title: 'Ceramic Art Class (CAC)',
     price: 'Rp 200.000',
     unitLabel: '/orang/sesi',
@@ -15,16 +15,17 @@ export const keramikTickets: Ticket[] = [
     tags: [
       'Factory Visit',
       'Kelas Tutorial Pembuatan Keramik',
-      'Alat & Bahan',
       '2x Pembakaran',
       'Glazur 1 Warna',
     ],
-    description: 'Pelajari teknik memukau membentuk tanah liat di atas roda putar. Sempurna untuk membuat mangkuk, cangkir, dan vas.',
+    description: 'Pelajari teknik memukau membentuk tanah liat di atas roda putar. Sempurna untuk membuat mangkuk, cangkir, dan vas. Semua alat dan bahan disediakan.',
+    additionalDetails: 'Paket mencakup factory visit, tutorial pembuatan keramik, dua kali pembakaran, serta pemberian glazur satu warna.',
     category: 'keramik',
+    videos: ticketVideoGalleries.cac,
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk kelas Ceramic Art Class (CAC).',
   },
   {
     id: 'fun-clay',
-    code: 'IKB-FCL',
     title: 'Fun Clay',
     price: 'Rp 75.000',
     unitLabel: '/orang/sesi',
@@ -34,14 +35,15 @@ export const keramikTickets: Ticket[] = [
     tags: [
       'Factory Visit',
       'Kelas Tutorial Membentuk Tanah Liat',
-      'Alat & Bahan',
     ],
-    description: 'Cubit, gulung, dan pipihkan tanah liat untuk membuat karya unik tanpa roda putar.',
+    description: 'Cubit, gulung, dan pipihkan tanah liat untuk membuat karya unik tanpa roda putar. Semua alat dan bahan disediakan.',
+    additionalDetails: 'Peserta juga mendapatkan factory visit dan tutorial langsung untuk mempelajari setiap teknik selama sesi.',
     category: 'keramik',
+    videos: ticketVideoGalleries['fun-clay'],
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk kelas Fun Clay.',
   },
   {
     id: 'glaze-coloring',
-    code: 'IKB-GLZ',
     title: 'Glaze Coloring',
     price: 'Rp 200.000',
     unitLabel: '/orang/sesi',
@@ -55,69 +57,74 @@ export const keramikTickets: Ticket[] = [
       '1x Pembakaran Glazur',
     ],
     description: 'Hidupkan karya setengah matang Anda dengan berbagai pilihan warna dan glazur.',
+    additionalDetails: 'Paket mencakup satu body bisque, tutorial mewarnai, dan satu kali pembakaran glazur setelah karya selesai dihias.',
     category: 'keramik',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk kelas Glaze Coloring.',
   },
 ];
 
 export const membatikTickets: Ticket[] = [
   {
     id: 'membatik-kayu-1',
-    code: 'IKB-MBK1',
     title: 'Paket Membatik Kayu 1',
     price: 'Rp 50.000',
     unitLabel: '/orang/sesi',
     gridSpan: { cols: 1, rows: 1 },
     gridPosition: { colStart: 1, rowStart: 1 },
     image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
-    tags: ['1 centong', '1 warna', 'Tutorial membatik', 'Alat & bahan'],
-    description: 'Belajar membatik kayu pada satu centong dengan satu pilihan warna.',
+    tags: ['1 centong', '1 warna', 'Tutorial membatik'],
+    description: 'Belajar membatik kayu pada satu centong dengan satu pilihan warna. Semua alat dan bahan disediakan.',
+    additionalDetails: 'Paket sudah termasuk tutorial membatik untuk pengerjaan satu centong.',
     category: 'membatik',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Membatik Kayu 1 (1 Centong, 1 Warna).',
   },
   {
     id: 'membatik-kayu-2',
-    code: 'IKB-MBK2',
     title: 'Paket Membatik Kayu 2',
     price: 'Rp 75.000',
     unitLabel: '/orang/sesi',
     gridSpan: { cols: 1, rows: 1 },
     gridPosition: { colStart: 2, rowStart: 1 },
     image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
-    tags: ['2 centong', '1 warna', 'Tutorial membatik', 'Alat & bahan'],
-    description: 'Belajar membatik kayu pada dua centong dengan satu pilihan warna.',
+    tags: ['2 centong', '1 warna', 'Tutorial membatik'],
+    description: 'Belajar membatik kayu pada dua centong dengan satu pilihan warna. Semua alat dan bahan disediakan.',
+    additionalDetails: 'Paket sudah termasuk tutorial membatik untuk pengerjaan kedua centong.',
     category: 'membatik',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Membatik Kayu 2 (2 Centong, 1 Warna).',
   },
   {
     id: 'membatik-kayu-3',
-    code: 'IKB-MBK3',
     title: 'Paket Membatik Kayu 3',
     price: 'Rp 100.000',
     unitLabel: '/orang/sesi',
     gridSpan: { cols: 1, rows: 1 },
     gridPosition: { colStart: 3, rowStart: 1 },
     image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
-    tags: ['1 pigura', '1 centong', '1 warna', 'Tutorial membatik', 'Alat & bahan'],
-    description: 'Belajar membatik kayu pada satu pigura dan satu centong dengan satu pilihan warna.',
+    tags: ['1 pigura', '1 centong', '1 warna', 'Tutorial membatik'],
+    description: 'Belajar membatik kayu pada satu pigura dan satu centong dengan satu pilihan warna. Semua alat dan bahan disediakan.',
+    additionalDetails: 'Paket sudah termasuk tutorial membatik untuk pengerjaan pigura dan centong.',
     category: 'membatik',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Membatik Kayu 3 (1 Pigura, 1 Centong, 1 Warna).',
   },
   {
     id: 'membatik-kayu-4',
-    code: 'IKB-MBK4',
     title: 'Paket Membatik Kayu 4',
     price: 'Rp 150.000',
     unitLabel: '/orang/sesi',
     gridSpan: { cols: 1, rows: 1 },
     gridPosition: { colStart: 4, rowStart: 1 },
     image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
-    tags: ['1 talenan', '2 warna', 'Tutorial membatik', 'Alat & bahan'],
-    description: 'Belajar membatik kayu pada satu talenan dengan dua pilihan warna.',
+    tags: ['1 talenan', '2 warna', 'Tutorial membatik'],
+    description: 'Belajar membatik kayu pada satu talenan dengan dua pilihan warna. Semua alat dan bahan disediakan.',
+    additionalDetails: 'Paket sudah termasuk tutorial membatik untuk pengerjaan talenan dengan dua warna.',
     category: 'membatik',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Membatik Kayu 4 (1 Talenan, 2 Warna).',
   },
 ];
 
 export const bundlingTickets: Ticket[] = [
   {
     id: 'bundling-1',
-    code: 'IKB-BND1',
     title: 'Paket: Fun Clay + Membatik',
     price: 'Rp 100.000',
     unitLabel: '/orang/sesi',
@@ -128,11 +135,12 @@ export const bundlingTickets: Ticket[] = [
     image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: ['Fun Clay + Membatik Paket 1'],
     description: 'Paket hemat menggabungkan Fun Clay tanah liat dan Membatik Kayu Paket 1.',
+    additionalDetails: 'Bagian membatik menggunakan Paket 1, yaitu satu centong kayu dengan satu pilihan warna.',
     category: 'bundling',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Bundling Fun Clay + Membatik Kayu.',
   },
   {
     id: 'bundling-2',
-    code: 'IKB-BND2',
     title: 'Paket: CAC + Membatik',
     price: 'Rp 225.000',
     unitLabel: '/orang/sesi',
@@ -143,14 +151,15 @@ export const bundlingTickets: Ticket[] = [
     image: 'https://images.unsplash.com/photo-1508269151431-a34449ca161d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
     tags: ['CAC / Glaze Coloring + Membatik Paket 1'],
     description: 'Kombinasi kelas keramik lanjutan (CAC/Glaze) dan Membatik Kayu Paket 1.',
+    additionalDetails: 'Peserta dapat memilih Ceramic Art Class atau Glaze Coloring, kemudian membatik satu centong dengan satu pilihan warna melalui Membatik Kayu Paket 1.',
     category: 'bundling',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Bundling CAC / Glaze + Membatik Kayu.',
   },
 ];
 
 export const infoUmumTickets: Ticket[] = [
   {
     id: 'htm',
-    code: 'IKB-HTM',
     title: 'HTM (Tiket Masuk Studio)',
     price: 'Rp 15.000',
     unitLabel: '/orang',
@@ -163,11 +172,12 @@ export const infoUmumTickets: Ticket[] = [
       'Tungku bakar / kiln',
     ],
     description: 'Akses tur melihat seluruh proses produksi keramik dan tungku pembakaran studio.',
+    additionalDetails: 'Rangkaian kunjungan mencakup pengolahan bahan baku, proses putar dan mug tuang, dekor kerok, pewarnaan glazur celup, serta tungku pembakaran atau kiln.',
     category: 'info_umum',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya informasi kunjungan studio & HTM (Tiket Masuk).',
   },
   {
     id: 'sewa-aula',
-    code: 'IKB-AUL',
     title: 'Sewa Aula',
     price: 'Rp 300.000',
     unitLabel: '/2 jam (maks. 30 orang)',
@@ -176,11 +186,12 @@ export const infoUmumTickets: Ticket[] = [
     addons: ['+Rp 150.000 /jam tambahan', '+Rp 10.000 /orang tambahan'],
     tags: ['Kapasitas maks. 30 orang', 'Fasilitas area studio'],
     description: 'Sewa ruang aula studio untuk gathering, rapat, atau acara privat.',
+    additionalDetails: 'Harga dasar berlaku untuk dua jam dan maksimal 30 orang. Waktu tambahan dikenakan Rp 150.000 per jam, sedangkan peserta tambahan dikenakan Rp 10.000 per orang.',
     category: 'info_umum',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / reservasi untuk Sewa Aula.',
   },
   {
     id: 'workshop',
-    code: 'IKB-WKS',
     title: 'Workshop Custom',
     price: 'Sesuai kelas dipilih',
     unitLabel: '(kustom)',
@@ -189,11 +200,12 @@ export const infoUmumTickets: Ticket[] = [
     gridPosition: { colStart: 3, rowStart: 1 },
     tags: ['Transportasi & akomodasi di luar harga kelas'],
     description: 'Sesi privat khusus rombongan/instansi disesuaikan kebutuhan acara Anda.',
+    additionalDetails: 'Jenis kelas dan harga workshop mengikuti aktivitas yang dipilih. Biaya transportasi dan akomodasi tidak termasuk dalam harga kelas.',
     category: 'info_umum',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya informasi & koordinasi untuk Workshop Custom.',
   },
   {
     id: 'paket-usaha',
-    code: 'IKB-USH',
     title: 'Paket Usaha',
     price: 'Rp 200.000',
     unitLabel: '/orang/paket',
@@ -207,6 +219,16 @@ export const infoUmumTickets: Ticket[] = [
       'Peserta level expert',
     ],
     description: 'Pelatihan & fasilitas produksi lengkap untuk peserta level expert.',
+    additionalDetails: 'Fasilitas paket mencakup bahan baku, enam warna glazur, dan dua kali pembakaran untuk mendukung proses produksi keramik.',
     category: 'info_umum',
+    whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya informasi & pendaftaran untuk Paket Usaha keramik.',
   },
 ];
+
+export const getTicketWhatsappMessage = (ticket: Ticket): string => {
+  if (ticket.whatsappMessage) {
+    return ticket.whatsappMessage;
+  }
+  return `Halo Imah Keramik Bogor, saya mau tanya / booking untuk ${ticket.title}.`;
+};
+
