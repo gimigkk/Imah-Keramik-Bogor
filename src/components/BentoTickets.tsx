@@ -38,6 +38,7 @@ export const BentoTickets: React.FC = () => {
     currentImageHeight?: number,
     duration = 650,
     zIndex = 60,
+    trackDocumentScroll = true,
   ) => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) {
@@ -72,7 +73,9 @@ export const BentoTickets: React.FC = () => {
     };
 
     if (placeholder) placeholder.style.minHeight = `${element.getBoundingClientRect().height}px`;
-    window.addEventListener('scroll', syncWithDocumentScroll, { passive: true });
+    if (trackDocumentScroll) {
+      window.addEventListener('scroll', syncWithDocumentScroll, { passive: true });
+    }
     if (body) {
       body.style.minHeight = '0';
       body.style.overflow = 'hidden';
@@ -113,7 +116,7 @@ export const BentoTickets: React.FC = () => {
       ],
       {
         duration,
-        easing: 'cubic-bezier(0.33, 0, 0.2, 1)',
+        easing: 'cubic-bezier(0.15, 0.01, 0.16, 1.02)',
         fill: 'both',
       }
     );
@@ -128,7 +131,7 @@ export const BentoTickets: React.FC = () => {
           ],
           {
             duration,
-            easing: 'cubic-bezier(0.33, 0, 0.2, 1)',
+            easing: 'cubic-bezier(0.15, 0.01, 0.16, 1.02)',
             fill: 'both',
           }
         )
@@ -161,7 +164,9 @@ export const BentoTickets: React.FC = () => {
       hasSettled = true;
       animation.cancel();
       imageAnimation?.cancel();
-      window.removeEventListener('scroll', syncWithDocumentScroll);
+      if (trackDocumentScroll) {
+        window.removeEventListener('scroll', syncWithDocumentScroll);
+      }
       element.style.transform = originalTransform;
       if (placeholder) placeholder.style.minHeight = placeholderMinHeight;
       if (body) {
@@ -247,6 +252,8 @@ export const BentoTickets: React.FC = () => {
       modalTicket,
       interruptedImageHeight,
       interruptedRect ? getInterruptedDuration(sourceRect, targetRect) : 650,
+      60,
+      false,
     );
     activeMorphRef.current = morph;
     void morph.finished.then(() => {

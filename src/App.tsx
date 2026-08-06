@@ -2,9 +2,10 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import BentoTickets from './components/BentoTickets';
 import { Container } from './components/Container';
+import { SmoothScroll } from './components/SmoothScroll';
 
 const Hero = () => (
-  <section className="relative pt-6 md:pt-10 pb-12 md:pb-24 border-b border-foreground/20 bg-background">
+  <section id="about" className="relative pt-6 md:pt-10 pb-12 md:pb-24 border-b border-foreground/20 bg-background">
     <Container>
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 md:mb-16 gap-6 md:gap-10">
         <div className="max-w-4xl">
@@ -184,15 +185,18 @@ const CTA = () => (
 
 export default function App() {
   return (
-    <div className="min-h-screen font-sans bg-background text-foreground selection:bg-foreground selection:text-background">
-      <Navbar />
-      <main>
-        <Hero />
-        <BentoTickets />
-        <GalleryReviews />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <SmoothScroll />
+      <div id="top" className="min-h-screen font-sans bg-background text-foreground selection:bg-foreground selection:text-background">
+        <Navbar />
+        <main>
+          <Hero />
+          <BentoTickets />
+          <GalleryReviews />
+          <CTA />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
