@@ -5,6 +5,15 @@ import 'lenis/dist/lenis.css';
 const easeOutExpo = (progress: number) =>
   Math.min(1, 1.001 - Math.pow(2, -10 * progress));
 
+let lenisInstance: Lenis | null = null;
+
+export const haltSmoothScrollMomentum = () => {
+  lenisInstance?.scrollTo(window.scrollY, {
+    immediate: true,
+    force: true,
+  });
+};
+
 export const SmoothScroll = () => {
   useEffect(() => {
     const lenis = new Lenis({
@@ -12,7 +21,8 @@ export const SmoothScroll = () => {
       autoToggle: true,
       allowNestedScroll: true,
       smoothWheel: true,
-      lerp: 0.3,
+      lerp: 0.2,
+      virtualScroll: () => !document.body.hasAttribute('data-scroll-locked'),
       stopInertiaOnNavigate: true,
       respectReducedMotion: false,
       anchors: {
@@ -20,8 +30,12 @@ export const SmoothScroll = () => {
         easing: easeOutExpo,
       },
     });
+    lenisInstance = lenis;
 
-    return () => lenis.destroy();
+    return () => {
+      if (lenisInstance === lenis) lenisInstance = null;
+      lenis.destroy();
+    };
   }, []);
 
   return null;

@@ -4,6 +4,7 @@ import { Ticket } from '../types/ticket';
 import { ActivityDetails } from './ActivityDetails';
 import { PackageCards } from './PackageCards';
 import { TicketCard } from './TicketCard';
+import { haltSmoothScrollMomentum } from './SmoothScroll';
 
 interface TicketModalProps {
   ticket: Ticket | null;
@@ -25,16 +26,36 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
   }, [ticket, isClosing]);
 
   useLayoutEffect(() => {
-    if (!ticket || isClosing) {
-      document.body.style.overflow = '';
-      return;
-    }
+    if (!ticket) return;
 
+    const previousBodyOverflow = document.body.style.overflow;
+    const wasScrollLocked = document.body.hasAttribute('data-scroll-locked');
+    document.body.setAttribute('data-scroll-locked', '');
+    haltSmoothScrollMomentum();
     document.body.style.overflow = 'hidden';
+
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousBodyOverflow;
+      if (!wasScrollLocked) document.body.removeAttribute('data-scroll-locked');
     };
-  }, [ticket, isClosing]);
+  }, [ticket]);
+
+  useEffect(() => {
+    if (!ticket) return;
+
+    const preventBackgroundScroll = (event: WheelEvent | TouchEvent) => {
+      const modal = document.querySelector<HTMLElement>('[data-ticket-modal-root]');
+      if (!modal?.contains(event.target as Node)) event.preventDefault();
+    };
+
+    document.addEventListener('wheel', preventBackgroundScroll, { capture: true, passive: false });
+    document.addEventListener('touchmove', preventBackgroundScroll, { capture: true, passive: false });
+
+    return () => {
+      document.removeEventListener('wheel', preventBackgroundScroll, { capture: true });
+      document.removeEventListener('touchmove', preventBackgroundScroll, { capture: true });
+    };
+  }, [ticket]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -64,7 +85,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
   }`;
 
   return (
-    <div data-ticket-modal-root className={`fixed inset-0 z-50 overflow-y-auto p-3 md:p-6 ${
+    <div data-ticket-modal-root data-lenis-prevent className={`fixed inset-0 z-50 overflow-y-auto overscroll-contain p-3 md:p-6 ${
       isClosing ? 'pointer-events-none' : ''
     }`}>
       <div
