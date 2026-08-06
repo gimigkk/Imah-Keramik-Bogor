@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
               {/* Address */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <MapPin size={14} className="text-background/50 flex-shrink-0" />
+                  <MapPin size={14} className="text-background/50 shrink-0" />
                   <p className="font-mono text-xs uppercase tracking-widest text-background/50 font-bold">Lokasi</p>
                 </div>
                 <address className="not-italic font-sans text-xs md:text-sm text-background/80 leading-relaxed">
@@ -39,7 +39,7 @@ export const Footer: React.FC = () => {
               {/* Operating Hours */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <Clock size={14} className="text-background/50 flex-shrink-0" />
+                  <Clock size={14} className="text-background/50 shrink-0" />
                   <p className="font-mono text-xs uppercase tracking-widest text-background/50 font-bold">Jam Buka</p>
                 </div>
                 <ul className="font-sans text-xs md:text-sm text-background/80 space-y-2.5">
@@ -61,7 +61,7 @@ export const Footer: React.FC = () => {
               {/* Socials */}
               <div className="sm:justify-self-end w-full sm:w-auto">
                 <div className="flex items-center gap-2 mb-3">
-                  <Share2 size={14} className="text-background/50 flex-shrink-0" />
+                  <Share2 size={14} className="text-background/50 shrink-0" />
                   <p className="font-mono text-xs uppercase tracking-widest text-background/50 font-bold">Ikuti Kami</p>
                 </div>
                 <div className="flex flex-col gap-2.5 font-sans text-xs md:text-sm text-background/80">
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2.5 text-background/80 hover:text-background transition-colors group"
                   >
-                    <FaWhatsapp size={15} className="text-background/60 group-hover:text-background transition-colors flex-shrink-0" />
+                    <FaWhatsapp size={15} className="text-background/60 group-hover:text-background transition-colors shrink-0" />
                     <span className="font-medium">WhatsApp (0812-8145-417)</span>
                   </a>
                   <a
@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2.5 text-background/80 hover:text-background transition-colors group"
                   >
-                    <FaInstagram size={15} className="text-background/60 group-hover:text-background transition-colors flex-shrink-0" />
+                    <FaInstagram size={15} className="text-background/60 group-hover:text-background transition-colors shrink-0" />
                     <span className="font-medium">@imahkeramikbogor</span>
                   </a>
                 </div>
@@ -91,7 +91,7 @@ export const Footer: React.FC = () => {
             {/* Copyright text placed under columns on the right side */}
             <div className="mt-12 sm:mt-16 text-left sm:text-right">
               <p className="inline-flex items-center gap-1.5 font-sans text-xs md:text-sm text-background/50 font-semibold tracking-wide">
-                <Copyright size={14} className="text-background/50 flex-shrink-0" />
+                <Copyright size={14} className="text-background/50 shrink-0" />
                 <span>
                   {new Date().getFullYear()} IMAH KERAMIK BOGOR. Web by{' '}
                   <a

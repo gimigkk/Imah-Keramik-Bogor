@@ -43,7 +43,7 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, className = 
 
       <div className={`grid flex-1 gap-3 ${packages.length > 1 ? 'sm:grid-cols-2' : 'grid-cols-1'}`}>
         {packages.map((item, index) => (
-          <article key={`${item.name}-${index}`} className="flex h-full min-h-[180px] flex-col border border-foreground/20 bg-background p-5">
+          <article key={`${item.name}-${index}`} className="flex h-full min-h-45 flex-col border border-foreground/20 bg-background p-5">
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <span className="mb-2 block font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">

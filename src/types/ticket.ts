@@ -1,5 +1,3 @@
-export type TicketUnit = 'per_orang' | 'per_paket' | 'per_2jam' | 'kustom';
-
 export type TicketBadge = 'favorit' | 'hemat' | 'kustom' | 'expert' | '4_pilihan' | null;
 
 export type TicketCategory = 'keramik' | 'membatik' | 'bundling' | 'info_umum';
@@ -16,7 +14,6 @@ export type Ticket = {
   code: string;
   title: string;
   price: string;
-  unit: TicketUnit;
   unitLabel?: string;
   badge?: TicketBadge;
   image?: string;

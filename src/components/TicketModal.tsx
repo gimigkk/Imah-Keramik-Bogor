@@ -89,7 +89,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
           type="button"
           onClick={onClose}
           aria-label="Tutup detail tiket"
-          className="fixed right-4 top-4 z-[80] grid h-10 w-10 place-items-center rounded-full border border-background/30 bg-card text-foreground shadow-lg transition-colors hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-background md:right-6 md:top-6"
+          className="fixed right-4 top-4 z-80 grid h-10 w-10 place-items-center rounded-full border border-background/30 bg-card text-foreground shadow-lg transition-colors hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-background md:right-6 md:top-6"
         >
           <X size={19} />
         </button>
@@ -97,7 +97,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
         <div className="w-full lg:h-[min(54rem,calc(100dvh-3rem))]">
           {isWideTicket ? (
             <div className="grid gap-4 lg:h-full lg:grid-cols-[minmax(0,1.28fr)_minmax(0,0.72fr)] lg:grid-rows-[14rem_minmax(0,1fr)]">
-              <div className="relative z-[70] lg:col-span-2 lg:min-h-0">
+              <div className="relative z-70 lg:col-span-2 lg:min-h-0">
                 <TicketCard key={ticket.id} ticket={ticket} standalone className="relative z-20 h-full w-full" />
               </div>
               <ActivityDetails
@@ -112,7 +112,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
             </div>
           ) : (
             <div className="grid gap-4 lg:h-full lg:grid-cols-[minmax(300px,0.78fr)_minmax(0,1.22fr)] lg:grid-rows-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-              <div className="relative z-[70] lg:row-span-2 lg:min-h-0">
+              <div className="relative z-70 lg:row-span-2 lg:min-h-0">
                 <TicketCard
                   key={ticket.id}
                   ticket={ticket}

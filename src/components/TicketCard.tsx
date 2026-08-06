@@ -11,7 +11,6 @@ interface TicketCardProps {
 interface TicketPriceFooterProps {
   ticket: Ticket;
   isAccent?: boolean;
-  large?: boolean;
 }
 
 interface TicketPerforationProps {
@@ -21,7 +20,7 @@ interface TicketPerforationProps {
 const NotchOutline: React.FC<{ className: string }> = ({ className }) => (
   <span
     aria-hidden="true"
-    className={`pointer-events-none absolute h-6 w-6 rounded-full border border-[var(--ticket-edge)] ${className}`}
+    className={`pointer-events-none absolute h-6 w-6 rounded-full border-(--ticket-edge) ${className}`}
   />
 );
 
@@ -45,7 +44,7 @@ const TicketPerforation: React.FC<TicketPerforationProps> = ({ horizontal = fals
 
 // Single shared Price Footer Component used by all vertical cards
 const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent }) => (
-  <div className={`ticket-notch-stub w-full shrink-0 py-7 md:py-8 px-6 md:px-8 min-h-[96px] flex items-center justify-between ${
+  <div className={`ticket-notch-stub w-full shrink-0 py-7 md:py-8 px-6 md:px-8 min-h-24 flex items-center justify-between ${
     isAccent ? 'bg-[#644431]' : 'bg-[#f9f5ef]'
   }`}>
     <div>
@@ -201,7 +200,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           {ticket.image && (
             <div
               data-ticket-image
-              className="w-full flex-1 min-h-[200px] border border-foreground/10 overflow-hidden bg-muted relative mt-1"
+              className="w-full flex-1 min-h-50 border border-foreground/10 overflow-hidden bg-muted relative mt-1"
             >
               <img
                 src={ticket.image}
@@ -227,7 +226,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       <div
         onClick={onClick ? () => onClick(ticket) : undefined}
         className={`${containerClass} ticket-horizontal flex-col md:flex-row ${
-          isDoubleTall ? 'min-h-[280px] md:min-h-[340px]' : ''
+          isDoubleTall ? 'min-h-70 md:min-h-85' : ''
         }`}
         data-ticket-id={ticket.id}
         data-ticket-surface={standalone ? 'modal' : 'grid'}
@@ -239,8 +238,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           {ticket.image && (
             <div
               data-ticket-image
-              className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full overflow-hidden border relative flex-shrink-0 ${
-                isDoubleTall ? 'min-h-[200px] md:min-h-[260px]' : 'min-h-[140px]'
+              className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full overflow-hidden border relative shrink-0 ${
+                isDoubleTall ? 'min-h-50 md:min-h-65' : 'min-h-35'
               } ${
                 isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
               }`}
@@ -294,7 +293,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         <TicketPerforation horizontal />
 
         {/* Right Side Price Stub */}
-        <div className={`ticket-notch-stub w-full md:w-56 p-6 flex flex-col justify-center items-center text-center flex-shrink-0 ${
+        <div className={`ticket-notch-stub w-full md:w-56 p-6 flex flex-col justify-center items-center text-center shrink-0 ${
           isAccent ? 'bg-[#644431]' : 'bg-[#f5f1eb]'
         }`}>
           <span className={`font-mono text-[10px] uppercase tracking-[0.2em] mb-1 ${
@@ -390,7 +389,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             data-ticket-image
             className={`w-full bg-muted overflow-hidden border relative my-2 ${
               standalone
-                ? 'min-h-[160px] flex-1'
+                ? 'min-h-40 flex-1'
                 : ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2
                   ? 'h-36 md:h-44'
                   : 'h-28 md:h-32'
@@ -410,7 +409,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       <TicketPerforation />
 
       {/* Shared Price Footer Component */}
-      <TicketPriceFooter ticket={ticket} isAccent={isAccent} large={false} />
+      <TicketPriceFooter ticket={ticket} isAccent={isAccent} />
     </div>
   );
 };
