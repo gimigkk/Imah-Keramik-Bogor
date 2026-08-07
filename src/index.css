@@ -100,38 +100,67 @@
   }
 
   .ticket-shell {
-    --ticket-edge: color-mix(in srgb, var(--foreground) 16%, transparent);
+    --ticket-edge: #215336;
+    --ticket-body-bg: var(--background);
     filter: drop-shadow(0 3px 5px color-mix(in srgb, var(--foreground) 7%, transparent));
   }
 
   .ticket-shell.ticket-accent {
     --ticket-edge: color-mix(in srgb, var(--background) 28%, transparent);
+    --ticket-body-bg: #5c3a28;
   }
 
+  /* ==========================================================================
+     WARNING: TICKET PERFORATION & NOTCH MASKS
+     Do NOT touch this masking and composite logic unless absolutely necessary.
+     Any modifications MUST be confirmed with the USER first. 
+     The 11px mask radius intentionally overlaps the 12px notch outline 
+     to prevent subpixel anti-aliasing gaps.
+     ========================================================================== */
   .ticket-notch-body {
     border: 1px solid var(--ticket-edge);
     border-bottom-width: 0;
     -webkit-mask-image:
-      radial-gradient(12px at 0 100%, transparent 98%, #000),
-      radial-gradient(12px at 100% 100%, transparent 98%, #000);
-    -webkit-mask-composite: source-in;
+      radial-gradient(11px at 0 100%, transparent 98%, #000),
+      radial-gradient(11px at 100% 100%, transparent 98%, #000),
+      linear-gradient(to bottom, #000 calc(100% - 6px), transparent calc(100% - 6px)),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6'%3E%3Cpath d='M0,0 H12 V6 H0 Z M6,3.5 a2.5,2.5 0 1,0 0,5 a2.5,2.5 0 1,0 0,-5' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E");
+    -webkit-mask-size: 100% 100%, 100% 100%, 100% 100%, 12px 6px;
+    -webkit-mask-position: 0 0, 0 0, 0 0, 0 100%;
+    -webkit-mask-repeat: no-repeat, no-repeat, no-repeat, repeat-x;
+    -webkit-mask-composite: source-in, source-in, source-over;
     mask-image:
-      radial-gradient(12px at 0 100%, transparent 98%, #000),
-      radial-gradient(12px at 100% 100%, transparent 98%, #000);
-    mask-composite: intersect;
+      radial-gradient(11px at 0 100%, transparent 98%, #000),
+      radial-gradient(11px at 100% 100%, transparent 98%, #000),
+      linear-gradient(to bottom, #000 calc(100% - 6px), transparent calc(100% - 6px)),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6'%3E%3Cpath d='M0,0 H12 V6 H0 Z M6,3.5 a2.5,2.5 0 1,0 0,5 a2.5,2.5 0 1,0 0,-5' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E");
+    mask-size: 100% 100%, 100% 100%, 100% 100%, 12px 6px;
+    mask-position: 0 0, 0 0, 0 0, 0 100%;
+    mask-repeat: no-repeat, no-repeat, no-repeat, repeat-x;
+    mask-composite: intersect, intersect, add;
   }
 
   .ticket-notch-stub {
     border: 1px solid var(--ticket-edge);
-    border-top: 2px dashed var(--ticket-edge);
+    border-top-width: 0;
     -webkit-mask-image:
-      radial-gradient(12px at 0 0, transparent 98%, #000),
-      radial-gradient(12px at 100% 0, transparent 98%, #000);
-    -webkit-mask-composite: source-in;
+      radial-gradient(11px at 0 0, transparent 98%, #000),
+      radial-gradient(11px at 100% 0, transparent 98%, #000),
+      linear-gradient(to bottom, transparent 6px, #000 6px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6'%3E%3Cpath d='M0,0 H12 V6 H0 Z M6,-2.5 a2.5,2.5 0 1,0 0,5 a2.5,2.5 0 1,0 0,-5' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E");
+    -webkit-mask-size: 100% 100%, 100% 100%, 100% 100%, 12px 6px;
+    -webkit-mask-position: 0 0, 0 0, 0 0, 0 0;
+    -webkit-mask-repeat: no-repeat, no-repeat, no-repeat, repeat-x;
+    -webkit-mask-composite: source-in, source-in, source-over;
     mask-image:
-      radial-gradient(12px at 0 0, transparent 98%, #000),
-      radial-gradient(12px at 100% 0, transparent 98%, #000);
-    mask-composite: intersect;
+      radial-gradient(11px at 0 0, transparent 98%, #000),
+      radial-gradient(11px at 100% 0, transparent 98%, #000),
+      linear-gradient(to bottom, transparent 6px, #000 6px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6'%3E%3Cpath d='M0,0 H12 V6 H0 Z M6,-2.5 a2.5,2.5 0 1,0 0,5 a2.5,2.5 0 1,0 0,-5' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E");
+    mask-size: 100% 100%, 100% 100%, 100% 100%, 12px 6px;
+    mask-position: 0 0, 0 0, 0 0, 0 0;
+    mask-repeat: no-repeat, no-repeat, no-repeat, repeat-x;
+    mask-composite: intersect, intersect, add;
   }
 
   @media (min-width: 48rem) {
@@ -139,24 +168,50 @@
       border-right-width: 0;
       border-bottom-width: 1px;
       -webkit-mask-image:
-        radial-gradient(12px at 100% 0, transparent 98%, #000),
-        radial-gradient(12px at 100% 100%, transparent 98%, #000);
+        radial-gradient(11px at 100% 0, transparent 98%, #000),
+        radial-gradient(11px at 100% 100%, transparent 98%, #000),
+        linear-gradient(to right, #000 calc(100% - 6px), transparent calc(100% - 6px)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='12'%3E%3Cpath d='M0,0 H6 V12 H0 Z M3.5,6 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E");
+      -webkit-mask-size: 100% 100%, 100% 100%, 100% 100%, 6px 12px;
+      -webkit-mask-position: 0 0, 0 0, 0 0, 100% 0;
+      -webkit-mask-repeat: no-repeat, no-repeat, no-repeat, repeat-y;
+      -webkit-mask-composite: source-in, source-in, source-over;
       mask-image:
-        radial-gradient(12px at 100% 0, transparent 98%, #000),
-        radial-gradient(12px at 100% 100%, transparent 98%, #000);
+        radial-gradient(11px at 100% 0, transparent 98%, #000),
+        radial-gradient(11px at 100% 100%, transparent 98%, #000),
+        linear-gradient(to right, #000 calc(100% - 6px), transparent calc(100% - 6px)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='12'%3E%3Cpath d='M0,0 H6 V12 H0 Z M3.5,6 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E");
+      mask-size: 100% 100%, 100% 100%, 100% 100%, 6px 12px;
+      mask-position: 0 0, 0 0, 0 0, 100% 0;
+      mask-repeat: no-repeat, no-repeat, no-repeat, repeat-y;
+      mask-composite: intersect, intersect, add;
     }
 
     .ticket-horizontal .ticket-notch-stub {
       border-top: 1px solid var(--ticket-edge);
-      border-left: 2px dashed var(--ticket-edge);
+      border-left-width: 0;
       -webkit-mask-image:
-        radial-gradient(12px at 0 0, transparent 98%, #000),
-        radial-gradient(12px at 0 100%, transparent 98%, #000);
+        radial-gradient(11px at 0 0, transparent 98%, #000),
+        radial-gradient(11px at 0 100%, transparent 98%, #000),
+        linear-gradient(to right, transparent 6px, #000 6px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='12'%3E%3Cpath d='M0,0 H6 V12 H0 Z M-2.5,6 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E");
+      -webkit-mask-size: 100% 100%, 100% 100%, 100% 100%, 6px 12px;
+      -webkit-mask-position: 0 0, 0 0, 0 0, 0 0;
+      -webkit-mask-repeat: no-repeat, no-repeat, no-repeat, repeat-y;
+      -webkit-mask-composite: source-in, source-in, source-over;
       mask-image:
-        radial-gradient(12px at 0 0, transparent 98%, #000),
-        radial-gradient(12px at 0 100%, transparent 98%, #000);
+        radial-gradient(11px at 0 0, transparent 98%, #000),
+        radial-gradient(11px at 0 100%, transparent 98%, #000),
+        linear-gradient(to right, transparent 6px, #000 6px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='12'%3E%3Cpath d='M0,0 H6 V12 H0 Z M-2.5,6 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E");
+      mask-size: 100% 100%, 100% 100%, 100% 100%, 6px 12px;
+      mask-position: 0 0, 0 0, 0 0, 0 0;
+      mask-repeat: no-repeat, no-repeat, no-repeat, repeat-y;
+      mask-composite: intersect, intersect, add;
     }
   }
+
+
 
   /* Ticket grid entrance — float up + 3D rotation with bounce */
   @keyframes ticketEnterY {
@@ -270,7 +325,6 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     scroll-padding-top: 4.5rem;
   }
 

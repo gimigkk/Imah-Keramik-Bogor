@@ -16,6 +16,21 @@ export const haltSmoothScrollMomentum = () => {
 
 export const getLenis = () => lenisInstance;
 
+const scrollListeners = new Set<(e: any) => void>();
+
+export const subscribeToLenis = (callback: (e: any) => void) => {
+  scrollListeners.add(callback);
+  if (lenisInstance) {
+    lenisInstance.on('scroll', callback);
+  }
+  return () => {
+    scrollListeners.delete(callback);
+    if (lenisInstance) {
+      lenisInstance.off('scroll', callback);
+    }
+  };
+};
+
 export const SmoothScroll = () => {
   useEffect(() => {
     const lenis = new Lenis({
@@ -23,7 +38,7 @@ export const SmoothScroll = () => {
       autoToggle: true,
       allowNestedScroll: true,
       smoothWheel: true,
-      lerp: 0.2,
+      lerp: 0.1,
       virtualScroll: () => !document.body.hasAttribute('data-scroll-locked'),
       stopInertiaOnNavigate: true,
       respectReducedMotion: false,
@@ -34,7 +49,11 @@ export const SmoothScroll = () => {
     });
     lenisInstance = lenis;
 
+    // Attach any listeners that subscribed before Lenis was initialized
+    scrollListeners.forEach(cb => lenisInstance!.on('scroll', cb));
+
     return () => {
+      scrollListeners.forEach(cb => lenisInstance?.off('scroll', cb));
       if (lenisInstance === lenis) lenisInstance = null;
       lenis.destroy();
     };
