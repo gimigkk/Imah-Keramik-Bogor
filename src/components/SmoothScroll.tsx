@@ -14,6 +14,8 @@ export const haltSmoothScrollMomentum = () => {
   });
 };
 
+export const getLenis = () => lenisInstance;
+
 export const SmoothScroll = () => {
   useEffect(() => {
     const lenis = new Lenis({

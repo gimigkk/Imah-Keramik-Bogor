@@ -4,6 +4,7 @@ import { Container } from './Container';
 import { bundlingTickets, keramikTickets, membatikTickets, infoUmumTickets } from '../data/tickets';
 import { Ticket } from '../types/ticket';
 import { TicketCard } from './TicketCard';
+import { TileBackground } from './TileBackground';
 import { TicketModal } from './TicketModal';
 
 interface MorphController {
@@ -158,16 +159,16 @@ export const BentoTickets: React.FC = () => {
 
     const imageAnimation = animatedImage && fromImageHeight !== undefined && toImageHeight !== undefined
       ? animatedImage.animate(
-          [
-            { height: `${fromImageHeight}px` },
-            { height: `${toImageHeight}px` },
-          ],
-          {
-            duration,
-            easing: 'cubic-bezier(0.15, 0.01, 0.16, 1.02)',
-            fill: 'both',
-          }
-        )
+        [
+          { height: `${fromImageHeight}px` },
+          { height: `${toImageHeight}px` },
+        ],
+        {
+          duration,
+          easing: 'cubic-bezier(0.15, 0.01, 0.16, 1.02)',
+          fill: 'both',
+        }
+      )
       : null;
     if (imageAnimation) {
       imageAnimation.pause();
@@ -370,15 +371,7 @@ export const BentoTickets: React.FC = () => {
 
   return (
     <section ref={sectionRef} id="activities" className="py-20 md:py-24 bg-card border-b border-foreground/10 relative">
-      {/* Subtle Background Grid Pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage:
-            'linear-gradient(var(--color-foreground) 1px, transparent 1px), linear-gradient(90deg, var(--color-foreground) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }}
-      />
+      <TileBackground />
 
       <Container className="relative z-10">
         {/* Section Header */}
@@ -399,8 +392,8 @@ export const BentoTickets: React.FC = () => {
             <button
               onClick={() => setActiveTab('keramik')}
               className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'keramik'
-                  ? 'bg-foreground text-background border-foreground'
-                  : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
+                ? 'bg-foreground text-background border-foreground'
+                : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
                 }`}
             >
               Keramik
@@ -408,8 +401,8 @@ export const BentoTickets: React.FC = () => {
             <button
               onClick={() => setActiveTab('membatik')}
               className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'membatik'
-                  ? 'bg-foreground text-background border-foreground'
-                  : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
+                ? 'bg-foreground text-background border-foreground'
+                : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
                 }`}
             >
               Membatik Kayu
@@ -417,8 +410,8 @@ export const BentoTickets: React.FC = () => {
             <button
               onClick={() => setActiveTab('bundling')}
               className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'bundling'
-                  ? 'bg-foreground text-background border-foreground'
-                  : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
+                ? 'bg-foreground text-background border-foreground'
+                : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
                 }`}
             >
               Bundling
