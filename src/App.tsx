@@ -7,7 +7,7 @@ import { SmoothScroll } from './components/SmoothScroll';
 const Hero = () => (
   <section id="about" className="relative pt-6 md:pt-10 pb-12 md:pb-24 border-b border-foreground/20 bg-background">
     <Container>
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 md:mb-16 gap-6 md:gap-10">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 gap-6 md:gap-10">
         <div className="max-w-4xl">
           <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
             <span className="inline-block border border-foreground px-2.5 py-0.5 leading-none text-[10px] md:text-xs font-mono uppercase tracking-widest rounded-full">

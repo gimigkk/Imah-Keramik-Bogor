@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
 
           {/* Left: Brand Title (col-span-5) */}
           <div className="lg:col-span-5">
-            <h2 className="font-brand text-5xl md:text-6xl lg:text-7xl leading-[0.88] tracking-tight uppercase text-background font-extrabold">
+            <h2 className="font-brand text-3xl md:text-4xl lg:text-5xl leading-[0.88] tracking-wide uppercase text-background font-extrabold">
               Imah<br />Keramik<br />Bogor.
             </h2>
           </div>

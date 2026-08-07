@@ -7,8 +7,8 @@ export const Navbar: React.FC = () => {
     <header className="sticky top-0 w-full z-100 py-2.5 bg-[#0c4723]/85 backdrop-blur-md backdrop-saturate-200 text-background transition-all duration-300">
       <Container className="flex justify-between items-center">
         <div className="flex items-center gap-2.5">
-          <img src={brandIcon} alt="Brand Icon" className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover" />
-          <a href="#top" className="font-brand uppercase text-background leading-[0.9] font-extrabold text-sm md:text-base tracking-wider">
+          <img src={brandIcon} alt="Brand Icon" className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover shrink-0" />
+          <a href="#top" className="font-brand uppercase text-background leading-[0.88] font-extrabold text-[11px] sm:text-[12px] md:text-[13px] tracking-wider">
             Imah<br />Keramik<br />Bogor.
           </a>
         </div>
