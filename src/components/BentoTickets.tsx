@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { Container } from './Container';
 import { bundlingTickets, keramikTickets, membatikTickets, infoUmumTickets } from '../data/tickets';
@@ -20,9 +20,22 @@ export const BentoTickets: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'keramik' | 'membatik' | 'bundling'>('keramik');
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [sectionVisible, setSectionVisible] = useState(false);
+  const [infoVisible, setInfoVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
   const activeMorphRef = useRef<MorphController | null>(null);
   const closingMorphsRef = useRef(new Map<string, ClosingMorph>());
   const interactionVersionRef = useRef(0);
+
+  useEffect(() => {
+    const opts = { threshold: 0.08 };
+    const sObs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setSectionVisible(true); sObs.disconnect(); } }, opts);
+    const iObs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInfoVisible(true); iObs.disconnect(); } }, opts);
+    if (sectionRef.current) sObs.observe(sectionRef.current);
+    if (infoRef.current) iObs.observe(infoRef.current);
+    return () => { sObs.disconnect(); iObs.disconnect(); };
+  }, []);
 
   const getTicketElement = (ticketId: string, surface: 'grid' | 'modal') =>
     document.querySelector<HTMLElement>(
@@ -356,7 +369,7 @@ export const BentoTickets: React.FC = () => {
   };
 
   return (
-    <section id="activities" className="py-20 md:py-24 bg-card border-b border-foreground/10 relative">
+    <section ref={sectionRef} id="activities" className="py-20 md:py-24 bg-card border-b border-foreground/10 relative">
       {/* Subtle Background Grid Pattern */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -421,12 +434,14 @@ export const BentoTickets: React.FC = () => {
 
         {/* TAB 1: KERAMIK (4-column Bento Grid) */}
         {activeTab === 'keramik' && (
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
-            {keramikTickets.map((ticket) => (
+          <div key="keramik" className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
+            {keramikTickets.map((ticket, i) => (
               <TicketCard
                 key={ticket.id}
                 ticket={ticket}
                 onClick={openTicket}
+                className={sectionVisible ? 'ticket-enter-y' : ''}
+                style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
               />
             ))}
           </div>
@@ -434,32 +449,36 @@ export const BentoTickets: React.FC = () => {
 
         {/* TAB 2: MEMBATIK KAYU (4-column Bento Grid) */}
         {activeTab === 'membatik' && (
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
-            {membatikTickets.map((ticket) => (
+          <div key="membatik" className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
+            {membatikTickets.map((ticket, i) => (
               <TicketCard
                 key={ticket.id}
                 ticket={ticket}
                 onClick={openTicket}
+                className={sectionVisible ? 'ticket-enter-y' : ''}
+                style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
               />
             ))}
           </div>
         )}
 
-        {/* TAB 3: BUNDLING (Full-width combination tickets) */}
+        {/* TAB 3: BUNDLING (Full-width combination tickets — horizontal, X-axis rotation) */}
         {activeTab === 'bundling' && (
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
-            {bundlingTickets.map((ticket) => (
+          <div key="bundling" className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
+            {bundlingTickets.map((ticket, i) => (
               <TicketCard
                 key={ticket.id}
                 ticket={ticket}
                 onClick={openTicket}
+                className={sectionVisible ? 'ticket-enter-x' : ''}
+                style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
               />
             ))}
           </div>
         )}
 
         {/* INFO UMUM SECTION (Always visible below tabs, text-only, 2-column grid) */}
-        <div className="pt-12 border-t-2 border-dashed border-foreground/20">
+        <div ref={infoRef} className="pt-12 border-t-2 border-dashed border-foreground/20">
           <div className="mb-8">
             <h3 className="font-serif text-3xl md:text-4xl uppercase tracking-tight text-foreground mb-2">
               Informasi Umum & Sewa
@@ -470,11 +489,13 @@ export const BentoTickets: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
-            {infoUmumTickets.map((ticket) => (
+            {infoUmumTickets.map((ticket, i) => (
               <TicketCard
                 key={ticket.id}
                 ticket={ticket}
                 onClick={openTicket}
+                className={infoVisible ? 'ticket-enter-y' : ''}
+                style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
               />
             ))}
           </div>

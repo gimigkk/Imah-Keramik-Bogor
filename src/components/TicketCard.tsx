@@ -6,6 +6,7 @@ interface TicketCardProps {
   onClick?: (ticket: Ticket) => void;
   standalone?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 interface TicketPriceFooterProps {
@@ -84,6 +85,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   onClick,
   standalone = false,
   className = '',
+  style,
 }) => {
   const isAccent = ticket.isAccent;
   const isFeatured = ticket.featured;
@@ -163,6 +165,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       <div
         onClick={onClick ? () => onClick(ticket) : undefined}
         className={`${containerClass} flex-col`}
+        style={style}
         data-ticket-id={ticket.id}
         data-ticket-surface={standalone ? 'modal' : 'grid'}
       >
@@ -227,6 +230,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         className={`${containerClass} ticket-horizontal flex-col md:flex-row ${
           isDoubleTall ? 'min-h-70 md:min-h-85' : ''
         }`}
+        style={style}
         data-ticket-id={ticket.id}
         data-ticket-surface={standalone ? 'modal' : 'grid'}
       >
@@ -324,6 +328,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
     <div
       onClick={onClick ? () => onClick(ticket) : undefined}
       className={`${containerClass} flex-col`}
+      style={style}
       data-ticket-id={ticket.id}
       data-ticket-surface={standalone ? 'modal' : 'grid'}
     >
