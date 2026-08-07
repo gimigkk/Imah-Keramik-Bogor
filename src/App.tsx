@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import BentoTickets from './components/BentoTickets';
+import IntroSplash from './components/IntroSplash';
 import { Container } from './components/Container';
 import { SmoothScroll } from './components/SmoothScroll';
 
@@ -36,14 +38,14 @@ const Hero = () => (
       </div>
 
       {/* Massive Cinematic Video */}
-      <div className="w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-muted relative border border-foreground/10">
+      <div id="hero-video-container" className="w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-muted relative border border-foreground/10">
         <video
           autoPlay
           loop
           muted
           playsInline
           poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
-          className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-90"
+          className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-100"
         >
           <source src="/assets/videos/hero/studio-process.mp4" type="video/mp4" />
         </video>
@@ -96,7 +98,7 @@ const GalleryReviews = () => {
                 <img
                   src={review.img}
                   alt={review.alt}
-                  className="w-full h-full object-cover filter grayscale opacity-90 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100"
+                  className="w-full h-full object-cover filter grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100"
                 />
               </div>
               <div className="flex flex-col flex-grow px-2">
@@ -184,9 +186,12 @@ const CTA = () => (
 );
 
 export default function App() {
+  const [introDone, setIntroDone] = useState(false);
+
   return (
     <>
       <SmoothScroll />
+      {!introDone && <IntroSplash onComplete={() => setIntroDone(true)} />}
       <div id="top" className="min-h-screen font-sans bg-background text-foreground selection:bg-foreground selection:text-background">
         <Navbar />
         <main>
