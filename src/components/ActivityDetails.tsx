@@ -1,8 +1,10 @@
 import React from 'react';
+import { X } from 'lucide-react';
 import { Ticket, TicketVideo } from '../types/ticket';
 
 interface ActivityDetailsProps {
   ticket: Ticket;
+  onClose?: () => void;
   className?: string;
 }
 
@@ -25,16 +27,26 @@ const ActivityVideo: React.FC<{ video: TicketVideo }> = ({ video }) => (
   </figure>
 );
 
-export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, className = '' }) => (
+export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClose, className = '' }) => (
   <section
     aria-labelledby="activity-detail-heading"
-    className={`flex flex-col border border-foreground/20 bg-card p-5 shadow-xl md:p-7 ${className}`}
+    className={`relative flex flex-col border border-foreground/20 bg-card p-5 shadow-xl md:p-7 ${className}`}
   >
+    {onClose && (
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Tutup detail tiket"
+        className="absolute right-5 top-5 grid h-8 w-8 place-items-center rounded-full border border-foreground/20 bg-transparent text-foreground transition-colors hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground md:right-7 md:top-7"
+      >
+        <X size={16} />
+      </button>
+    )}
     <div>
       <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-muted-foreground">
         Tentang aktivitas
       </p>
-      <h3 id="activity-detail-heading" className="font-serif text-3xl leading-none md:text-4xl">
+      <h3 id="activity-detail-heading" className="font-serif text-3xl leading-none md:text-4xl pr-8">
         {ticket.title}
       </h3>
     </div>

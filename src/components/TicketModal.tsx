@@ -107,14 +107,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
           if (event.target === event.currentTarget) onClose();
         }}
       >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Tutup detail tiket"
-          className="fixed right-4 top-4 z-80 grid h-10 w-10 place-items-center rounded-full border border-background/30 bg-card text-foreground shadow-lg transition-colors hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-background md:right-6 md:top-6"
-        >
-          <X size={19} />
-        </button>
+
 
         <div className={`w-full ${isWideTicket ? 'lg:h-[min(54rem,calc(100dvh-3rem))]' : ''}`}>
           {isWideTicket ? (
@@ -124,6 +117,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
               </div>
               <ActivityDetails
                 ticket={ticket}
+                onClose={onClose}
                 className={`${detailMotion} lg:min-h-0 lg:overflow-y-auto`}
               />
               <PackageCards
@@ -144,6 +138,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
               </div>
               <ActivityDetails
                 ticket={ticket}
+                onClose={onClose}
                 className={detailMotion}
               />
               <PackageCards

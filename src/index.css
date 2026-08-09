@@ -102,7 +102,7 @@
   .ticket-shell {
     --ticket-edge: #215336;
     --ticket-body-bg: var(--background);
-    --ticket-shadow: drop-shadow(0 12px 24px color-mix(in srgb, var(--foreground) 25%, transparent));
+    --ticket-shadow: drop-shadow(0 12px 24px color-mix(in srgb, var(--foreground) 15%, transparent));
     filter: var(--ticket-shadow);
   }
 
