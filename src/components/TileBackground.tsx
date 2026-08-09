@@ -20,17 +20,13 @@ export const TileBackground: React.FC = () => {
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      const totalDistance = windowHeight + rect.height;
-      const currentScroll = windowHeight - rect.top;
-
-      let progress = currentScroll / totalDistance;
-      progress = Math.max(0, Math.min(1, progress));
-
-      // To make it feel like a "proper" deep parallax, we need it to move much slower than the section.
-      // We counter-translate it DOWN by 40% of the total scroll distance.
-      // As the page scrolls UP by `totalDistance`, the background translates DOWN by `0.4 * totalDistance`.
-      // Net speed is 60% of the page scroll (it lags behind smoothly).
-      const parallaxOffset = (progress - 0.5) * (totalDistance * 0.4);
+      // Calculate parallax offset based ONLY on the section's top position relative to the viewport.
+      // This completely decouples the background position from the section's height,
+      // preventing the background from jumping when the section height changes (e.g., when switching tabs).
+      //
+      // As the page scrolls down, rect.top decreases. We counter-translate DOWN (positive offset)
+      // by 40% of the scroll amount to give the background a net speed of 60%.
+      const parallaxOffset = -rect.top * 0.4;
       bgRef.current.style.transform = `translate3d(0, ${parallaxOffset}px, 0)`;
     };
 
@@ -53,7 +49,8 @@ export const TileBackground: React.FC = () => {
     <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none">
       <div
         ref={bgRef}
-        className="absolute inset-x-0 -inset-y-[75%] will-change-transform"
+        className="absolute inset-x-0 will-change-transform"
+        style={{ top: '-50vh', bottom: '-50%' }}
       >
         {/* Subtle Background Grid Pattern */}
         <div
