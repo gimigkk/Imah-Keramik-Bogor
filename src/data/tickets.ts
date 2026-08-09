@@ -196,6 +196,7 @@ export const infoUmumTickets: Ticket[] = [
     price: 'Sesuai kelas dipilih',
     unitLabel: '(kustom)',
     badge: 'kustom',
+    isHorizontal: true,
     gridSpan: { cols: 2, rows: 1 },
     gridPosition: { colStart: 3, rowStart: 1 },
     tags: ['Transportasi & akomodasi di luar harga kelas'],
@@ -210,6 +211,7 @@ export const infoUmumTickets: Ticket[] = [
     price: 'Rp 200.000',
     unitLabel: '/orang/paket',
     badge: 'expert',
+    isHorizontal: true,
     gridSpan: { cols: 2, rows: 1 },
     gridPosition: { colStart: 3, rowStart: 2 },
     tags: [
