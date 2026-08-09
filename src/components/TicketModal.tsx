@@ -86,7 +86,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
   }`;
 
   return (
-    <div data-ticket-modal-root data-lenis-prevent className={`fixed inset-0 z-50 overflow-y-auto overscroll-contain p-3 md:p-6 ${
+    <div data-ticket-modal-root data-lenis-prevent className={`fixed inset-0 z-50 overflow-y-auto overscroll-contain px-3 pb-3 pt-16 md:px-6 md:pb-6 md:pt-20 ${
       isClosing ? 'pointer-events-none' : ''
     }`}>
       <div
@@ -109,9 +109,9 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
       >
 
 
-        <div className={`w-full ${isWideTicket ? 'lg:h-[min(54rem,calc(100dvh-3rem))]' : ''}`}>
+        <div className={`w-full flex flex-col ${isWideTicket ? 'lg:max-h-[min(54rem,calc(100dvh-6.5rem))]' : ''}`}>
           {isWideTicket ? (
-            <div className="grid gap-4 lg:h-full lg:grid-cols-[minmax(0,1.28fr)_minmax(0,0.72fr)] lg:grid-rows-[14rem_minmax(0,1fr)]">
+            <div className="grid gap-4 flex-1 min-h-0 lg:grid-cols-[minmax(0,1.28fr)_minmax(0,0.72fr)] lg:grid-rows-[auto_minmax(0,1fr)]">
               <div className="relative z-70 lg:col-span-2 lg:min-h-0">
                 <TicketCard key={ticket.id} ticket={ticket} standalone className="relative z-20 h-full w-full" />
               </div>
