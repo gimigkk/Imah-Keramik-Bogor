@@ -102,7 +102,8 @@
   .ticket-shell {
     --ticket-edge: #215336;
     --ticket-body-bg: var(--background);
-    filter: drop-shadow(0 3px 5px color-mix(in srgb, var(--foreground) 7%, transparent));
+    --ticket-shadow: drop-shadow(0 12px 24px color-mix(in srgb, var(--foreground) 25%, transparent));
+    filter: var(--ticket-shadow);
   }
 
   .ticket-shell.ticket-accent {
@@ -217,13 +218,13 @@
   @keyframes ticketEnterY {
     from {
       opacity: 0;
-      filter: blur(8px);
+      filter: var(--ticket-shadow, drop-shadow(0 0 0 transparent)) blur(8px);
       transform: perspective(9999px) translateY(70px) rotateY(70deg);
     }
 
     to {
       opacity: 1;
-      filter: blur(0);
+      filter: var(--ticket-shadow, drop-shadow(0 0 0 transparent)) blur(0);
       transform: perspective(9999px) translateY(0) rotateY(0deg);
     }
   }
@@ -231,13 +232,13 @@
   @keyframes ticketEnterX {
     from {
       opacity: 0;
-      filter: blur(8px);
+      filter: var(--ticket-shadow, drop-shadow(0 0 0 transparent)) blur(8px);
       transform: perspective(9999px) translateY(70px) rotateX(70deg);
     }
 
     to {
       opacity: 1;
-      filter: blur(0);
+      filter: var(--ticket-shadow, drop-shadow(0 0 0 transparent)) blur(0);
       transform: perspective(9999px) translateY(0) rotateX(0deg);
     }
   }
