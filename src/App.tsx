@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import BentoTickets from './components/BentoTickets';
@@ -6,56 +6,93 @@ import IntroSplash from './components/IntroSplash';
 import { Container } from './components/Container';
 import { SmoothScroll } from './components/SmoothScroll';
 
-const Hero = () => (
-  <section id="about" className="relative pt-6 md:pt-10 pb-12 md:pb-24 border-b border-foreground/20 bg-background">
-    <Container>
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 gap-6 md:gap-10">
-        <div className="max-w-4xl">
-          <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
-            <span className="inline-block border border-foreground px-2.5 py-0.5 leading-none text-[10px] md:text-xs font-mono uppercase tracking-widest rounded-full">
-              OPEN
-            </span>
-            <span className="font-mono text-[11px] md:text-xs text-muted-foreground uppercase tracking-widest">
-              HARI INI: 10:00 - 18:00
-            </span>
+const Hero = () => {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    // The intro splash holds for 2200ms and morphs for 1100ms (total 3300ms).
+    // Start this animation 500ms before the morph finishes (at 2800ms).
+    const timer = setTimeout(() => setVisible(true), 2400);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <section id="about" className="relative pt-6 md:pt-10 pb-12 md:pb-24 border-b border-foreground/20 bg-background">
+      <Container>
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 gap-6 md:gap-10">
+          <div className="max-w-4xl">
+            <div
+              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} flex items-center gap-3 md:gap-4 mb-4 md:mb-6`}
+              style={{ '--reveal-delay': '0ms' } as React.CSSProperties}
+            >
+              <span className="inline-block border border-foreground px-2.5 py-0.5 leading-none text-[10px] md:text-xs font-mono uppercase tracking-widest rounded-full">
+                OPEN
+              </span>
+              <span className="font-mono text-[11px] md:text-xs text-muted-foreground uppercase tracking-widest">
+                HARI INI: 10:00 - 18:00
+              </span>
+            </div>
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase flex flex-col">
+              <span
+                className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} block`}
+                style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
+              >
+                Wisata edukasi
+              </span>
+              <span
+                className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} block`}
+                style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
+              >
+                <span className="font-accent italic font-normal text-[0.85em] tracking-normal text-foreground/90 lowercase">tanah liat & Keramik</span>
+              </span>
+            </h1>
           </div>
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase">
-            Wisata edukasi <br />
-            <span className="font-accent italic font-normal text-[0.85em] tracking-normal text-foreground/90 lowercase">tanah liat & Keramik</span>
-          </h1>
-        </div>
 
-        <div className="text-left lg:text-right font-sans lg:max-w-xs flex flex-col justify-end border-l lg:border-l-0 lg:border-r border-foreground/20 pl-4 lg:pl-0 lg:pr-6 py-1">
-          <p className="text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground mb-1 font-mono">Lokasi</p>
-          <p className="text-xs md:text-sm lg:text-base text-foreground mb-4 md:mb-6 font-medium">Imah Keramik Bogor<br />Studio Terbuka Jawa Barat</p>
-          <a
-            href="#activities"
-            className="border-b-2 border-foreground pb-1 text-xs font-bold uppercase tracking-widest hover:text-primary hover:border-primary transition-colors inline-block w-fit lg:ml-auto"
+          <div
+            className="text-left lg:text-right font-sans lg:max-w-xs flex flex-col justify-end border-l lg:border-l-0 lg:border-r border-foreground/20 pl-4 lg:pl-0 lg:pr-6 py-1"
           >
-            Lihat paket!
-          </a>
+            <p
+              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground mb-1 font-mono`}
+              style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
+            >
+              Lokasi
+            </p>
+            <p
+              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} text-xs md:text-sm lg:text-base text-foreground mb-4 md:mb-6 font-medium`}
+              style={{ '--reveal-delay': '480ms' } as React.CSSProperties}
+            >
+              Imah Keramik Bogor<br />Studio Terbuka Jawa Barat
+            </p>
+            <a
+              href="#activities"
+              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} border-b-2 border-foreground pb-1 text-xs font-bold uppercase tracking-widest hover:text-primary hover:border-primary transition-colors inline-block w-fit lg:ml-auto`}
+              style={{ '--reveal-delay': '600ms' } as React.CSSProperties}
+            >
+              Lihat paket!
+            </a>
+          </div>
         </div>
-      </div>
 
-      {/* Massive Cinematic Video */}
-      <div id="hero-video-container" className="w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-muted relative border border-foreground/10">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
-          className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-100"
-        >
-          <source src="/assets/videos/hero/studio-process.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute top-6 left-6 bg-background/90 backdrop-blur px-4 py-2 text-xs font-mono uppercase tracking-widest hidden md:block border border-foreground/10">
-          Vid. 1: Teknik Putar
+        {/* Massive Cinematic Video */}
+        <div id="hero-video-container" className="w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-muted relative border border-foreground/10">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
+            className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-100"
+          >
+            <source src="/assets/videos/hero/studio-process.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute top-6 left-6 bg-background/90 backdrop-blur px-4 py-2 text-xs font-mono uppercase tracking-widest hidden md:block border border-foreground/10">
+            Vid. 1: Teknik Putar
+          </div>
         </div>
-      </div>
-    </Container>
-  </section>
-);
+      </Container>
+    </section>
+  );
+};
 
 
 
