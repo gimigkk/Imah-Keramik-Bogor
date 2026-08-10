@@ -45,10 +45,9 @@ const TicketPerforation: React.FC<TicketPerforationProps> = ({ horizontal = fals
 
 // Single shared Price Footer Component used by all vertical cards
 const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent }) => (
-  <div 
-    className={`ticket-notch-stub w-full shrink-0 py-7 md:py-8 px-6 md:px-8 min-h-24 flex items-center justify-between ${
-      isAccent ? 'bg-[#644431]' : 'bg-[#215336]'
-    }`}
+  <div
+    className={`ticket-notch-stub w-full shrink-0 py-7 md:py-8 px-6 md:px-8 min-h-24 flex items-center justify-between ${isAccent ? 'bg-[#644431]' : 'bg-[#215336]'
+      }`}
   >
     <div>
       <span className="font-mono font-bold block text-xl md:text-2xl text-background">
@@ -155,9 +154,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   const gridPlacementClass = standalone
     ? ''
     : `${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass}`;
-  const containerClass = `ticket-shell group relative flex justify-between ${onClick ? 'cursor-pointer' : 'cursor-default'} ${gridPlacementClass} ${className} ${
-    isAccent ? 'ticket-accent text-background' : 'text-foreground'
-  }`;
+  const containerClass = `ticket-shell group relative flex justify-between ${onClick ? 'cursor-pointer' : 'cursor-default'} ${gridPlacementClass} ${className} ${isAccent ? 'ticket-accent text-background' : 'text-foreground'
+    }`;
 
   // 1. FEATURED VERTICAL TICKET (CAC — 2 cols x 2 rows vertical ticket, image under title/content)
   if (isFeatured) {
@@ -172,9 +170,11 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         {/* Top Content Area: Title & Content at top, Image expands to fill remaining space */}
         <div className="ticket-notch-body bg-background p-6 md:p-8 flex flex-col flex-1 gap-4">
           <div>
-            <div className="flex justify-between items-start mb-3">
-              {renderBadge()}
-            </div>
+            {ticket.badge && (
+              <div className="flex justify-between items-start mb-3">
+                {renderBadge()}
+              </div>
+            )}
 
             <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-2 leading-tight">
               {ticket.title}
@@ -185,7 +185,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
             {/* Tags / Included items chips */}
             {ticket.tags && ticket.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
+              <div className="hidden md:flex flex-wrap gap-1.5">
                 {ticket.tags.map((tag, idx) => (
                   <span
                     key={idx}
@@ -227,41 +227,38 @@ export const TicketCard: React.FC<TicketCardProps> = ({
     return (
       <div
         onClick={onClick ? () => onClick(ticket) : undefined}
-        className={`${containerClass} ticket-horizontal flex-col md:flex-row ${
-          isDoubleTall ? 'min-h-70 md:min-h-85' : ''
-        }`}
+        className={`${containerClass} ticket-horizontal flex-col md:flex-row ${isDoubleTall ? 'min-h-70 md:min-h-85' : ''
+          }`}
         style={style}
         data-ticket-id={ticket.id}
         data-ticket-surface={standalone ? 'modal' : 'grid'}
       >
         {/* Left Side: Image on left of title/content */}
-        <div className={`ticket-notch-body flex-1 p-6 ${isDoubleTall ? 'md:p-8' : ''} flex flex-col md:flex-row gap-6 items-center ${
-          isAccent ? 'bg-[#5c3a28]' : 'bg-background'
-        }`}>
+        <div className={`ticket-notch-body flex-1 p-6 ${isDoubleTall ? 'md:p-8' : ''} flex flex-col md:flex-row gap-6 items-stretch md:items-center ${isAccent ? 'bg-[#5c3a28]' : 'bg-background'
+          }`}>
           {ticket.image && (
             <div
               data-ticket-image
-              className={`w-full md:w-5/12 aspect-video md:aspect-auto h-full overflow-hidden border relative shrink-0 ${
-                isDoubleTall ? 'min-h-50 md:min-h-65' : 'min-h-35'
-              } ${
-                isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
-              }`}
+              className={`order-2 md:order-1 w-full md:w-5/12 aspect-video md:aspect-auto h-auto md:h-full overflow-hidden border relative shrink-0 ${isDoubleTall ? 'min-h-50 md:min-h-65' : 'min-h-35'
+                } ${isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
+                }`}
             >
               <img
                 src={ticket.image}
                 alt={ticket.title}
-                className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${
-                  isAccent ? 'mix-blend-luminosity opacity-70' : ''
-                }`}
+                className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${isAccent ? 'mix-blend-luminosity opacity-70' : ''
+                  }`}
               />
             </div>
           )}
 
-          <div className="flex-1 w-full flex flex-col justify-between h-full">
+          <div className="order-1 md:order-2 flex-1 w-full flex flex-col justify-between md:h-full">
             <div>
-              <div className="flex justify-between items-start mb-3">
-                {renderBadge() || <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Info</span>}
-              </div>
+              {ticket.badge && (
+                <div className="flex justify-between items-start mb-3">
+                  {renderBadge()}
+                </div>
+              )}
 
               <h3 className={`font-serif text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>
                 {ticket.title}
@@ -272,15 +269,14 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             </div>
 
             {ticket.tags && ticket.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
+              <div className="hidden md:flex flex-wrap gap-1.5">
                 {ticket.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded-sm ${
-                      isAccent
-                        ? 'bg-background/10 text-background/90 border-background/20'
-                        : 'bg-secondary/30 text-foreground border-foreground/15'
-                    }`}
+                    className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded-sm ${isAccent
+                      ? 'bg-background/10 text-background/90 border-background/20'
+                      : 'bg-secondary/30 text-foreground border-foreground/15'
+                      }`}
                   >
                     {tag}
                   </span>
@@ -293,23 +289,24 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         <TicketPerforation horizontal />
 
         {/* Right Side Price Stub */}
-        <div 
-          className={`ticket-notch-stub w-full md:w-56 p-6 flex flex-col justify-center items-center text-center shrink-0 ${
-            isAccent ? 'bg-[#644431]' : 'bg-[#215336]'
-          }`}
+        <div
+          className={`ticket-notch-stub w-full md:w-56 shrink-0 py-7 px-6 md:p-6 min-h-24 flex flex-row md:flex-col items-center md:justify-center justify-between text-left md:text-center ${isAccent ? 'bg-[#644431]' : 'bg-[#215336]'
+            }`}
         >
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] mb-1 text-background/60">
-            Harga Tiket
-          </span>
-          <span className="font-mono text-xl md:text-2xl font-bold block mb-1 text-background">
-            {ticket.price}
-          </span>
-          {ticket.unitLabel && (
-            <span className="font-sans text-[10px] block mb-3 text-background/60">
-              {ticket.unitLabel}
+          <div className="flex flex-col md:items-center">
+            <span className="hidden md:block font-mono text-[10px] uppercase tracking-[0.2em] mb-1 text-background/60">
+              Harga Tiket
             </span>
-          )}
-          <span className="font-mono text-[10px] uppercase tracking-widest border-b text-background/80 border-background/40">
+            <span className="font-mono font-bold block text-xl md:text-2xl md:mb-1 text-background">
+              {ticket.price}
+            </span>
+            {ticket.unitLabel && (
+              <span className="font-sans text-xs md:text-[10px] block mt-1 md:mt-0 md:mb-3 text-background/60">
+                {ticket.unitLabel}
+              </span>
+            )}
+          </div>
+          <span className="font-mono text-xs md:text-[10px] uppercase tracking-widest border-b text-background/80 border-background/40">
             Detail
           </span>
         </div>
@@ -326,13 +323,14 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       data-ticket-id={ticket.id}
       data-ticket-surface={standalone ? 'modal' : 'grid'}
     >
-      <div className={`ticket-notch-body flex-1 p-6 flex flex-col justify-between ${
-        isAccent ? 'bg-[#5c3a28]' : 'bg-background'
-      }`}>
+      <div className={`ticket-notch-body flex-1 p-6 flex flex-col justify-between ${isAccent ? 'bg-[#5c3a28]' : 'bg-background'
+        }`}>
         <div>
-          <div className="flex justify-between items-start mb-4">
-            {renderBadge() || <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Info</span>}
-          </div>
+          {ticket.badge && (
+            <div className="flex justify-between items-start mb-4">
+              {renderBadge()}
+            </div>
+          )}
 
           <h3 className={`font-serif text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>
             {ticket.title}
@@ -344,15 +342,14 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
           {/* Render Chips/Tags */}
           {ticket.tags && ticket.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-4">
+            <div className="hidden md:flex flex-wrap gap-1.5 mb-4">
               {ticket.tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded-sm ${
-                    isAccent
-                      ? 'bg-background/10 text-background/90 border-background/20'
-                      : 'bg-secondary/30 text-foreground border-foreground/15'
-                  }`}
+                  className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded-sm ${isAccent
+                    ? 'bg-background/10 text-background/90 border-background/20'
+                    : 'bg-secondary/30 text-foreground border-foreground/15'
+                    }`}
                 >
                   {tag}
                 </span>
@@ -362,7 +359,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
           {/* Render Addon Chips (for Sewa Aula) */}
           {ticket.addons && ticket.addons.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-4">
+            <div className="hidden md:flex flex-wrap gap-1.5 mb-4">
               {ticket.addons.map((addon, idx) => (
                 <span
                   key={idx}
@@ -379,20 +376,18 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         {ticket.image && (
           <div
             data-ticket-image
-            className={`w-full bg-muted overflow-hidden border relative my-2 ${
-              standalone
-                ? 'min-h-40 flex-1'
-                : ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2
-                  ? 'h-36 md:h-44'
-                  : 'h-28 md:h-32'
-            } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
+            className={`w-full bg-muted overflow-hidden border relative my-2 ${standalone
+              ? 'min-h-40 flex-1'
+              : ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2
+                ? 'h-36 md:h-44'
+                : 'h-28 md:h-32'
+              } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
           >
             <img
               src={ticket.image}
               alt={ticket.title}
-              className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${
-                isAccent ? 'mix-blend-luminosity opacity-70' : ''
-              }`}
+              className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${isAccent ? 'mix-blend-luminosity opacity-70' : ''
+                }`}
             />
           </div>
         )}

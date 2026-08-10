@@ -193,7 +193,7 @@ export const infoUmumTickets: Ticket[] = [
   {
     id: 'workshop',
     title: 'Workshop Custom',
-    price: 'Sesuai kelas dipilih',
+    price: 'Sesuai kelas',
     unitLabel: '(kustom)',
     badge: 'kustom',
     isHorizontal: true,

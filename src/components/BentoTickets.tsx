@@ -375,23 +375,23 @@ export const BentoTickets: React.FC = () => {
 
       <Container className="relative z-10">
         {/* Section Header */}
-        <div className="mb-6 md:mb-6 md:flex justify-between items-end gap-8 border-b border-foreground/20 pb-4">
-          <div>
+        <div className="mb-6 md:mb-6 flex flex-col md:flex-row justify-between items-center md:items-end gap-8 border-b border-foreground/20 pb-4">
+          <div className="w-full text-center md:text-left">
             <h2 className="font-serif text-5xl md:text-8xl text-foreground uppercase tracking-tighter leading-[0.85]">
               Aktivitas Kita.
             </h2>
           </div>
-          <p className="text-muted-foreground font-sans text-sm max-w-sm mt-6 md:mt-0 text-left md:text-right">
+          <p className="text-muted-foreground font-sans text-sm max-w-sm mt-0 text-center md:text-right text-balance">
             Pilih tiket untuk mendaftar. Tempat sangat terbatas untuk memastikan perhatian individu secara maksimal.
           </p>
         </div>
 
         {/* Activity category tabs */}
         <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-row w-full sm:w-auto gap-1 sm:gap-2">
             <button
               onClick={() => setActiveTab('keramik')}
-              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'keramik'
+              className={`flex-1 sm:flex-none px-2 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'keramik'
                 ? 'bg-foreground text-background border-foreground'
                 : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
                 }`}
@@ -400,7 +400,7 @@ export const BentoTickets: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('membatik')}
-              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'membatik'
+              className={`flex-1 sm:flex-none px-2 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'membatik'
                 ? 'bg-foreground text-background border-foreground'
                 : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
                 }`}
@@ -409,7 +409,7 @@ export const BentoTickets: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('bundling')}
-              className={`px-5 py-2 font-mono text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'bundling'
+              className={`flex-1 sm:flex-none px-2 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'bundling'
                 ? 'bg-foreground text-background border-foreground'
                 : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
                 }`}
@@ -418,7 +418,7 @@ export const BentoTickets: React.FC = () => {
             </button>
           </div>
 
-          <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">
+          <span className="hidden md:inline-block font-mono text-xs text-muted-foreground uppercase tracking-widest">
             {activeTab === 'keramik' && '3 Pilihan Kelas'}
             {activeTab === 'membatik' && '4 Pilihan Paket'}
             {activeTab === 'bundling' && '2 Pilihan Bundling'}
@@ -472,11 +472,12 @@ export const BentoTickets: React.FC = () => {
 
         {/* INFO UMUM SECTION (Always visible below tabs, text-only, 2-column grid) */}
         <div ref={infoRef} className="pt-12 border-t-2 border-dashed border-foreground/20">
-          <div className="mb-8">
+          <div className="mb-8 text-center md:text-left">
             <h3 className="font-serif text-3xl md:text-4xl uppercase tracking-tight text-foreground mb-2">
-              Informasi Umum & Sewa
+              <span className="md:hidden">Informasi Umum</span>
+              <span className="hidden md:inline">Informasi Umum & Sewa</span>
             </h3>
-            <p className="font-sans text-xs md:text-sm text-muted-foreground">
+            <p className="font-sans text-xs md:text-sm text-muted-foreground text-balance">
               Tiket masuk studio, workshop kustom, paket usaha expert, dan penyewaan aula.
             </p>
           </div>
