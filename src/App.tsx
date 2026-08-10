@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import BentoTickets from './components/BentoTickets';
@@ -6,8 +7,15 @@ import IntroSplash from './components/IntroSplash';
 import { Container } from './components/Container';
 import { SmoothScroll } from './components/SmoothScroll';
 
+const heroVideos = [
+  { id: 1, title: 'Teknik Putar', src: '/assets/videos/hero/studio-process.mp4' },
+  { id: 2, title: 'Teknik Tangan', src: '/assets/videos/hero/studio-process.mp4' },
+  { id: 3, title: 'Proses Pembakaran', src: '/assets/videos/hero/studio-process.mp4' },
+];
+
 const Hero = () => {
   const [visible, setVisible] = useState(false);
+  const [activeVideo, setActiveVideo] = useState(0);
 
   useEffect(() => {
     // The intro splash holds for 2200ms and morphs for 1100ms (total 3300ms).
@@ -16,8 +24,16 @@ const Hero = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const handlePrevVideo = () => {
+    setActiveVideo((prev) => (prev === 0 ? heroVideos.length - 1 : prev - 1));
+  };
+
+  const handleNextVideo = () => {
+    setActiveVideo((prev) => (prev === heroVideos.length - 1 ? 0 : prev + 1));
+  };
+
   return (
-    <section id="about" className="relative pt-6 md:pt-10 pb-12 md:pb-24 border-b border-foreground/20 bg-background">
+    <section id="about" className="relative pt-6 md:pt-10 pb-6 md:pb-12 border-b border-foreground/20 bg-background">
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 gap-6 md:gap-10">
           <div className="max-w-4xl">
@@ -74,19 +90,55 @@ const Hero = () => {
         </div>
 
         {/* Massive Cinematic Video */}
-        <div id="hero-video-container" className="w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-muted relative border border-foreground/10">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
-            className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-100"
-          >
-            <source src="/assets/videos/hero/studio-process.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute top-6 left-6 bg-background/90 backdrop-blur px-4 py-2 text-xs font-mono uppercase tracking-widest hidden md:block border border-foreground/10">
-            Vid. 1: Teknik Putar
+        <div id="hero-video-container" className="w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#0d0d0d] relative border border-foreground/10 mb-4">
+          {heroVideos.map((video, idx) => (
+            <video
+              key={video.id}
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
+              className={`absolute inset-0 w-full h-full object-cover filter grayscale transition-opacity duration-1000 ease-in-out ${
+                idx === activeVideo ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
+            >
+              <source src={video.src} type="video/mp4" />
+            </video>
+          ))}
+        </div>
+
+        {/* Video Controls */}
+        <div
+          className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} flex justify-between items-center px-1`}
+          style={{ '--reveal-delay': '720ms' } as React.CSSProperties}
+        >
+          <div className="font-accent italic text-base md:text-lg text-foreground/90 lowercase">
+            vid. {activeVideo + 1}: {heroVideos[activeVideo].title}
+          </div>
+          <div className="flex items-center gap-2 md:gap-3">
+            <button
+              onClick={handlePrevVideo}
+              className="flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-sm border border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-300 focus:outline-none"
+              aria-label="Previous Video"
+            >
+              <ChevronLeft className="w-3 h-3 md:w-3.5 md:h-3.5" />
+            </button>
+            <div className="flex gap-1.5 md:gap-2 mx-1">
+              {heroVideos.map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`w-1 h-1 md:w-1.5 md:h-1.5 rounded-none transition-colors duration-500 ${idx === activeVideo ? 'bg-foreground' : 'bg-foreground/20'}`}
+                />
+              ))}
+            </div>
+            <button
+              onClick={handleNextVideo}
+              className="flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-sm border border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-300 focus:outline-none"
+              aria-label="Next Video"
+            >
+              <ChevronRight className="w-3 h-3 md:w-3.5 md:h-3.5" />
+            </button>
           </div>
         </div>
       </Container>
@@ -122,7 +174,7 @@ const GalleryReviews = () => {
   ];
 
   return (
-    <section id="gallery" className="py-24 bg-background">
+    <section id="gallery" className="pt-6 pb-12 md:pt-12 md:pb-24 bg-background">
       <Container>
         <div className="mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-foreground/20 pb-8">
           <h2 className="font-serif text-5xl md:text-7xl text-foreground uppercase tracking-tighter leading-[0.85]">Karya Sebelumnya <br /><span className="font-accent italic font-normal text-[0.85em] tracking-normal text-foreground/80 lowercase">&amp; ulasan</span></h2>
