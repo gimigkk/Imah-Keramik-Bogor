@@ -20,7 +20,8 @@ export default function App() {
         <main>
           <Hero />
           <BentoTickets />
-          <GalleryReviews />
+          {/* harus redesign, blm tau mau kayak gimana */}
+          {/* <GalleryReviews /> */}
           <CTA />
         </main>
         <Footer />

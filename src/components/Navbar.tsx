@@ -19,7 +19,7 @@ export const Navbar: React.FC = () => {
         </nav>
         <a
           href="#book"
-          className="hidden md:inline-block bg-background text-foreground px-5 py-2 text-[11px] uppercase tracking-widest hover:bg-background/80 transition-colors font-sans font-bold"
+          className="inline-block bg-background text-foreground px-4 py-1.5 md:px-5 md:py-2 text-[10px] md:text-[11px] uppercase tracking-widest hover:bg-background/80 transition-colors font-sans font-bold"
         >
           Booking
         </a>
