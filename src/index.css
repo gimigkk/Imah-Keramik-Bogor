@@ -49,8 +49,8 @@
     filter: blur(20px);
     transform: translateY(150px) scale(0.8);
     transition:
-      filter 650ms cubic-bezier(.15, .01, .16, 1.02),
-      transform 650ms cubic-bezier(.15, .01, .16, 1.02),
+      filter 650ms cubic-bezier(.29, .25, .07, .99),
+      transform 650ms cubic-bezier(.29, .25, .07, .99),
       opacity 650ms linear;
     will-change: filter, opacity, transform;
   }

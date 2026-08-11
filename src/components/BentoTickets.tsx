@@ -134,7 +134,7 @@ export const BentoTickets: React.FC = () => {
       ],
       {
         duration,
-        easing: 'cubic-bezier(0.15, 0.01, 0.16, 1.02)',
+        easing: 'cubic-bezier(.29, .25, .07, .99)',
         fill: 'both',
       }
     );
@@ -150,7 +150,7 @@ export const BentoTickets: React.FC = () => {
       ],
       {
         duration,
-        easing: 'cubic-bezier(0.15, 0.01, 0.16, 1.02)',
+        easing: 'cubic-bezier(.29, .25, .07, .99)',
         fill: 'both',
       }
     );
@@ -165,7 +165,7 @@ export const BentoTickets: React.FC = () => {
         ],
         {
           duration,
-          easing: 'cubic-bezier(0.15, 0.01, 0.16, 1.02)',
+          easing: 'cubic-bezier(.29, .25, .07, .99)',
           fill: 'both',
         }
       )
