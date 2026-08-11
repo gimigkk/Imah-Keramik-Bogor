@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Container } from './Container';
+import { getTodayScheduleWIB } from '../data/schedule';
 
 const heroVideos = [
   { id: 1, title: 'Teknik Putar', src: '/assets/videos/hero/studio-process.mp4' },
@@ -11,6 +12,7 @@ const heroVideos = [
 export const Hero = () => {
   const [visible, setVisible] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
+  const todaySchedule = getTodayScheduleWIB();
 
   useEffect(() => {
     // The intro splash holds for 2200ms and morphs for 1100ms (total 3300ms).
@@ -36,11 +38,11 @@ export const Hero = () => {
               className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} flex items-center gap-3 md:gap-4 mb-4 md:mb-6`}
               style={{ '--reveal-delay': '0ms' } as React.CSSProperties}
             >
-              <span className="inline-block border border-foreground px-2.5 py-0.5 leading-none text-[10px] md:text-xs font-mono uppercase tracking-widest rounded-full">
-                OPEN
+              <span className={`inline-block border ${!todaySchedule.isOpenNow ? 'border-foreground/50 text-foreground/50' : 'border-foreground'} px-2.5 py-0.5 leading-none text-[10px] md:text-xs font-mono uppercase tracking-widest rounded-full`}>
+                {!todaySchedule.isOpenNow ? 'CLOSED' : 'OPEN'}
               </span>
               <span className="font-mono text-[11px] md:text-xs text-muted-foreground uppercase tracking-widest">
-                HARI INI: 10:00 - 18:00
+                {todaySchedule.displayText}
               </span>
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase flex flex-col">
