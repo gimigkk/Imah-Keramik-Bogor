@@ -382,7 +382,7 @@ export const BentoTickets: React.FC = () => {
             </h2>
           </div>
           <p className="text-muted-foreground font-sans text-sm max-w-sm mt-0 text-center md:text-right text-balance">
-            Pilih tiket untuk mendaftar. Tempat sangat terbatas untuk memastikan perhatian individu secara maksimal.
+            Pilih tiket untuk mendaftar. Tempat sangat terbatas untuk memastikan perhatian individu secara maksimal
           </p>
         </div>
 
