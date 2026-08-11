@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { flushSync } from 'react-dom';
 import { Container } from './Container';
 import { bundlingTickets, keramikTickets, membatikTickets, infoUmumTickets } from '../data/tickets';
@@ -248,7 +248,7 @@ export const BentoTickets: React.FC = () => {
     return Math.min(650, Math.max(100, distance * 1.4));
   };
 
-  const openTicket = (ticket: Ticket) => {
+  const openTicket = useCallback((ticket: Ticket) => {
     interactionVersionRef.current += 1;
     const outgoingModal = selectedTicket
       ? getTicketElement(selectedTicket.id, 'modal')
@@ -297,9 +297,9 @@ export const BentoTickets: React.FC = () => {
       clearMorphStyles(modalTicket);
       activeMorphRef.current = null;
     });
-  };
+  }, [selectedTicket, isClosing]);
 
-  const closeTicket = async () => {
+  const closeTicket = useCallback(async () => {
     if (!selectedTicket || isClosing) return;
 
     const closingTicket = selectedTicket;
@@ -367,7 +367,47 @@ export const BentoTickets: React.FC = () => {
       setSelectedTicket(null);
       setIsClosing(false);
     });
-  };
+  }, [selectedTicket, isClosing]);
+
+  const keramikElements = useMemo(() => keramikTickets.map((ticket, i) => (
+    <TicketCard
+      key={ticket.id}
+      ticket={ticket}
+      onClick={openTicket}
+      className={sectionVisible ? 'ticket-enter-y' : ''}
+      style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
+    />
+  )), [openTicket, sectionVisible]);
+
+  const membatikElements = useMemo(() => membatikTickets.map((ticket, i) => (
+    <TicketCard
+      key={ticket.id}
+      ticket={ticket}
+      onClick={openTicket}
+      className={sectionVisible ? 'ticket-enter-y' : ''}
+      style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
+    />
+  )), [openTicket, sectionVisible]);
+
+  const bundlingElements = useMemo(() => bundlingTickets.map((ticket, i) => (
+    <TicketCard
+      key={ticket.id}
+      ticket={ticket}
+      onClick={openTicket}
+      className={sectionVisible ? 'ticket-enter-x' : ''}
+      style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
+    />
+  )), [openTicket, sectionVisible]);
+
+  const infoUmumElements = useMemo(() => infoUmumTickets.map((ticket, i) => (
+    <TicketCard
+      key={ticket.id}
+      ticket={ticket}
+      onClick={openTicket}
+      className={infoVisible ? 'ticket-enter-y' : ''}
+      style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
+    />
+  )), [openTicket, infoVisible]);
 
   return (
     <section ref={sectionRef} id="activities" className="py-20 md:py-24 bg-card border-b border-foreground/10 relative">
@@ -426,49 +466,19 @@ export const BentoTickets: React.FC = () => {
         </div>
 
         {/* TAB 1: KERAMIK (4-column Bento Grid) */}
-        {activeTab === 'keramik' && (
-          <div key="keramik" className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
-            {keramikTickets.map((ticket, i) => (
-              <TicketCard
-                key={ticket.id}
-                ticket={ticket}
-                onClick={openTicket}
-                className={sectionVisible ? 'ticket-enter-y' : ''}
-                style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
-              />
-            ))}
-          </div>
-        )}
+        <div key="keramik" className={`grid grid-cols-1 gap-3 md:grid-cols-4 mb-20 ${activeTab === 'keramik' ? '' : 'hidden'}`}>
+          {keramikElements}
+        </div>
 
         {/* TAB 2: MEMBATIK KAYU (4-column Bento Grid) */}
-        {activeTab === 'membatik' && (
-          <div key="membatik" className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
-            {membatikTickets.map((ticket, i) => (
-              <TicketCard
-                key={ticket.id}
-                ticket={ticket}
-                onClick={openTicket}
-                className={sectionVisible ? 'ticket-enter-y' : ''}
-                style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
-              />
-            ))}
-          </div>
-        )}
+        <div key="membatik" className={`grid grid-cols-1 gap-3 md:grid-cols-4 mb-20 ${activeTab === 'membatik' ? '' : 'hidden'}`}>
+          {membatikElements}
+        </div>
 
         {/* TAB 3: BUNDLING (Full-width combination tickets — horizontal, X-axis rotation) */}
-        {activeTab === 'bundling' && (
-          <div key="bundling" className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
-            {bundlingTickets.map((ticket, i) => (
-              <TicketCard
-                key={ticket.id}
-                ticket={ticket}
-                onClick={openTicket}
-                className={sectionVisible ? 'ticket-enter-x' : ''}
-                style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
-              />
-            ))}
-          </div>
-        )}
+        <div key="bundling" className={`grid grid-cols-1 gap-3 md:grid-cols-4 mb-20 ${activeTab === 'bundling' ? '' : 'hidden'}`}>
+          {bundlingElements}
+        </div>
 
         {/* INFO UMUM SECTION (Always visible below tabs, text-only, 2-column grid) */}
         <div ref={infoRef} className="pt-12 border-t-2 border-dashed border-foreground/20">
@@ -483,15 +493,7 @@ export const BentoTickets: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
-            {infoUmumTickets.map((ticket, i) => (
-              <TicketCard
-                key={ticket.id}
-                ticket={ticket}
-                onClick={openTicket}
-                className={infoVisible ? 'ticket-enter-y' : ''}
-                style={{ '--stagger-delay': `${i * 80}ms` } as React.CSSProperties}
-              />
-            ))}
+            {infoUmumElements}
           </div>
         </div>
       </Container>

@@ -14,8 +14,24 @@ export const TileBackground: React.FC = () => {
   const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let isVisible = false;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          updatePosition();
+        }
+      },
+      { rootMargin: '150px 0px' }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
     const updatePosition = () => {
-      if (!containerRef.current || !bgRef.current) return;
+      if (!isVisible || !containerRef.current || !bgRef.current) return;
 
       const rect = containerRef.current.getBoundingClientRect();
 
@@ -39,6 +55,7 @@ export const TileBackground: React.FC = () => {
     window.addEventListener('scroll', updatePosition, { passive: true });
 
     return () => {
+      observer.disconnect();
       unsubscribe();
       window.removeEventListener('scroll', updatePosition);
     };

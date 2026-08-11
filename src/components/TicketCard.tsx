@@ -207,6 +207,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               <img
                 src={ticket.image}
                 alt={ticket.title}
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover grayscale opacity-80"
               />
             </div>
@@ -246,6 +248,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               <img
                 src={ticket.image}
                 alt={ticket.title}
+                loading="lazy"
+                decoding="async"
                 className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${isAccent ? 'mix-blend-luminosity opacity-70' : ''
                   }`}
               />
@@ -386,6 +390,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             <img
               src={ticket.image}
               alt={ticket.title}
+              loading="lazy"
+              decoding="async"
               className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${isAccent ? 'mix-blend-luminosity opacity-70' : ''
                 }`}
             />
