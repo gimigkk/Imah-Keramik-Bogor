@@ -9,7 +9,15 @@ const TILES = [
   '/tile5.svg',
 ];
 
-export const TileBackground: React.FC = () => {
+interface TileBackgroundProps {
+  gridOpacity?: number;
+  tileOpacity?: number;
+}
+
+export const TileBackground: React.FC<TileBackgroundProps> = ({ 
+  gridOpacity = 0.04, 
+  tileOpacity = 0.08 
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
 
@@ -70,8 +78,9 @@ export const TileBackground: React.FC = () => {
       >
         {/* Subtle Background Grid Pattern */}
         <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          className="absolute inset-0 pointer-events-none"
           style={{
+            opacity: gridOpacity,
             backgroundImage:
               'linear-gradient(var(--color-foreground) 1px, transparent 1px), linear-gradient(90deg, var(--color-foreground) 1px, transparent 1px)',
             backgroundSize: '80px 80px',
@@ -79,7 +88,7 @@ export const TileBackground: React.FC = () => {
         />
 
         {/* The Staggered Tiles */}
-        <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none" style={{ opacity: tileOpacity }}>
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="staggered-tiles" width="400" height="400" patternUnits="userSpaceOnUse">

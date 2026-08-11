@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
+import { TileBackground } from './TileBackground';
 
 interface IntroSplashProps {
   onComplete: () => void;
@@ -52,7 +53,7 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
       }
       setPhase('morph');
     }, 2200);
-    
+
     return () => {
       clearTimeout(tShow);
       clearTimeout(tMorph);
@@ -111,11 +112,23 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
         <source src="/assets/videos/hero/studio-process.mp4" type="video/mp4" />
       </video>
 
+      {/* Tile Overlay - Optional visual texture over the video */}
+      <div
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-out z-[5] ${phase === 'morph' ? 'opacity-0' : 'opacity-100'
+          }`}
+        style={{
+          mixBlendMode: 'overlay',
+          filter: 'invert(1) grayscale(1) brightness(2)',
+          opacity: phase === 'morph' ? 0 : 1
+        }}
+      >
+        <TileBackground gridOpacity={0.15} tileOpacity={0.4} />
+      </div>
+
       {/* Brand Text Overlay */}
       <div
-        className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-500 ease-out z-10 ${
-          phase === 'morph' ? 'opacity-0 scale-95 blur-md' : 'opacity-100'
-        }`}
+        className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-500 ease-out z-10 ${phase === 'morph' ? 'opacity-0 scale-95 blur-md' : 'opacity-100'
+          }`}
       >
         {/* Title Lines Staggered */}
         <div className="flex flex-col items-center justify-center">
