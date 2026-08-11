@@ -100,7 +100,7 @@ export const CTA = () => {
               </div>
             </div>
 
-            <div className="w-full flex-1 min-h-[250px] lg:min-h-0 aspect-[4/3] lg:aspect-auto bg-muted overflow-hidden border border-foreground/10">
+            <div className="w-full flex-1 min-h-[250px] lg:min-h-0 aspect-[4/3] lg:aspect-auto bg-muted overflow-hidden border border-foreground">
               <iframe
                 src="https://maps.google.com/maps?q=Jl.+Pembangunan+No.22%2F23A,+RT.03%2FRW.05,+Kedunghalang,+Kec.+Bogor+Utara,+Kota+Bogor,+Jawa+Barat+16158,+Indonesia&output=embed&z=16"
                 width="100%"
