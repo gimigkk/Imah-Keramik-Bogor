@@ -6,6 +6,7 @@ import IntroSplash from './components/IntroSplash';
 import { SmoothScroll } from './components/SmoothScroll';
 import { Hero } from './components/Hero';
 import { CTA } from './components/CTA';
+import { GalleryReviews } from './components/GalleryReviews';
 
 export default function App() {
   const [introDone, setIntroDone] = useState(false);
@@ -20,7 +21,7 @@ export default function App() {
           <Hero />
           <BentoTickets />
           {/* harus redesign, blm tau mau kayak gimana */}
-          {/* <GalleryReviews /> */}
+          <GalleryReviews />
           <CTA />
         </main>
         <Footer />
