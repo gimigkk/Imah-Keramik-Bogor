@@ -410,19 +410,24 @@ export const BentoTickets: React.FC = () => {
   )), [openTicket, infoVisible]);
 
   return (
-    <section ref={sectionRef} id="activities" className="py-20 md:py-24 bg-card border-b border-foreground/10 relative">
+    <section ref={sectionRef} id="activities" className="pt-12 pb-20 md:pt-16 md:pb-24 bg-card border-b border-foreground/10 relative">
       <TileBackground />
 
       <Container className="relative z-10">
         {/* Section Header */}
-        <div className="mb-6 md:mb-6 flex flex-col md:flex-row justify-between items-center md:items-end gap-8 border-b border-foreground/20 pb-4">
-          <div className="w-full text-center md:text-left">
-            <h2 className="font-serif text-5xl md:text-8xl text-foreground uppercase tracking-tighter leading-[0.85]">
+        <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-foreground/20 pb-4">
+          <div>
+            <div className="mb-3">
+              <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-3 py-1.5 font-bold text-foreground inline-block">
+                Workshop &amp; Kelas
+              </span>
+            </div>
+            <h2 className="font-serif text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">
               Aktivitas Kita.
             </h2>
           </div>
-          <p className="text-muted-foreground font-sans text-sm max-w-sm mt-0 text-center md:text-right text-balance">
-            Pilih tiket untuk mendaftar. Tempat sangat terbatas untuk memastikan perhatian individu secara maksimal
+          <p className="text-muted-foreground font-sans text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">
+            Pilih tiket untuk mendaftar.<br className="hidden md:inline" /> Tempat sangat terbatas untuk perhatian individu maksimal.
           </p>
         </div>
 

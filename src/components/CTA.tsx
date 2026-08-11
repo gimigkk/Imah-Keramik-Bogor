@@ -31,7 +31,7 @@ export const CTA = () => {
   };
 
   return (
-    <section ref={sectionRef} id="book" className="py-24 bg-background border-t border-foreground/20 relative z-10">
+    <section ref={sectionRef} id="book" className="py-24 bg-background relative z-10">
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 lg:items-stretch">
 

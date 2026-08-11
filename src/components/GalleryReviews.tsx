@@ -2,9 +2,10 @@ import { Container } from './Container';
 
 export const GalleryReviews = () => {
   // All 16 real Google Reviews from Imah Keramik Bogor customers with exact direct Google share links
-  // Balanced into 4 equal-height column chunks (2 photo reviews + 2 text-only reviews per column)
+  // All 16 real Google Reviews from Imah Keramik Bogor customers with exact direct Google share links
+  // Items 0..3 are the top 4 highlight reviews displayed on mobile viewports (< sm)
   const reviews = [
-    // --- Column 1 Chunk ---
+    // --- Top 4 Highlights (Mobile & Column 1) ---
     {
       author: "Anisa S.",
       time: "12:15",
@@ -16,11 +17,29 @@ export const GalleryReviews = () => {
       aspect: "aspect-[16/9]"
     },
     {
+      author: "Dwi T.",
+      time: "15:25",
+      quote: "Tempat wisata edukatif semua usia, menyenangkan utk mulai Belajar membuat kreasi keramik dari Tanah liat, Dan jg menbatik di kayu,, jg proses pewarnaannya,, pertama Kali kesini agenda outing ktr pas weekday, ketemu pemilik Lgsg sekaligus pemandunya Dan mereka sangat ramah bersahaja Dan tidak Pelit berbagi ilmu , jg Bisa humoris pas break time disediakan snack, kopi Dan Teh manis hangat,, Sangat welcome bagi siapa sja yg dtg mau Belajar Dan berkreasi,, tempatnya luas, Mushola dan toilet ada Dan Nyaman, Suasana Di Sana jg adem, rasanya mau balik lg kesini dengan anak anak krn pasti akan seru 🤩🥰🤗",
+      url: "https://share.google/W7QORv3ydk2OqpV1x",
+      /* TO BE CHANGED: Replace with real Google review photo from Dwi T. */
+      img: "https://images.unsplash.com/photo-1621846323386-a60faf26f962?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      alt: "Proses edukasi kriya keramik",
+      aspect: "aspect-[3/2]"
+    },
+    {
       author: "Satya M.",
       time: "11:45",
       quote: "SERU BANGET ! Terimakasih banyak bapak dan ibu yang udah ikut membantu proses tugas kami pak, kegiatan nya seru banget dan sangat informatif dan menginspirasi 🤩",
       url: "https://share.google/JCfk8ROHTkCCMXW2e",
     },
+    {
+      author: "Siti J.",
+      time: "10:14",
+      quote: "they welcome customers warmly, kebetulan dateng kesini after 4 days lebaran jadi sepi bgt dan belum beroperasi juga karena karyawan lainnya lagi pada mudik hihi tapi tetep welcome buat yg mau coba kerajinan disini seru bgt kita di ajak tour dulu liat' sekitar tempat pembuatannya dan tentunya kita di temenin sama pekerja disana juga paa kita lagi buat kerajinan pokoknya org' disanaa baik' ramah' poll jadi nyaman kitanya hehe",
+      url: "https://share.google/725tcptBt413Djn6K",
+    },
+
+    // --- Column 2 Chunk ---
     {
       author: "Devi A.",
       time: "13:00",
@@ -30,24 +49,6 @@ export const GalleryReviews = () => {
       img: "https://images.unsplash.com/photo-1582140099533-11fe4d348e01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
       alt: "Belajar membatik media kayu",
       aspect: "aspect-[4/3]"
-    },
-    {
-      author: "Chika N.",
-      time: "13:40",
-      quote: "Tempat yang fun dan edukatif, seru untuk menghabiskan waktu bersama sahabat juga cocok buat mengisi waktu bersama anak mau remaja supaya lepas dari gadget. Bapak dan ibunya juga sangat ramah dan edukatif saat mendampingi kita membatik atau membuat fun clay.",
-      url: "https://share.google/HGy64LPR2DjqPG2Sz",
-    },
-
-    // --- Column 2 Chunk ---
-    {
-      author: "Dwi T.",
-      time: "15:25",
-      quote: "Tempat wisata edukatif semua usia, menyenangkan utk mulai Belajar membuat kreasi keramik dari Tanah liat, Dan jg menbatik di kayu,, jg proses pewarnaannya,, pertama Kali kesini agenda outing ktr pas weekday, ketemu pemilik Lgsg sekaligus pemandunya Dan mereka sangat ramah bersahaja Dan tidak Pelit berbagi ilmu , jg Bisa humoris pas break time disediakan snack, kopi Dan Teh manis hangat,, Sangat welcome bagi siapa sja yg dtg mau Belajar Dan berkreasi,, tempatnya luas, Mushola dan toilet ada Dan Nyaman, Suasana Di Sana jg adem, rasanya mau balik lg kesini dengan anak anak krn pasti akan seru 🤩🥰🤗",
-      url: "https://share.google/W7QORv3ydk2OqpV1x",
-      /* TO BE CHANGED: Replace with real Google review photo from Dwi T. */
-      img: "https://images.unsplash.com/photo-1621846323386-a60faf26f962?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-      alt: "Proses edukasi kriya keramik",
-      aspect: "aspect-[3/2]"
     },
     {
       author: "Dedi S.",
@@ -66,10 +67,10 @@ export const GalleryReviews = () => {
       aspect: "aspect-[14/9]"
     },
     {
-      author: "Qadariah E.",
-      time: "14:50",
-      quote: "Untuk wahana edukasi dann kreasi anak sangat cocok memperkenalkan handcraft. Tempatnya luas jadi sangat cocok untuk tempat edukasi tentang kriya keramik.",
-      url: "https://share.google/CZ6qTF9zfKJVF8gCy",
+      author: "Chika N.",
+      time: "13:40",
+      quote: "Tempat yang fun dan edukatif, seru untuk menghabiskan waktu bersama sahabat juga cocok buat mengisi waktu bersama anak mau remaja supaya lepas dari gadget. Bapak dan ibunya juga sangat ramah dan edukatif saat mendampingi kita membatik atau membuat fun clay.",
+      url: "https://share.google/HGy64LPR2DjqPG2Sz",
     },
 
     // --- Column 3 Chunk ---
@@ -118,10 +119,10 @@ export const GalleryReviews = () => {
       aspect: "aspect-[21/9]"
     },
     {
-      author: "Siti J.",
-      time: "10:14",
-      quote: "they welcome customers warmly, kebetulan dateng kesini after 4 days lebaran jadi sepi bgt dan belum beroperasi juga karena karyawan lainnya lagi pada mudik hihi tapi tetep welcome buat yg mau coba kerajinan disini seru bgt kita di ajak tour dulu liat' sekitar tempat pembuatannya dan tentunya kita di temenin sama pekerja disana juga paa kita lagi buat kerajinan pokoknya org' disanaa baik' ramah' poll jadi nyaman kitanya hehe",
-      url: "https://share.google/725tcptBt413Djn6K",
+      author: "Qadariah E.",
+      time: "14:50",
+      quote: "Untuk wahana edukasi dann kreasi anak sangat cocok memperkenalkan handcraft. Tempatnya luas jadi sangat cocok untuk tempat edukasi tentang kriya keramik.",
+      url: "https://share.google/CZ6qTF9zfKJVF8gCy",
     },
     {
       author: "Sarah M.",
@@ -142,14 +143,14 @@ export const GalleryReviews = () => {
   ];
 
   return (
-    <section id="gallery" className="pt-12 pb-20 md:pt-16 md:pb-24 bg-background overflow-hidden border-b border-foreground/10">
+    <section id="gallery" className="pt-12 pb-20 md:pt-16 md:pb-24 bg-background overflow-hidden">
       <Container>
         {/* Section Header */}
         <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-foreground/20 pb-4">
           <div>
             <div className="mb-3">
               <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-3 py-1.5 font-bold text-foreground inline-block">
-                Real Google Reviews
+                Google Reviews
               </span>
             </div>
             <h2 className="font-serif text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">
@@ -169,7 +170,8 @@ export const GalleryReviews = () => {
               href={review.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="break-inside-avoid inline-block w-full group relative bg-white text-[#111b21] rounded-2xl rounded-tl-none p-3 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border border-black/5"
+              className={`break-inside-avoid w-full group relative bg-white text-[#111b21] rounded-md rounded-tl-none p-3 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border border-black/5 ${idx >= 4 ? 'hidden sm:inline-block' : 'inline-block'
+                }`}
             >
               {/* WhatsApp Top-Left White Speech Tail */}
               <svg className="absolute -top-[1px] -left-2 text-white" width="10" height="12" viewBox="0 0 10 12" fill="currentColor">
@@ -183,7 +185,7 @@ export const GalleryReviews = () => {
                 </span>
                 <span className="text-[9px] font-sans px-1.5 py-0.5 rounded bg-black/5 text-[#54656f] flex items-center gap-1 font-semibold shrink-0">
                   <svg viewBox="0 0 24 24" width="9" height="9" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z" />
                   </svg>
                   Google Review
                 </span>
@@ -191,11 +193,11 @@ export const GalleryReviews = () => {
 
               {/* Participant's Creation Image (Optional) */}
               {review.img && (
-                <div className={`relative overflow-hidden rounded-xl bg-black/5 mb-2 w-full ${review.aspect}`}>
+                <div className={`relative overflow-hidden rounded-sm bg-black/5 mb-2 w-full ${review.aspect}`}>
                   <img
                     src={review.img}
                     alt={review.alt || "Karya peserta"}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
@@ -208,14 +210,14 @@ export const GalleryReviews = () => {
 
               {/* Review Text */}
               <p className="font-sans text-xs text-[#111b21] leading-relaxed mb-2.5">
-                "{review.quote}"
+                {review.quote}
               </p>
 
               {/* Footer: WhatsApp Timestamp + Double Checkmark */}
               <div className="flex items-center justify-end gap-1 text-[10px] text-[#667781] mt-1">
                 <span>{review.time}</span>
                 <svg viewBox="0 0 16 11" width="12" height="9" fill="#53bdeb">
-                  <path d="M15.01 3.316l-6.59 6.591L4.83 6.316l.896-.896 2.7 2.7 5.69-5.69.894.896zm-4.7 0l-.895-.896-4.8 4.8-1.8-1.8-.896.896 2.7 2.7 5.69-5.69z"/>
+                  <path d="M15.01 3.316l-6.59 6.591L4.83 6.316l.896-.896 2.7 2.7 5.69-5.69.894.896zm-4.7 0l-.895-.896-4.8 4.8-1.8-1.8-.896.896 2.7 2.7 5.69-5.69z" />
                 </svg>
               </div>
             </a>
