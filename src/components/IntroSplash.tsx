@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
 interface IntroSplashProps {
   onComplete: () => void;
@@ -14,6 +14,8 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
   const [phase, setPhase] = useState<'hold' | 'morph' | 'done'>('hold');
   const [textVisible, setTextVisible] = useState(false);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const onCompleteCb = useCallback(onComplete, [onComplete]);
 
   // Disable scrolling during intro and force scroll position to top
@@ -30,9 +32,18 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
     };
   }, []);
 
-  // Step 1: Trigger float-up blur stagger entrance right after mount
+  // Handle case where video is already loaded (e.g. from cache)
+  useEffect(() => {
+    if (videoRef.current && videoRef.current.readyState >= 2) {
+      setVideoLoaded(true);
+    }
+  }, []);
+
+  // Step 1: Trigger float-up blur stagger entrance right after video loads
   // Step 2: Hold for 2.2s, then measure target and trigger morph
   useEffect(() => {
+    if (!videoLoaded) return;
+
     const tShow = setTimeout(() => setTextVisible(true), 80);
     const tMorph = setTimeout(() => {
       const target = document.getElementById('hero-video-container');
@@ -46,7 +57,7 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
       clearTimeout(tShow);
       clearTimeout(tMorph);
     };
-  }, []);
+  }, [videoLoaded]);
 
   // Step 3: Wait for transition to finish, then unmount
   useEffect(() => {
@@ -88,12 +99,14 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
       aria-hidden="true"
     >
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
+        onLoadedData={() => setVideoLoaded(true)}
         poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
-        className="intro-clone-video"
+        className={`intro-clone-video ${videoLoaded ? 'video-loaded' : ''}`}
       >
         <source src="/assets/videos/hero/studio-process.mp4" type="video/mp4" />
       </video>
