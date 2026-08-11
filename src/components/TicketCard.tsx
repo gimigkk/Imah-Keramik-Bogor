@@ -183,19 +183,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               {ticket.description}
             </p>
 
-            {/* Tags / Included items chips */}
-            {ticket.tags && ticket.tags.length > 0 && (
-              <div className="hidden md:flex flex-wrap gap-1.5">
-                {ticket.tags.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 bg-secondary/30 text-foreground border border-foreground/10 rounded-sm"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
+
           </div>
 
           {/* Image stays desaturated with no hover effects */}
@@ -272,21 +260,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               </p>
             </div>
 
-            {ticket.tags && ticket.tags.length > 0 && (
-              <div className="hidden md:flex flex-wrap gap-1.5">
-                {ticket.tags.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded-sm ${isAccent
-                      ? 'bg-background/10 text-background/90 border-background/20'
-                      : 'bg-secondary/30 text-foreground border-foreground/15'
-                      }`}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
+
           </div>
         </div>
 
@@ -344,36 +318,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             {ticket.description}
           </p>
 
-          {/* Render Chips/Tags */}
-          {ticket.tags && ticket.tags.length > 0 && (
-            <div className="hidden md:flex flex-wrap gap-1.5 mb-4">
-              {ticket.tags.map((tag, idx) => (
-                <span
-                  key={idx}
-                  className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded-sm ${isAccent
-                    ? 'bg-background/10 text-background/90 border-background/20'
-                    : 'bg-secondary/30 text-foreground border-foreground/15'
-                    }`}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
 
-          {/* Render Addon Chips (for Sewa Aula) */}
-          {ticket.addons && ticket.addons.length > 0 && (
-            <div className="hidden md:flex flex-wrap gap-1.5 mb-4">
-              {ticket.addons.map((addon, idx) => (
-                <span
-                  key={idx}
-                  className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 bg-primary/20 text-foreground border border-foreground/20 rounded-sm font-semibold"
-                >
-                  {addon}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Optional Card Image slot */}
