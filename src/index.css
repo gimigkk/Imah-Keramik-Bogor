@@ -351,7 +351,7 @@
 }
 
 .intro-clone--morph .intro-clone-video {
-  filter: grayscale(1) blur(0px) brightness(1);
+  filter: grayscale(0) blur(0px) brightness(1);
   transform: scale(1);
 }
 

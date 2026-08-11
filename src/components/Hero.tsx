@@ -94,7 +94,7 @@ export const Hero = () => {
               muted
               playsInline
               poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
-              className={`absolute inset-0 w-full h-full object-cover filter grayscale transition-opacity duration-1000 ease-in-out ${
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
                 idx === activeVideo ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
             >
