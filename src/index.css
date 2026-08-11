@@ -47,7 +47,7 @@
   .modal-reveal-panel {
     opacity: 0;
     filter: blur(20px);
-    transform: translateY(150px);
+    transform: translateY(150px) scale(0.8);
     transition:
       filter 650ms cubic-bezier(.15, .01, .16, 1.02),
       transform 650ms cubic-bezier(.15, .01, .16, 1.02),
@@ -58,7 +58,7 @@
   .modal-reveal-panel-visible {
     opacity: 1;
     filter: blur(0);
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     transition-delay: var(--reveal-delay, 0ms);
   }
 
@@ -313,7 +313,7 @@
 .intro-float-panel {
   opacity: 0;
   filter: blur(20px);
-  transform: translateY(60px);
+  transform: translateY(60px) scale(0.75);
   transition:
     filter 850ms cubic-bezier(.15, .01, .16, 1.02),
     transform 850ms cubic-bezier(.15, .01, .16, 1.02),
@@ -324,7 +324,7 @@
 .intro-float-panel-visible {
   opacity: 1;
   filter: blur(0);
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
