@@ -16,8 +16,12 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const onCompleteCb = useCallback(onComplete, [onComplete]);
 
-  // Disable scrolling during intro
+  // Disable scrolling during intro and force scroll position to top
   useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
     document.body.style.overflow = 'hidden';
     document.body.setAttribute('data-scroll-locked', 'true');
     return () => {

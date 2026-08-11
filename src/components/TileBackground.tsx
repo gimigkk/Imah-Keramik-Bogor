@@ -18,7 +18,6 @@ export const TileBackground: React.FC = () => {
       if (!containerRef.current || !bgRef.current) return;
 
       const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
 
       // Calculate parallax offset based ONLY on the section's top position relative to the viewport.
       // This completely decouples the background position from the section's height,

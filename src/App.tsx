@@ -5,7 +5,6 @@ import BentoTickets from './components/BentoTickets';
 import IntroSplash from './components/IntroSplash';
 import { SmoothScroll } from './components/SmoothScroll';
 import { Hero } from './components/Hero';
-import { GalleryReviews } from './components/GalleryReviews';
 import { CTA } from './components/CTA';
 
 export default function App() {

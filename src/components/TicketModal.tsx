@@ -1,5 +1,4 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { X } from 'lucide-react';
 import { Ticket } from '../types/ticket';
 import { getTicketWhatsappMessage } from '../data/tickets';
 import { ActivityDetails } from './ActivityDetails';

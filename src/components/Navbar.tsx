@@ -4,7 +4,7 @@ import brandIcon from '@/imports/image.png';
 
 export const Navbar: React.FC = () => {
   return (
-    <header className="sticky top-0 w-full z-100 py-2.5 bg-[#0c4723]/85 backdrop-blur-md backdrop-saturate-200 text-background transition-all duration-300">
+    <header className="sticky top-0 w-full z-100 py-2.5 bg-[#043e1b]/85 backdrop-blur-md backdrop-saturate-200 text-background transition-all duration-300">
       <Container className="flex justify-between items-center">
         <div className="flex items-center gap-2.5">
           <img src={brandIcon} alt="Brand Icon" className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover shrink-0" />
@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
             Imah<br />Keramik<br />Bogor.
           </a>
         </div>
-        <nav className="hidden md:flex gap-10 font-sans text-xs font-medium tracking-widest uppercase text-background/70">
+        <nav className="hidden md:flex gap-10 font-sans text-xs font-bold tracking-widest uppercase text-background/85">
           <a href="#about" className="hover:text-background transition-colors">Brand</a>
           <a href="#activities" className="hover:text-background transition-colors">Aktivitas</a>
           <a href="#gallery" className="hover:text-background transition-colors">Ulasan</a>

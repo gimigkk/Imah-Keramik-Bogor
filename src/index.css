@@ -260,9 +260,13 @@
 
   .modal-reveal-panel,
   .modal-scrim-blur,
-  .modal-scrim-dim {
-    transition: none;
+  .modal-scrim-dim,
+  .intro-float-panel {
+    transition: none !important;
     will-change: auto;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
   }
 
   .ticket-enter-y,
