@@ -71,11 +71,11 @@ export const Footer: React.FC = () => {
                 </div>
                 <ul className="font-sans text-xs md:text-sm text-background/80 space-y-2 max-w-[200px]">
                   <li className="flex justify-between items-center gap-3">
-                    <span className="text-background/60">Sel — Jum</span>
+                    <span className="text-background/60">Sel - Jum</span>
                     <span className="font-mono text-background/95 font-medium whitespace-nowrap">13:00 – 18:00</span>
                   </li>
                   <li className="flex justify-between items-center gap-3">
-                    <span className="text-background/60">Sab — Min</span>
+                    <span className="text-background/60">Sab - Min</span>
                     <span className="font-mono text-background/95 font-medium whitespace-nowrap">10:00 – 18:00</span>
                   </li>
                   <li className="flex justify-between items-center gap-3">

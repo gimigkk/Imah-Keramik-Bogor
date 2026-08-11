@@ -1,4 +1,4 @@
-# Imah Keramik Bogor — UX Concept & Digital Hub Design
+# Imah Keramik Bogor - UX Concept & Digital Hub Design
 
 A web design and digital product concept built for **Imah Keramik Bogor**, an educational ceramic studio and cultural tourism venue in Bogor, Indonesia.
 
@@ -6,7 +6,7 @@ A web design and digital product concept built for **Imah Keramik Bogor**, an ed
 
 ## Background & Problem Statement
 
-Imah Keramik Bogor currently operates **without a dedicated website**. All information—ranging from entrance fees and workshop packages to facility rules and booking links—is scattered across Instagram posts, story highlights, and static brochure photos.
+Imah Keramik Bogor currently operates **without a dedicated website**. All information-ranging from entrance fees and workshop packages to facility rules and booking links-is scattered across Instagram posts, story highlights, and static brochure photos.
 
 This creates critical friction for prospective visitors:
 1. **Scattered Information Architecture**: Users must dig through social media posts to piece together pricing across general admission, ceramic art classes, batik workshops, and room rentals.

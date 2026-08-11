@@ -157,7 +157,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   const containerClass = `ticket-shell group relative flex justify-between ${onClick ? 'cursor-pointer' : 'cursor-default'} ${gridPlacementClass} ${className} ${isAccent ? 'ticket-accent text-background' : 'text-foreground'
     }`;
 
-  // 1. FEATURED VERTICAL TICKET (CAC — 2 cols x 2 rows vertical ticket, image under title/content)
+  // 1. FEATURED VERTICAL TICKET (CAC - 2 cols x 2 rows vertical ticket, image under title/content)
   if (isFeatured) {
     return (
       <div
@@ -223,7 +223,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
     );
   }
 
-  // 2. HORIZONTAL TICKET BRANCH (Bundling — Image on Left, Content in Middle, Vertical Rip & Price Stub on Right)
+  // 2. HORIZONTAL TICKET BRANCH (Bundling - Image on Left, Content in Middle, Vertical Rip & Price Stub on Right)
   if (isAccent || ticket.isHorizontal) {
     const isDoubleTall = ticket.gridSpan?.rows === 2;
     return (

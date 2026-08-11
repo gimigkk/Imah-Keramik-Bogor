@@ -1,6 +1,6 @@
 # Katalog Imah Keramik Bogor
 
-Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disalin persis dari brosur. Field `badge`, `tags`, dan pengelompokan tampilan adalah keputusan desain UX (bukan teks brosur) — ditandai jelas di tiap bagian.
+Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disalin persis dari brosur. Field `badge`, `tags`, dan pengelompokan tampilan adalah keputusan desain UX (bukan teks brosur) - ditandai jelas di tiap bagian.
 
 ## Info bisnis
 
@@ -14,10 +14,10 @@ Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disa
 
 ## Struktur kategori (untuk tampilan web)
 
-- **Info Umum** — HTM, Workshop, Paket Usaha, Sewa Aula. Selalu tampil, tidak masuk tab. Sesuai brosur asli, kelompok ini tidak berada di bawah header "KERAMIK".
-- **Keramik** — tab pertama (default aktif): Fun Clay, Ceramic Art Class, dan Glaze Coloring.
-- **Membatik Kayu** — tab kedua: Paket 1–4, masing-masing sebagai tiket terpisah.
-- **Bundling** — tab ketiga: Paket Fun Clay + Membatik serta Paket CAC/Glaze Coloring + Membatik.
+- **Info Umum** - HTM, Workshop, Paket Usaha, Sewa Aula. Selalu tampil, tidak masuk tab. Sesuai brosur asli, kelompok ini tidak berada di bawah header "KERAMIK".
+- **Keramik** - tab pertama (default aktif): Fun Clay, Ceramic Art Class, dan Glaze Coloring.
+- **Membatik Kayu** - tab kedua: Paket 1–4, masing-masing sebagai tiket terpisah.
+- **Bundling** - tab ketiga: Paket Fun Clay + Membatik serta Paket CAC/Glaze Coloring + Membatik.
 
 ---
 
@@ -26,7 +26,7 @@ Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disa
 ### HTM (Tiket Masuk)
 - **Harga:** Rp 15.000 / orang
 - **Unit:** `per_orang`
-- **Badge:** — (tidak ada)
+- **Badge:** - (tidak ada)
 - **Deskripsi (dari brosur):** Melihat proses pengolahan bahan baku, proses putar, proses mug tuang, proses dekor kerok, proses mewarna glazur celup, tungku bakar/kiln.
 - **Gambar:** tidak wajib (Info Umum tidak pakai foto)
 
@@ -45,8 +45,8 @@ Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disa
 
 ### Sewa Aula
 - **Harga dasar:** Rp 300.000 / 2 jam (maks. 30 orang)
-- **Unit:** `per_2jam` — satuan berbeda dari tiket lain, bukan per orang
-- **Badge:** — (tidak ada)
+- **Unit:** `per_2jam` - satuan berbeda dari tiket lain, bukan per orang
+- **Badge:** - (tidak ada)
 - **Biaya tambahan (dari brosur):**
   - +Rp 150.000 / jam tambahan
   - +Rp 10.000 / orang tambahan
@@ -58,14 +58,14 @@ Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disa
 ### Fun Clay
 - **Harga:** Rp 75.000 / orang / sesi
 - **Unit:** `per_orang`
-- **Badge:** — (tidak ada)
+- **Badge:** - (tidak ada)
 - **Termasuk (dari brosur):** Factory visit, kelas tutorial membentuk tanah liat, alat dan bahan.
 - **Gambar:** wajib
 
 ### Ceramic Art Class (CAC)
 - **Harga:** Rp 200.000 / orang / sesi
 - **Unit:** `per_orang`
-- **Badge (UX):** Favorit — tampil sebagai hero card (ukuran lebih besar)
+- **Badge (UX):** Favorit - tampil sebagai hero card (ukuran lebih besar)
 - **Termasuk (dari brosur):** Factory visit, kelas tutorial pembuatan keramik, alat dan bahan, 2x pembakaran, pemberian glazur 1 warna.
 - **Tags (UX, ditampilkan di kartu):** Factory visit · 2x pembakaran · Glazur 1 warna
 - **Gambar:** wajib
@@ -73,7 +73,7 @@ Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disa
 ### Glaze Coloring
 - **Harga:** Rp 200.000 / orang / sesi
 - **Unit:** `per_orang`
-- **Badge:** — (tidak ada)
+- **Badge:** - (tidak ada)
 - **Termasuk (dari brosur):** 1 body bisque, tutorial mewarnai glazur, beragam pilihan warna, 1x pembakaran glazur.
 - **Gambar:** wajib
 
@@ -115,7 +115,7 @@ Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disa
 
 ## 5. Data terstruktur (opsional, siap pakai untuk kode)
 
-Sesuai tipe `Ticket` yang dipakai di spek layout — bisa langsung dijadikan seed data / JSON di project.
+Sesuai tipe `Ticket` yang dipakai di spek layout - bisa langsung dijadikan seed data / JSON di project.
 
 ```json
 [
@@ -265,4 +265,4 @@ Sesuai tipe `Ticket` yang dipakai di spek layout — bisa langsung dijadikan see
 
 - Semua harga, satuan, dan isi paket di atas disalin persis dari brosur asli.
 - Yang **bukan** dari brosur (murni keputusan UX untuk kebutuhan tampilan web): badge (`favorit`, `hemat`, `kustom`, `expert`), tags/chip di tiap kartu, pemisahan Paket Membatik 1–4 menjadi tiket individual, tab Bundling, dan `gridSpan` untuk ukuran kartu di bento grid.
-- Pengelompokan "Info Umum" (HTM, Workshop, Paket Usaha, Sewa Aula) mengikuti struktur brosur asli — bukan bagian dari kategori "Keramik".
+- Pengelompokan "Info Umum" (HTM, Workshop, Paket Usaha, Sewa Aula) mengikuti struktur brosur asli - bukan bagian dari kategori "Keramik".

@@ -55,7 +55,7 @@ export const GalleryReviews = () => {
                   "{review.quote}"
                 </blockquote>
                 <div className="text-xs font-sans font-bold uppercase tracking-widest text-foreground">
-                  — {review.author}
+                  - {review.author}
                 </div>
               </div>
             </div>

@@ -475,7 +475,7 @@ export const BentoTickets: React.FC = () => {
           {membatikElements}
         </div>
 
-        {/* TAB 3: BUNDLING (Full-width combination tickets — horizontal, X-axis rotation) */}
+        {/* TAB 3: BUNDLING (Full-width combination tickets - horizontal, X-axis rotation) */}
         <div key="bundling" className={`grid grid-cols-1 gap-3 md:grid-cols-4 mb-20 ${activeTab === 'bundling' ? '' : 'hidden'}`}>
           {bundlingElements}
         </div>

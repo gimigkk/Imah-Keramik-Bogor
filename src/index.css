@@ -224,7 +224,7 @@
 
 
 
-  /* Ticket grid entrance — float up + 3D rotation with bounce */
+  /* Ticket grid entrance - float up + 3D rotation with bounce */
   @keyframes ticketEnterY {
     from {
       opacity: 0;
@@ -260,6 +260,7 @@
         filter: blur(8px);
         transform: perspective(9999px) translateY(70px) rotateY(70deg);
       }
+
       to {
         opacity: 1;
         filter: blur(0);
@@ -273,6 +274,7 @@
         filter: blur(8px);
         transform: perspective(9999px) translateY(70px) rotateX(70deg);
       }
+
       to {
         opacity: 1;
         filter: blur(0);
