@@ -28,6 +28,7 @@ export const BentoTickets: React.FC = () => {
   const activeMorphRef = useRef<MorphController | null>(null);
   const closingMorphsRef = useRef(new Map<string, ClosingMorph>());
   const interactionVersionRef = useRef(0);
+  const pushedHistoryRef = useRef(false);
 
   useEffect(() => {
     const opts = { threshold: 0.08 };
@@ -249,6 +250,11 @@ export const BentoTickets: React.FC = () => {
   };
 
   const openTicket = useCallback((ticket: Ticket) => {
+    if (!pushedHistoryRef.current) {
+      window.history.pushState({ modalOpen: true }, '', window.location.href);
+      pushedHistoryRef.current = true;
+    }
+
     interactionVersionRef.current += 1;
     const outgoingModal = selectedTicket
       ? getTicketElement(selectedTicket.id, 'modal')
@@ -301,6 +307,11 @@ export const BentoTickets: React.FC = () => {
 
   const closeTicket = useCallback(async () => {
     if (!selectedTicket || isClosing) return;
+
+    if (pushedHistoryRef.current) {
+      pushedHistoryRef.current = false;
+      window.history.back();
+    }
 
     const closingTicket = selectedTicket;
     const closeVersion = ++interactionVersionRef.current;
@@ -368,6 +379,20 @@ export const BentoTickets: React.FC = () => {
       setIsClosing(false);
     });
   }, [selectedTicket, isClosing]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (pushedHistoryRef.current) {
+        pushedHistoryRef.current = false;
+        closeTicket();
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [closeTicket]);
 
   const keramikElements = useMemo(() => keramikTickets.map((ticket, i) => (
     <TicketCard
