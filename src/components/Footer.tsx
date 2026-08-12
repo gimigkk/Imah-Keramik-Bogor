@@ -17,7 +17,12 @@ export const Footer: React.FC = () => {
           {/* Left: Brand Title (col-span-5) */}
           <div className="lg:col-span-5">
             <h2 className="font-brand text-3xl md:text-4xl lg:text-5xl leading-[0.88] tracking-wide uppercase text-background font-extrabold">
-              Imah<br />Keramik<br />Bogor.
+              {site.name.split(' ').map((word, index, words) => (
+                <React.Fragment key={word}>
+                  {index === words.length - 1 ? `${word}.` : word}
+                  {index < words.length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </h2>
           </div>
 
@@ -65,7 +70,7 @@ export const Footer: React.FC = () => {
                 <div className="mb-2.5 sm:mb-3">
                   <p className="font-mono text-xs uppercase tracking-widest text-background/50 font-bold">Jam Buka</p>
                 </div>
-                <ul className="font-sans text-xs md:text-sm text-background/80 space-y-2 max-w-[200px]">
+                <ul className="font-sans text-xs md:text-sm text-background/80 space-y-2 max-w-50">
                   {openingHoursSummary.map(({ label, value, isClosed }) => (
                     <li key={label} className="flex justify-between items-center gap-3">
                       <span className={isClosed ? 'text-background/50' : 'text-background/60'}>{label}</span>
@@ -81,8 +86,11 @@ export const Footer: React.FC = () => {
                   <p className="font-mono text-xs uppercase tracking-widest text-background/50 font-bold">Lokasi</p>
                 </div>
                 <address className="not-italic font-sans text-xs md:text-sm text-background/80 leading-relaxed">
-                  {site.address.displayLines.map((line) => (
-                    <React.Fragment key={line}>{line}<br /></React.Fragment>
+                  {site.address.displayLines.map((line, index) => (
+                    <React.Fragment key={line}>
+                      {line}
+                      {index < site.address.displayLines.length - 1 && <br />}
+                    </React.Fragment>
                   ))}
                 </address>
               </div>

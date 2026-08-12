@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { TileBackground } from './TileBackground';
 import { pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
+import { mediaAssets } from '../data/assets';
 
 interface IntroSplashProps {
   onComplete: () => void;
@@ -139,7 +140,7 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
       aria-label="Pembuka Imah Keramik Bogor"
     >
       <img
-        src="/assets/images/hero-poster.webp"
+        src={mediaAssets.hero.poster}
         alt=""
         width="1280"
         height="720"
@@ -155,17 +156,17 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
         playsInline
         preload={reduceMotion ? 'none' : 'auto'}
         onLoadedData={() => setVideoLoaded(true)}
-        poster="/assets/images/hero-poster.webp"
+        poster={mediaAssets.hero.poster}
         aria-hidden="true"
         className={`intro-clone-video ${videoLoaded ? 'video-loaded' : ''}`}
       >
-        <source src="/assets/videos/hero/studio-process.webm" type="video/webm" />
-        <source src="/assets/videos/hero/studio-process.mp4" type="video/mp4" />
+        <source src={mediaAssets.hero.videoWebm} type="video/webm" />
+        <source src={mediaAssets.hero.videoMp4} type="video/mp4" />
       </video>
 
       {/* Tile Overlay - Optional visual texture over the video */}
       <div
-        className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-out z-[5] ${phase === 'morph' ? 'opacity-0' : 'opacity-100'
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-out z-5 ${phase === 'morph' ? 'opacity-0' : 'opacity-100'
           }`}
         style={{
           mixBlendMode: 'overlay',
@@ -187,7 +188,7 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
             className={`intro-float-panel ${textVisible ? 'intro-float-panel-visible' : ''}`}
             style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
           >
-            <span className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-[1] px-4">
+            <span className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-none px-4">
               Imah
             </span>
           </div>
@@ -195,7 +196,7 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
             className={`intro-float-panel ${textVisible ? 'intro-float-panel-visible' : ''}`}
             style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
           >
-            <span className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-[1] px-4">
+            <span className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-none px-4">
               Keramik
             </span>
           </div>
@@ -203,7 +204,7 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
             className={`intro-float-panel ${textVisible ? 'intro-float-panel-visible' : ''}`}
             style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
           >
-            <span className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-[1] px-4">
+            <span className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-none px-4">
               Bogor
             </span>
           </div>

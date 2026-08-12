@@ -68,10 +68,10 @@ src/
 │   ├── IntroSplash.tsx        # Brand entrance splash animation
 │   ├── Navbar.tsx             # Sticky header navigation
 │   ├── PackageCards.tsx       # Micro pricing tier cards
-│   ├── SmoothScroll.tsx      # Lenis smooth-scroll provider
-│   ├── TicketCard.tsx         # Bento ticket item with hover state
+│   ├── SmoothScroll.tsx       # Lenis smooth-scroll provider
+│   ├── TicketCard.tsx         # Bento ticket layout and perforation structure
 │   ├── TicketModal.tsx        # Detail overlay with pre-filled booking actions
-│   └── TileBackground.tsx     # RAF-driven SVG tile parallax background
+│   └── TileBackground.tsx     # SVG tile parallax background
 ├── data/
 │   ├── assets.ts              # Shared public asset paths
 │   ├── schedule.ts            # Opening hours and live-status calculation
@@ -80,7 +80,8 @@ src/
 │   └── tickets.ts             # Structured catalogue dataset
 ├── lib/
 │   └── responsiveImage.ts     # Unsplash image transformation helpers
-├── data/
+├── hooks/
+│   └── useRevealOnIntersect.ts # One-time section entrance state
 └── types/
     └── ticket.ts              # TypeScript interfaces for catalog items
 

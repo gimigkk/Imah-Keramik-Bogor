@@ -3,11 +3,12 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Container } from './Container';
 import { getTodayScheduleWIB } from '../data/schedule';
 import { site } from '../data/site';
+import { mediaAssets } from '../data/assets';
 
 const heroVideos = [
-  { id: 1, title: 'Teknik Putar', src: '/assets/videos/hero/studio-process.mp4', webmSrc: '/assets/videos/hero/studio-process.webm' },
-  { id: 2, title: 'Teknik Tangan', src: '/assets/videos/hero/studio-process.mp4', webmSrc: '/assets/videos/hero/studio-process.webm' },
-  { id: 3, title: 'Proses Pembakaran', src: '/assets/videos/hero/studio-process.mp4', webmSrc: '/assets/videos/hero/studio-process.webm' },
+  { id: 1, title: 'Teknik Putar' },
+  { id: 2, title: 'Teknik Tangan' },
+  { id: 3, title: 'Proses Pembakaran' },
 ];
 
 // TODO(company): Hero copy, location claim, image alt text, video assets, and activity labels are concept content pending company approval. See CONCEPT_HANDOFF.md.
@@ -100,9 +101,9 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
         </div>
 
         {/* Massive Cinematic Video */}
-        <div id="hero-video-container" className="w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#0d0d0d] relative border border-foreground/10 mb-4">
+        <div id="hero-video-container" className="w-full aspect-video md:aspect-21/9 overflow-hidden bg-[#0d0d0d] relative border border-foreground/10 mb-4">
           <img
-            src="/assets/images/hero-poster.webp"
+            src={mediaAssets.hero.poster}
             alt={`Proses membentuk tanah liat di studio ${site.name}`}
             width="1280"
             height="720"
@@ -115,12 +116,12 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
               muted
               playsInline
               preload={reduceMotion ? 'none' : 'metadata'}
-              poster="/assets/images/hero-poster.webp"
+              poster={mediaAssets.hero.poster}
               aria-hidden="true"
               className="absolute inset-0 h-full w-full object-cover"
             >
-              <source src={currentVideo.webmSrc} type="video/webm" />
-              <source src={currentVideo.src} type="video/mp4" />
+              <source src={mediaAssets.hero.videoWebm} type="video/webm" />
+              <source src={mediaAssets.hero.videoMp4} type="video/mp4" />
             </video>
           )}
         </div>

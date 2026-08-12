@@ -6,6 +6,7 @@
  * matching metadata there when these values are approved for production.
  * See CONCEPT_HANDOFF.md for the full pre-launch checklist.
  */
+// TODO(company): Every value below is concept data pending company approval.
 export const site = {
   name: 'Imah Keramik Bogor',
   booking: {
@@ -19,6 +20,10 @@ export const site = {
   },
   address: {
     copyText: 'Jl. Pembangunan No.22/23A, Kedunghalang, Bogor Utara, Kota Bogor, Jawa Barat 16158.',
+    shortDisplayLines: [
+      'Jl. Pembangunan No.22/23A, Kedunghalang,',
+      'Bogor Utara, Kota Bogor, Jawa Barat 16158.',
+    ],
     displayLines: [
       'Jl. Pembangunan No.22/23A,',
       'RT.03/RW.05, Kedunghalang,',

@@ -1,30 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { Container } from './Container';
 import { getWhatsAppUrl, site } from '../data/site';
+import { useRevealOnIntersect } from '../hooks/useRevealOnIntersect';
 
 export const CTA = () => {
   const [copied, setCopied] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.08 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const [sectionRef, visible] = useRevealOnIntersect<HTMLElement>();
 
   const handleCopy = () => {
     void navigator.clipboard.writeText(site.address.copyText);
@@ -84,8 +66,8 @@ export const CTA = () => {
                   aria-label={`Salin alamat ${site.name}`}
                 >
                   <span>
-                    {site.address.displayLines[0]}<br />
-                    {site.address.displayLines.slice(2).join(' ')}.
+                    {site.address.shortDisplayLines[0]}<br />
+                    {site.address.shortDisplayLines[1]}
                   </span>
                   {copied ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="inline-block w-4 h-4 ml-2 mb-0.5 text-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
@@ -106,7 +88,7 @@ export const CTA = () => {
               </div>
             </div>
 
-            <div className="w-full flex-1 min-h-[250px] lg:min-h-0 aspect-[4/3] lg:aspect-auto bg-muted overflow-hidden border border-foreground">
+            <div className="w-full flex-1 min-h-62.5 lg:min-h-0 aspect-4/3 lg:aspect-auto bg-muted overflow-hidden border border-foreground">
               <iframe
                 src={site.address.mapEmbedUrl}
                 width="100%"

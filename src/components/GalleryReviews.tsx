@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Container } from './Container';
 import { getResponsiveImageProps } from '../lib/responsiveImage';
+import { useRevealOnIntersect } from '../hooks/useRevealOnIntersect';
 
 const galleryImageSizes = '(min-width: 1400px) 270px, (min-width: 1024px) 22vw, (min-width: 640px) 46vw, calc(100vw - 5rem)';
 
 export const GalleryReviews = () => {
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const [sectionRef, visible] = useRevealOnIntersect<HTMLElement>();
   const gridRef = useRef<HTMLDivElement>(null);
 
   // Spatial Delay Calculator: Guarantees perfect visual stagger regardless of how CSS columns wrap the items!
@@ -60,24 +60,6 @@ export const GalleryReviews = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.08 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   // TODO(company): Confirm permission, accuracy, source links, and editorial approval for every quoted review and concept/stock image below before launch. See CONCEPT_HANDOFF.md.
   // All 16 real Google Reviews from Imah Keramik Bogor customers with exact direct Google share links
   // Array is ordered Left-to-Right, Top-to-Bottom:
@@ -91,7 +73,7 @@ export const GalleryReviews = () => {
       url: "https://share.google/iN2EGFT6ElyXZmOiN",
       img: "https://images.unsplash.com/photo-1662844681461-8c16d05b0582?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
       alt: "Hasil kreasi tanah liat mangkok",
-      aspect: "aspect-[16/9]"
+      aspect: "aspect-video"
     },
     {
       author: "Devi A.",
@@ -100,7 +82,7 @@ export const GalleryReviews = () => {
       url: "https://share.google/QKQUj9dLy21prRArB",
       img: "https://images.unsplash.com/photo-1582140099533-11fe4d348e01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
       alt: "Belajar membatik media kayu",
-      aspect: "aspect-[4/3]"
+      aspect: "aspect-4/3"
     },
     {
       author: "Nafisa D.",
@@ -248,7 +230,7 @@ export const GalleryReviews = () => {
                 className="group relative bg-white text-[#111b21] rounded-md rounded-tl-none p-3 shadow-sm hover:shadow-xl transform transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border border-black/5 block w-full h-full"
               >
               {/* WhatsApp Top-Left White Speech Tail */}
-              <svg className="absolute -top-[1px] -left-2 text-white" width="10" height="12" viewBox="0 0 10 12" fill="currentColor">
+              <svg className="absolute -top-px -left-2 text-white" width="10" height="12" viewBox="0 0 10 12" fill="currentColor">
                 <path d="M10 0C6 0 0 0 0 10V0H10Z" />
               </svg>
 

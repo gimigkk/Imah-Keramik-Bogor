@@ -1,15 +1,16 @@
 import React from 'react';
 import { Container } from './Container';
 import { site } from '../data/site';
+import { mediaAssets } from '../data/assets';
 
 // TODO(company): Confirm the approved logo asset, business name, navigation labels, and booking destination before launch. See CONCEPT_HANDOFF.md.
 export const Navbar: React.FC = () => {
   return (
-    <header className="fixed top-0 inset-x-0 w-full z-[100] py-2.5 bg-[#043e1b]/85 backdrop-blur-md backdrop-saturate-200 text-background transition-all duration-300">
+    <header className="fixed top-0 inset-x-0 w-full z-100 py-2.5 bg-[#043e1b]/85 backdrop-blur-md backdrop-saturate-200 text-background transition-all duration-300">
       <Container className="flex justify-between items-center">
         <div className="flex items-center gap-2.5">
           <img
-            src="/assets/images/brand-icon.webp"
+            src={mediaAssets.brandIcon}
             alt={`Logo ${site.name}`}
             width="72"
             height="72"

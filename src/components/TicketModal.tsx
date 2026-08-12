@@ -7,7 +7,6 @@ import { TicketCard } from './TicketCard';
 import { haltSmoothScrollMomentum, pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
 import { getWhatsAppUrl } from '../data/site';
 
-
 interface TicketModalProps {
   ticket: Ticket | null;
   onClose: () => void;
@@ -67,7 +66,6 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
   useEffect(() => {
     if (!ticket) return;
 
-    const previouslyFocused = document.activeElement as HTMLElement | null;
     const focusFrame = window.requestAnimationFrame(() => {
       dialogRef.current
         ?.querySelector<HTMLElement>('[data-modal-initial-focus]')
@@ -104,7 +102,6 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
     return () => {
       window.cancelAnimationFrame(focusFrame);
       window.removeEventListener('keydown', handleKeyDown);
-      if (previouslyFocused?.isConnected) previouslyFocused.focus();
     };
   }, [ticket]);
 
@@ -146,45 +143,22 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
           if (event.target === event.currentTarget) onClose();
         }}
       >
-
-
         <div className={`w-full flex flex-col ${isWideTicket ? 'lg:max-h-[min(54rem,calc(100dvh-6.5rem))]' : ''}`}>
           {isWideTicket ? (
             <div className="grid gap-4 flex-1 min-h-0 lg:grid-cols-[minmax(0,1.28fr)_minmax(0,0.72fr)] lg:grid-rows-[auto_minmax(0,1fr)]">
               <div className="relative z-70 lg:col-span-2 lg:min-h-0">
                 <TicketCard key={ticket.id} ticket={ticket} standalone className="relative z-20 h-full w-full" />
               </div>
-              <ActivityDetails
-                ticket={ticket}
-                onClose={onClose}
-                className={`${detailMotion} lg:min-h-0 lg:overflow-y-auto`}
-              />
-              <PackageCards
-                ticket={ticket}
-                whatsappHref={whatsappHref}
-                className={`${packageMotion} lg:min-h-0 lg:overflow-y-auto`}
-              />
+              <ActivityDetails ticket={ticket} onClose={onClose} className={`${detailMotion} lg:min-h-0 lg:overflow-y-auto`} />
+              <PackageCards ticket={ticket} whatsappHref={whatsappHref} className={`${packageMotion} lg:min-h-0 lg:overflow-y-auto`} />
             </div>
           ) : (
             <div className="grid items-start gap-4 lg:grid-cols-[minmax(300px,0.78fr)_minmax(0,1.22fr)]">
               <div className="relative z-70 lg:row-span-2 lg:h-full">
-                <TicketCard
-                  key={ticket.id}
-                  ticket={ticket}
-                  standalone
-                  className="relative z-20 h-full"
-                />
+                <TicketCard key={ticket.id} ticket={ticket} standalone className="relative z-20 h-full" />
               </div>
-              <ActivityDetails
-                ticket={ticket}
-                onClose={onClose}
-                className={detailMotion}
-              />
-              <PackageCards
-                ticket={ticket}
-                whatsappHref={whatsappHref}
-                className={packageMotion}
-              />
+              <ActivityDetails ticket={ticket} onClose={onClose} className={detailMotion} />
+              <PackageCards ticket={ticket} whatsappHref={whatsappHref} className={packageMotion} />
             </div>
           )}
         </div>

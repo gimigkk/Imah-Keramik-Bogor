@@ -33,6 +33,8 @@ The application is a Vite/React single-page site. There is no client-side router
 
 `public/` files are copied directly to the deployment and cannot import TypeScript. That is why public SEO files intentionally repeat some confirmed company facts.
 
+`src/hooks/useRevealOnIntersect.ts` owns the one-time viewport-triggered reveal state used by page sections. Use it for entrance animations only; do not use it for data loading or continuous visibility tracking.
+
 ## Components with behavior worth preserving
 
 - `TicketCard.tsx` and `src/index.css` implement the ticket perforation masks. The mask dimensions are coordinated; change them only after visual testing at mobile and desktop widths.

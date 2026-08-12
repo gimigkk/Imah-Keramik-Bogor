@@ -105,6 +105,15 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         }
       }
     : undefined;
+  const interactiveCardProps = onClick
+    ? {
+        onClick: () => onClick(ticket),
+        onKeyDown: handleKeyDown,
+        role: 'button' as const,
+        tabIndex: 0,
+        'aria-label': `Lihat detail ${ticket.title}, ${ticket.price}`,
+      }
+    : undefined;
 
   // Determine badge styling based on design system
   const renderBadge = () => {
@@ -178,11 +187,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   if (isFeatured) {
     return (
       <div
-        onClick={onClick ? () => onClick(ticket) : undefined}
-        onKeyDown={handleKeyDown}
-        role={onClick ? 'button' : undefined}
-        tabIndex={onClick ? 0 : undefined}
-        aria-label={onClick ? `Lihat detail ${ticket.title}, ${ticket.price}` : undefined}
+        {...interactiveCardProps}
         className={`${containerClass} flex-col`}
         style={style}
         data-ticket-id={ticket.id}
@@ -239,11 +244,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
     const isDoubleTall = ticket.gridSpan?.rows === 2;
     return (
       <div
-        onClick={onClick ? () => onClick(ticket) : undefined}
-        onKeyDown={handleKeyDown}
-        role={onClick ? 'button' : undefined}
-        tabIndex={onClick ? 0 : undefined}
-        aria-label={onClick ? `Lihat detail ${ticket.title}, ${ticket.price}` : undefined}
+        {...interactiveCardProps}
         className={`${containerClass} ticket-horizontal flex-col md:flex-row ${isDoubleTall ? 'min-h-70 md:min-h-85' : ''
           }`}
         style={style}
@@ -323,11 +324,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   // 3. REGULAR VERTICAL CARDS (Fun Clay, Glaze Coloring, Membatik, HTM, Sewa Aula, Workshop, Paket Usaha)
   return (
     <div
-      onClick={onClick ? () => onClick(ticket) : undefined}
-      onKeyDown={handleKeyDown}
-      role={onClick ? 'button' : undefined}
-      tabIndex={onClick ? 0 : undefined}
-      aria-label={onClick ? `Lihat detail ${ticket.title}, ${ticket.price}` : undefined}
+      {...interactiveCardProps}
       className={`${containerClass} flex-col`}
       style={style}
       data-ticket-id={ticket.id}
