@@ -45,7 +45,7 @@ const ActivityVideo: React.FC<{ video: TicketVideo }> = ({ video }) => {
         playsInline
         preload="metadata"
         onError={() => setHasError(true)}
-        className="aspect-video w-full bg-muted object-cover grayscale"
+        className="aspect-video w-full bg-muted object-cover opacity-100"
       >
         <source src={video.src} type="video/mp4" />
       </video>

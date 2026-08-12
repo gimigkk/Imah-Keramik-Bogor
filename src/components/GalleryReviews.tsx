@@ -255,7 +255,7 @@ export const GalleryReviews = () => {
                   <img
                     src={review.img}
                     alt={review.alt || "Karya peserta"}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover opacity-100"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">

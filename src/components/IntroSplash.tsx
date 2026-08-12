@@ -135,7 +135,7 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
           }`}
         style={{
           mixBlendMode: 'overlay',
-          filter: 'invert(1) grayscale(1) brightness(2)',
+          filter: 'invert(1) brightness(2)',
           opacity: phase === 'morph' ? 0 : 1
         }}
       >

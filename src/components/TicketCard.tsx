@@ -186,7 +186,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
           </div>
 
-          {/* Image stays desaturated with no hover effects */}
+          {/* Image stays full-color with no hover effects */}
           {ticket.image && (
             <div
               data-ticket-image
@@ -197,7 +197,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
                 alt={ticket.title}
                 loading="lazy"
                 decoding="async"
-                className="absolute inset-0 w-full h-full object-cover grayscale opacity-80"
+                className="absolute inset-0 h-full w-full object-cover opacity-100"
               />
             </div>
           )}
@@ -238,8 +238,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
                 alt={ticket.title}
                 loading="lazy"
                 decoding="async"
-                className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${isAccent ? 'mix-blend-luminosity opacity-70' : ''
-                  }`}
+                className="absolute inset-0 h-full w-full object-cover opacity-100"
               />
             </div>
           )}
@@ -337,8 +336,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               alt={ticket.title}
               loading="lazy"
               decoding="async"
-              className={`absolute inset-0 w-full h-full object-cover filter grayscale opacity-80 ${isAccent ? 'mix-blend-luminosity opacity-70' : ''
-                }`}
+              className="absolute inset-0 h-full w-full object-cover opacity-100"
             />
           </div>
         )}
