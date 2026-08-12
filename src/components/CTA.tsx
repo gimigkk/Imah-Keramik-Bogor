@@ -6,6 +6,7 @@ import { useRevealOnIntersect } from '../hooks/useRevealOnIntersect';
 
 export const CTA = () => {
   const [copied, setCopied] = useState(false);
+  const [mapInteractive, setMapInteractive] = useState(false);
   const [sectionRef, visible] = useRevealOnIntersect<HTMLElement>();
 
   const handleCopy = () => {
@@ -38,7 +39,7 @@ export const CTA = () => {
               className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} text-foreground/80 text-base mb-10 font-sans max-w-md`}
               style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
             >
-              Kapasitas di studio kami sangat terbatas. Lengkapi formulir pendaftaran resmi untuk mengamankan sesi Anda pada musim ini.
+              Kapasitas di studio kami sangat terbatas. Segera hubungi kami untuk mengamankan sesi Anda pada pekan ini.
             </p>
             <a
               href={getWhatsAppUrl()}
@@ -88,17 +89,35 @@ export const CTA = () => {
               </div>
             </div>
 
-            <div className="w-full flex-1 min-h-62.5 lg:min-h-0 aspect-4/3 lg:aspect-auto bg-muted overflow-hidden border border-foreground">
+            <div
+              className={`relative w-full flex-1 min-h-62.5 lg:min-h-0 aspect-4/3 lg:aspect-auto bg-muted overflow-hidden border border-foreground ${mapInteractive ? '' : 'group'}`}
+              onMouseLeave={() => setMapInteractive(false)}
+            >
               <iframe
                 src={site.address.mapEmbedUrl}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
+                className={`transition-[filter] duration-300 ${mapInteractive ? 'pointer-events-auto' : 'pointer-events-none group-hover:blur-[3px]'}`}
                 allowFullScreen={false}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                tabIndex={mapInteractive ? 0 : -1}
+                aria-hidden={!mapInteractive}
                 title={`Peta lokasi ${site.name}`}
               />
+              {!mapInteractive ? (
+                <button
+                  type="button"
+                  onClick={() => setMapInteractive(true)}
+                  aria-label={`Aktifkan peta interaktif ${site.name}`}
+                  className="absolute inset-0 flex cursor-pointer items-center justify-center bg-transparent focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-foreground"
+                >
+                  <span className="font-sans text-xs font-black uppercase text-foreground opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100">
+                    Click to interact
+                  </span>
+                </button>
+              ) : null}
             </div>
           </div>
 

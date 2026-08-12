@@ -323,6 +323,7 @@
   z-index: 9999;
   overflow: hidden;
   background: #0d0d0d;
+  animation: intro-clone-fade-in 700ms ease-out both;
   will-change: top, left, width, height;
   transition:
     top 1100ms cubic-bezier(0.76, 0, 0.24, 1),
@@ -338,7 +339,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(14px) brightness(0.5);
+  filter: blur(14px) brightness(0.28) grayscale(1) sepia(1) saturate(1.25) hue-rotate(82deg);
   transform: scale(1.1);
   will-change: filter, transform;
   transition:
@@ -360,7 +361,7 @@
 
 .intro-clone--morph .intro-clone-poster,
 .intro-clone--morph .intro-clone-video {
-  filter: blur(0px) brightness(1);
+  filter: blur(0px) brightness(1) grayscale(0) sepia(0) saturate(1) hue-rotate(0deg);
   transform: scale(1);
 }
 
