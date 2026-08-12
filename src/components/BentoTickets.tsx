@@ -29,6 +29,7 @@ type TicketTab = (typeof TICKET_TABS)[number]['id'];
 export const BentoTickets: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TicketTab>('keramik');
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [hiddenGridTicketId, setHiddenGridTicketId] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [sectionRef, sectionVisible] = useRevealOnIntersect<HTMLElement>();
   const [infoRef, infoVisible] = useRevealOnIntersect<HTMLDivElement>();
@@ -251,6 +252,7 @@ export const BentoTickets: React.FC = () => {
     const sourceRect = interruptedRect ?? source?.getBoundingClientRect();
     flushSync(() => {
       setIsClosing(false);
+      setHiddenGridTicketId(ticket.id);
       setSelectedTicket(ticket);
     });
 
@@ -300,6 +302,9 @@ export const BentoTickets: React.FC = () => {
     const waitForExit = new Promise<void>((resolve) => window.setTimeout(resolve, exitDuration));
 
     if (!modalTicket || !gridTicket || !ghostTicket || !sourceRect) {
+      if (interactionVersionRef.current === closeVersion) {
+        flushSync(() => setHiddenGridTicketId(null));
+      }
       ghostTicket?.remove();
       await waitForExit;
       if (interactionVersionRef.current === closeVersion) {
@@ -315,6 +320,9 @@ export const BentoTickets: React.FC = () => {
     await morph.finished;
     const registeredMorph = closingMorphsRef.current.get(closingTicket.id);
     if (registeredMorph?.controller === morph) closingMorphsRef.current.delete(closingTicket.id);
+    if (interactionVersionRef.current === closeVersion) {
+      flushSync(() => setHiddenGridTicketId(null));
+    }
     ghostTicket.remove();
     await waitForExit;
     if (interactionVersionRef.current !== closeVersion) return;
@@ -336,18 +344,21 @@ export const BentoTickets: React.FC = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [closeTicket]);
 
+  const getGridTicketClassName = (ticket: Ticket, entranceClass: string) =>
+    `${entranceClass} ${hiddenGridTicketId === ticket.id ? 'invisible' : ''}`;
+
   const keramikElements = useMemo(() => keramikTickets.map((ticket, index) => (
-    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={sectionVisible ? 'ticket-enter-y' : ''} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
-  )), [openTicket, sectionVisible]);
+    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={getGridTicketClassName(ticket, sectionVisible ? 'ticket-enter-y' : '')} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
+  )), [openTicket, sectionVisible, hiddenGridTicketId]);
   const membatikElements = useMemo(() => membatikTickets.map((ticket, index) => (
-    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={sectionVisible ? 'ticket-enter-y' : ''} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
-  )), [openTicket, sectionVisible]);
+    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={getGridTicketClassName(ticket, sectionVisible ? 'ticket-enter-y' : '')} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
+  )), [openTicket, sectionVisible, hiddenGridTicketId]);
   const bundlingElements = useMemo(() => bundlingTickets.map((ticket, index) => (
-    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={sectionVisible ? 'ticket-enter-x' : ''} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
-  )), [openTicket, sectionVisible]);
+    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={getGridTicketClassName(ticket, sectionVisible ? 'ticket-enter-x' : '')} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
+  )), [openTicket, sectionVisible, hiddenGridTicketId]);
   const infoUmumElements = useMemo(() => infoUmumTickets.map((ticket, index) => (
-    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={infoVisible ? 'ticket-enter-y' : ''} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
-  )), [openTicket, infoVisible]);
+    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={getGridTicketClassName(ticket, infoVisible ? 'ticket-enter-y' : '')} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
+  )), [openTicket, infoVisible, hiddenGridTicketId]);
 
   const activeTabSummary = TICKET_TABS.find((tab) => tab.id === activeTab)?.summary;
 

@@ -8,13 +8,6 @@ const easeInOutQuart = (x: number): number =>
 let lenisInstance: Lenis | null = null;
 type LenisScrollListener = (instance: Lenis) => void;
 
-export const haltSmoothScrollMomentum = () => {
-  lenisInstance?.scrollTo(window.scrollY, {
-    immediate: true,
-    force: true,
-  });
-};
-
 export const pauseSmoothScroll = () => lenisInstance?.stop();
 export const resumeSmoothScroll = () => lenisInstance?.start();
 

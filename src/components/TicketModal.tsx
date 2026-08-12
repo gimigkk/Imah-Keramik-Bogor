@@ -4,7 +4,7 @@ import { getTicketWhatsappMessage } from '../data/tickets';
 import { ActivityDetails } from './ActivityDetails';
 import { PackageCards } from './PackageCards';
 import { TicketCard } from './TicketCard';
-import { haltSmoothScrollMomentum, pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
+import { pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
 import { getWhatsAppUrl } from '../data/site';
 
 interface TicketModalProps {
@@ -33,10 +33,9 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
   }, [ticket, isClosing]);
 
   useLayoutEffect(() => {
-    if (!ticket) return;
+    if (!ticket || isClosing) return;
 
     const previousBodyOverflow = document.body.style.overflow;
-    haltSmoothScrollMomentum();
     pauseSmoothScroll();
     document.body.style.overflow = 'hidden';
 
@@ -44,10 +43,10 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
       document.body.style.overflow = previousBodyOverflow;
       resumeSmoothScroll();
     };
-  }, [ticket]);
+  }, [ticket, isClosing]);
 
   useEffect(() => {
-    if (!ticket) return;
+    if (!ticket || isClosing) return;
 
     const preventBackgroundScroll = (event: WheelEvent | TouchEvent) => {
       const modal = document.querySelector<HTMLElement>('[data-ticket-modal-root]');
@@ -61,10 +60,10 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
       document.removeEventListener('wheel', preventBackgroundScroll, { capture: true });
       document.removeEventListener('touchmove', preventBackgroundScroll, { capture: true });
     };
-  }, [ticket]);
+  }, [ticket, isClosing]);
 
   useEffect(() => {
-    if (!ticket) return;
+    if (!ticket || isClosing) return;
 
     const focusFrame = window.requestAnimationFrame(() => {
       dialogRef.current
@@ -103,7 +102,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
       window.cancelAnimationFrame(focusFrame);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [ticket]);
+  }, [ticket, isClosing]);
 
   if (!ticket) return null;
 
