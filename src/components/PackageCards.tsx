@@ -29,13 +29,10 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
       aria-labelledby="package-heading"
       className={`flex flex-col border border-foreground/20 bg-card p-5 shadow-xl md:p-7 ${className}`}
     >
-      <div className="mb-4 flex items-end justify-between gap-4 border-b border-foreground/20 pb-3">
-        <h3 id="package-heading" className="font-serif text-2xl leading-none md:text-3xl">
+      <div className="mb-3">
+        <h3 id="package-heading" className="font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-muted-foreground">
           {packages.length > 1 ? 'Pilih paketmu' : 'Rincian paket'}
         </h3>
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-          {packages.length} {packages.length > 1 ? 'pilihan' : 'paket'}
-        </span>
       </div>
 
       <div className={`grid flex-1 gap-3 ${packages.length > 1 ? 'sm:grid-cols-2' : 'grid-cols-1'}`}>
@@ -81,7 +78,7 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
         </div>
       )}
 
-      <div className="mt-4 border-t border-dashed border-foreground/25 pt-4">
+      <div className="mt-4">
         <p className="mb-3 text-xs leading-5 text-muted-foreground">
           Tanyakan jadwal dan ketersediaan tempat langsung kepada tim studio.
         </p>
