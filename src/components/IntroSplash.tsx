@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { TileBackground } from './TileBackground';
+import { pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
 
 interface IntroSplashProps {
   onComplete: () => void;
@@ -25,11 +26,11 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
       history.scrollRestoration = 'manual';
     }
     window.scrollTo(0, 0);
+    pauseSmoothScroll();
     document.body.style.overflow = 'hidden';
-    document.body.setAttribute('data-scroll-locked', 'true');
     return () => {
       document.body.style.overflow = '';
-      document.body.removeAttribute('data-scroll-locked');
+      resumeSmoothScroll();
     };
   }, []);
 

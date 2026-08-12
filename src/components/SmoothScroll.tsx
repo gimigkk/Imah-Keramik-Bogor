@@ -14,6 +14,9 @@ export const haltSmoothScrollMomentum = () => {
   });
 };
 
+export const pauseSmoothScroll = () => lenisInstance?.stop();
+export const resumeSmoothScroll = () => lenisInstance?.start();
+
 export const getLenis = () => lenisInstance;
 
 const scrollListeners = new Set<(e: any) => void>();
@@ -42,17 +45,35 @@ export const SmoothScroll = () => {
     window.scrollTo(0, 0);
 
     const lenis = new Lenis({
-      autoRaf: true,
-      autoToggle: true,
-      allowNestedScroll: true,
+      autoRaf: false,
       smoothWheel: true,
       lerp: 0.08,
-      virtualScroll: () => !document.body.hasAttribute('data-scroll-locked'),
       stopInertiaOnNavigate: true,
-      respectReducedMotion: false,
     });
     lenisInstance = lenis;
     lenis.scrollTo(0, { immediate: true });
+
+    let rafId: number;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+
+    const handleWindowFocus = () => {
+      if (!document.body.style.overflow.includes('hidden')) {
+        lenis.start();
+      }
+      lenis.resize();
+    };
+
+    window.addEventListener('focus', handleWindowFocus);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        handleWindowFocus();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const handleAnchorClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest('a[href^="#"]');
@@ -83,6 +104,9 @@ export const SmoothScroll = () => {
     scrollListeners.forEach(cb => lenisInstance!.on('scroll', cb));
 
     return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('focus', handleWindowFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       document.removeEventListener('click', handleAnchorClick);
       scrollListeners.forEach(cb => lenisInstance?.off('scroll', cb));
       if (lenisInstance === lenis) lenisInstance = null;

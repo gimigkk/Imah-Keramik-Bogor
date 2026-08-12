@@ -4,7 +4,7 @@ import brandIcon from '@/imports/image.png';
 
 export const Navbar: React.FC = () => {
   return (
-    <header className="sticky top-0 w-full z-100 py-2.5 bg-[#043e1b]/85 backdrop-blur-md backdrop-saturate-200 text-background transition-all duration-300">
+    <header className="fixed top-0 inset-x-0 w-full z-[100] py-2.5 bg-[#043e1b]/85 backdrop-blur-md backdrop-saturate-200 text-background transition-all duration-300">
       <Container className="flex justify-between items-center">
         <div className="flex items-center gap-2.5">
           <img src={brandIcon} alt="Brand Icon" className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover shrink-0" />

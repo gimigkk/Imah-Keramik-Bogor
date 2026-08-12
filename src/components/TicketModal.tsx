@@ -4,7 +4,7 @@ import { getTicketWhatsappMessage } from '../data/tickets';
 import { ActivityDetails } from './ActivityDetails';
 import { PackageCards } from './PackageCards';
 import { TicketCard } from './TicketCard';
-import { haltSmoothScrollMomentum } from './SmoothScroll';
+import { haltSmoothScrollMomentum, pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
 
 
 interface TicketModalProps {
@@ -30,14 +30,13 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
     if (!ticket) return;
 
     const previousBodyOverflow = document.body.style.overflow;
-    const wasScrollLocked = document.body.hasAttribute('data-scroll-locked');
-    document.body.setAttribute('data-scroll-locked', '');
     haltSmoothScrollMomentum();
+    pauseSmoothScroll();
     document.body.style.overflow = 'hidden';
 
     return () => {
       document.body.style.overflow = previousBodyOverflow;
-      if (!wasScrollLocked) document.body.removeAttribute('data-scroll-locked');
+      resumeSmoothScroll();
     };
   }, [ticket]);
 
