@@ -10,15 +10,21 @@ import { GalleryReviews } from './components/GalleryReviews';
 
 export default function App() {
   const [introDone, setIntroDone] = useState(false);
+  const [introMorphing, setIntroMorphing] = useState(false);
 
   return (
     <>
       <SmoothScroll />
-      {!introDone && <IntroSplash onComplete={() => setIntroDone(true)} />}
+      {!introDone && (
+        <IntroSplash
+          onMorphStart={() => setIntroMorphing(true)}
+          onComplete={() => setIntroDone(true)}
+        />
+      )}
       <div id="top" className="min-h-screen font-sans bg-background text-foreground selection:bg-foreground selection:text-background">
         <Navbar />
         <main>
-          <Hero />
+          <Hero introStarted={introMorphing || introDone} />
           <BentoTickets />
           {/* harus redesign, blm tau mau kayak gimana */}
           <GalleryReviews />

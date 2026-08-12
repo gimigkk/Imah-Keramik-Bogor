@@ -9,17 +9,24 @@ const heroVideos = [
   { id: 3, title: 'Proses Pembakaran', src: '/assets/videos/hero/studio-process.mp4' },
 ];
 
-export const Hero = () => {
+interface HeroProps {
+  introStarted?: boolean;
+}
+
+export const Hero: React.FC<HeroProps> = ({ introStarted }) => {
   const [visible, setVisible] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
   const todaySchedule = getTodayScheduleWIB();
 
   useEffect(() => {
-    // The intro splash holds for 2200ms and morphs for 1100ms (total 3300ms).
-    // Start this animation 500ms before the morph finishes (at 2800ms).
-    const timer = setTimeout(() => setVisible(true), 2400);
-    return () => clearTimeout(timer);
-  }, []);
+    if (introStarted === undefined) {
+      // Fallback for standalone usage
+      const timer = setTimeout(() => setVisible(true), 300);
+      return () => clearTimeout(timer);
+    } else if (introStarted) {
+      setVisible(true);
+    }
+  }, [introStarted]);
 
   const handlePrevVideo = () => {
     setActiveVideo((prev) => (prev === 0 ? heroVideos.length - 1 : prev - 1));

@@ -4,6 +4,7 @@ import { pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
 
 interface IntroSplashProps {
   onComplete: () => void;
+  onMorphStart?: () => void;
 }
 
 /**
@@ -12,13 +13,18 @@ interface IntroSplashProps {
  * 2. Brand icon, "IMAH KERAMIK BOGOR" title, and tagline float up with blur and stagger.
  * 3. Morphs into #hero-video-container, unblurring the video as it shrinks into place.
  */
-export default function IntroSplash({ onComplete }: IntroSplashProps) {
+export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashProps) {
   const [phase, setPhase] = useState<'hold' | 'morph' | 'done'>('hold');
   const [textVisible, setTextVisible] = useState(false);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const onCompleteCb = useCallback(onComplete, [onComplete]);
+  const onMorphStartRef = useRef(onMorphStart);
+
+  useEffect(() => {
+    onMorphStartRef.current = onMorphStart;
+  }, [onMorphStart]);
 
   // Disable scrolling during intro and force scroll position to top
   useEffect(() => {
@@ -41,6 +47,15 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
     }
   }, []);
 
+  // Fallback timer in case network latency delays onLoadedData on prod
+  useEffect(() => {
+    if (videoLoaded) return;
+    const fallback = setTimeout(() => {
+      setVideoLoaded(true);
+    }, 1200);
+    return () => clearTimeout(fallback);
+  }, [videoLoaded]);
+
   // Step 1: Trigger float-up blur stagger entrance right after video loads
   // Step 2: Hold for 2.2s, then measure target and trigger morph
   useEffect(() => {
@@ -53,6 +68,7 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
         setTargetRect(target.getBoundingClientRect());
       }
       setPhase('morph');
+      onMorphStartRef.current?.();
     }, 2200);
 
     return () => {
