@@ -35,6 +35,7 @@ export type Ticket = {
   price: string;
   unitLabel?: string;
   badge?: TicketBadge;
+  savings?: string;
   image?: string;
   tags?: string[];
   description: string;
@@ -56,4 +57,3 @@ export type Ticket = {
   };
   whatsappMessage?: string;
 };
-

@@ -102,7 +102,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       case 'hemat':
         return (
           <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-2 py-1 bg-foreground text-background font-bold">
-            hemat
+            hemat{ticket.savings ? ` ${ticket.savings}` : ''}
           </span>
         );
       case '4_pilihan':
