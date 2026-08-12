@@ -1,10 +1,11 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Ticket } from '../types/ticket';
 import { getTicketWhatsappMessage } from '../data/tickets';
 import { ActivityDetails } from './ActivityDetails';
 import { PackageCards } from './PackageCards';
 import { TicketCard } from './TicketCard';
 import { haltSmoothScrollMomentum, pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
+import { getWhatsAppUrl } from '../data/site';
 
 
 interface TicketModalProps {
@@ -15,6 +16,12 @@ interface TicketModalProps {
 
 export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClosing }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useLayoutEffect(() => {
     if (!ticket || isClosing) {
@@ -58,22 +65,54 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
   }, [ticket]);
 
   useEffect(() => {
+    if (!ticket) return;
+
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const focusFrame = window.requestAnimationFrame(() => {
+      dialogRef.current
+        ?.querySelector<HTMLElement>('[data-modal-initial-focus]')
+        ?.focus();
+    });
+
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onCloseRef.current();
+        return;
+      }
+
+      if (event.key !== 'Tab' || !dialogRef.current) return;
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) => element.getClientRects().length > 0);
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
 
-    if (ticket) window.addEventListener('keydown', handleKeyDown);
-
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
+      window.cancelAnimationFrame(focusFrame);
       window.removeEventListener('keydown', handleKeyDown);
+      if (previouslyFocused?.isConnected) previouslyFocused.focus();
     };
-  }, [ticket, onClose]);
+  }, [ticket]);
 
   if (!ticket) return null;
 
   const isWideTicket = ticket.isHorizontal || (ticket.gridSpan?.cols ?? 1) >= 4;
-  const whatsappMessage = encodeURIComponent(getTicketWhatsappMessage(ticket));
-  const whatsappHref = `https://wa.me/628128145417?text=${whatsappMessage}`;
+  const whatsappMessage = getTicketWhatsappMessage(ticket);
+  const whatsappHref = getWhatsAppUrl(whatsappMessage);
 
   const showPanels = isVisible && !isClosing;
   const detailMotion = `modal-reveal-panel ${
@@ -96,9 +135,11 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
         <div className={`modal-scrim-dim absolute inset-0 bg-black/45 ${showPanels ? 'modal-scrim-dim-visible' : ''}`} />
       </div>
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="activity-detail-heading"
+        aria-describedby="activity-detail-description"
         data-ticket-modal-dialog
         className="relative z-40 mx-auto flex min-h-full w-full max-w-6xl items-center py-12 lg:py-0"
         onMouseDown={(event) => {

@@ -1,5 +1,7 @@
 # Katalog Imah Keramik Bogor
 
+> **Status konsep:** Data brosur di dokumen ini masih perlu dikonfirmasi dan disetujui perusahaan sebelum dipublikasikan. Lihat `CONCEPT_HANDOFF.md`.
+
 Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disalin persis dari brosur. Field `badge`, `tags`, dan pengelompokan tampilan adalah keputusan desain UX (bukan teks brosur) - ditandai jelas di tiap bagian.
 
 ## Info bisnis

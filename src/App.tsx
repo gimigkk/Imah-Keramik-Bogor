@@ -22,11 +22,16 @@ export default function App() {
         />
       )}
       <div id="top" className="min-h-screen font-sans bg-background text-foreground selection:bg-foreground selection:text-background">
+        <a
+          href="#main-content"
+          className="sr-only fixed left-4 top-4 z-[10000] bg-background px-4 py-3 font-sans text-sm font-bold text-foreground shadow-lg focus:not-sr-only"
+        >
+          Lewati ke konten utama
+        </a>
         <Navbar />
-        <main>
-          <Hero introStarted={introMorphing || introDone} />
+        <main id="main-content" tabIndex={-1}>
+          <Hero introStarted={introMorphing || introDone} videoEnabled={introDone} />
           <BentoTickets />
-          {/* harus redesign, blm tau mau kayak gimana */}
           <GalleryReviews />
           <CTA />
         </main>

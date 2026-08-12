@@ -1,0 +1,48 @@
+# Imah Keramik Bogor
+
+<!-- TODO(company): Concept-only AI-readable business data. Do not retain or publish this file until the company has approved every fact and the final domain. See CONCEPT_HANDOFF.md. -->
+
+> Imah Keramik Bogor adalah studio keramik dan tempat wisata edukasi di Kedunghalang, Bogor Utara. Pengunjung dapat belajar membentuk tanah liat, membuat keramik, mewarnai glazur, membatik kayu, dan melihat proses produksi keramik.
+
+Bahasa utama: Bahasa Indonesia
+Situs resmi: https://imah-keramik-bogor.vercel.app/
+Informasi lengkap dan harga: https://imah-keramik-bogor.vercel.app/informasi
+
+## Informasi utama
+
+- Alamat: Jl. Pembangunan No.22/23A, RT.03/RW.05, Kedunghalang, Kecamatan Bogor Utara, Kota Bogor, Jawa Barat 16158, Indonesia.
+- WhatsApp/telepon: +62 812-8145-417
+- Email: imahkeramikbogor@gmail.com
+- Instagram: https://www.instagram.com/imahkeramikbogor
+- Jam buka Selasa-Jumat: 13.00-18.00 WIB
+- Jam buka Sabtu-Minggu: 10.00-18.00 WIB
+- Senin: tutup
+- Booking dan konfirmasi jadwal dilakukan melalui WhatsApp.
+
+## Aktivitas dan harga
+
+- HTM / tiket masuk studio: Rp15.000 per orang. Termasuk tur proses pengolahan bahan baku, putar, mug tuang, dekor kerok, glazur celup, dan tungku pembakaran.
+- Fun Clay: Rp75.000 per orang per sesi. Termasuk factory visit dan tutorial membentuk tanah liat dengan teknik tangan.
+- Ceramic Art Class (CAC): Rp200.000 per orang per sesi. Termasuk factory visit, tutorial membuat keramik, dua kali pembakaran, dan glazur satu warna.
+- Glaze Coloring: Rp200.000 per orang per sesi. Termasuk satu body bisque, tutorial mewarnai glazur, pilihan warna, dan satu kali pembakaran glazur.
+- Membatik Kayu Paket 1: Rp50.000 per orang per sesi, satu centong dan satu warna.
+- Membatik Kayu Paket 2: Rp75.000 per orang per sesi, dua centong dan satu warna.
+- Membatik Kayu Paket 3: Rp100.000 per orang per sesi, satu pigura, satu centong, dan satu warna.
+- Membatik Kayu Paket 4: Rp150.000 per orang per sesi, satu talenan dan dua warna.
+- Bundling Fun Clay + Membatik: Rp100.000 per orang per sesi.
+- Bundling CAC/Glaze + Membatik: Rp225.000 per orang per sesi.
+- Sewa aula: Rp300.000 untuk dua jam, maksimal 30 orang. Tambahan Rp150.000 per jam dan Rp10.000 per peserta tambahan.
+- Workshop custom: harga mengikuti kelas yang dipilih; transportasi dan akomodasi di luar harga kelas.
+- Paket Usaha: Rp200.000 per orang; mencakup bahan baku, enam warna glazur, dan dua kali pembakaran untuk peserta level expert.
+
+## Cocok untuk
+
+Anak-anak, keluarga, pelajar, mahasiswa, sekolah, komunitas, outing kantor, pemula, dan peserta berpengalaman. Ketersediaan, durasi, kapasitas, dan jadwal kelas perlu dikonfirmasi langsung melalui WhatsApp.
+
+## Sumber resmi di situs
+
+- Halaman utama: https://imah-keramik-bogor.vercel.app/
+- Detail harga dan kunjungan: https://imah-keramik-bogor.vercel.app/informasi
+- Sitemap: https://imah-keramik-bogor.vercel.app/sitemap.xml
+
+Terakhir diperbarui: 2026-08-12

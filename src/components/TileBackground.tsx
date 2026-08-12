@@ -1,13 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { subscribeToLenis } from './SmoothScroll';
-
-const TILES = [
-  '/tile.svg',
-  '/tile2.svg',
-  '/tile3.svg',
-  '/tile4.svg',
-  '/tile5.svg',
-];
+import { tileAssets } from '../data/assets';
 
 interface TileBackgroundProps {
   gridOpacity?: number;
@@ -95,11 +88,11 @@ export const TileBackground: React.FC<TileBackgroundProps> = ({
                 {Array.from({ length: 5 }).map((_, rowIndex) =>
                   Array.from({ length: 5 }).map((_, colIndex) => {
                     // Stagger sequence by a whole tile per row
-                    const tileIndex = (colIndex + rowIndex) % TILES.length;
+                    const tileIndex = (colIndex + rowIndex) % tileAssets.length;
                     return (
                       <image
                         key={`${rowIndex}-${colIndex}`}
-                        href={TILES[tileIndex]}
+                        href={tileAssets[tileIndex]}
                         x={colIndex * 80}
                         y={rowIndex * 80}
                         width="80"

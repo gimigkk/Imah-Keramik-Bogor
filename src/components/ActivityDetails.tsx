@@ -66,6 +66,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClos
         type="button"
         onClick={onClose}
         aria-label="Tutup detail tiket"
+        data-modal-initial-focus
         className="absolute right-5 top-5 grid h-8 w-8 place-items-center rounded-full border border-foreground/20 bg-transparent text-foreground transition-colors hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground md:right-7 md:top-7"
       >
         <X size={16} />
@@ -80,7 +81,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClos
       </h3>
     </div>
 
-    <p className="mt-6 max-w-2xl font-sans text-sm leading-7 text-foreground/75 md:text-base">
+    <p id="activity-detail-description" className="mt-6 max-w-2xl font-sans text-sm leading-7 text-foreground/75 md:text-base">
       {ticket.description} {ticket.additionalDetails}
     </p>
 

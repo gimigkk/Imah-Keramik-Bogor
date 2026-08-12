@@ -6,6 +6,7 @@ const easeInOutQuart = (x: number): number =>
   x < 0.5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2;
 
 let lenisInstance: Lenis | null = null;
+type LenisScrollListener = (instance: Lenis) => void;
 
 export const haltSmoothScrollMomentum = () => {
   lenisInstance?.scrollTo(window.scrollY, {
@@ -17,11 +18,9 @@ export const haltSmoothScrollMomentum = () => {
 export const pauseSmoothScroll = () => lenisInstance?.stop();
 export const resumeSmoothScroll = () => lenisInstance?.start();
 
-export const getLenis = () => lenisInstance;
+const scrollListeners = new Set<LenisScrollListener>();
 
-const scrollListeners = new Set<(e: any) => void>();
-
-export const subscribeToLenis = (callback: (e: any) => void) => {
+export const subscribeToLenis = (callback: LenisScrollListener) => {
   scrollListeners.add(callback);
   if (lenisInstance) {
     lenisInstance.on('scroll', callback);
@@ -89,6 +88,9 @@ export const SmoothScroll = () => {
       } else {
         const elem = document.querySelector(href);
         if (elem) {
+          if (href === '#main-content' && elem instanceof HTMLElement) {
+            elem.focus({ preventScroll: true });
+          }
           lenis.scrollTo(elem as HTMLElement, { duration: 1.35, easing: easeInOutQuart });
         }
       }

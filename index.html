@@ -4,67 +4,191 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- TODO(company): Concept-only metadata and deployment domain. Replace/approve every business fact here before launch; see CONCEPT_HANDOFF.md. -->
   <title>Imah Keramik Bogor - Wisata Edukasi Tanah Liat & Keramik</title>
   <meta name="description"
-    content="Wisata edukasi tanah liat & keramik di Bogor. Dapatkan pengalaman meditatif membuat keramik teknik putar, teknik tangan, glasir & lukis. Tersedia paket fun clay, kelas keramik, batik kayu, dan sewa aula." />
+    content="Workshop keramik dan wisata edukasi di Bogor untuk anak, keluarga, sekolah, dan komunitas. Tersedia Fun Clay, Ceramic Art Class, glaze coloring, membatik kayu, factory visit, dan sewa aula." />
   <meta name="keywords"
     content="Imah Keramik Bogor, wisata edukasi bogor, workshop keramik bogor, membuat keramik bogor, kelas keramik, fun clay, batik kayu, tempat wisata bogor, wisata keluarga bogor" />
   <meta name="author" content="Imah Keramik Bogor" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="format-detection" content="telephone=no" />
   <meta name="theme-color" content="#4A3B32" />
-  <link rel="canonical" href="https://imahkeramikbogor.vercel.app/" />
+  <link rel="canonical" href="https://imah-keramik-bogor.vercel.app/" />
+  <link rel="alternate" hreflang="id-ID" href="https://imah-keramik-bogor.vercel.app/" />
+  <link rel="alternate" hreflang="x-default" href="https://imah-keramik-bogor.vercel.app/" />
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="Informasi Imah Keramik Bogor untuk AI" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://imahkeramikbogor.vercel.app/" />
+  <meta property="og:url" content="https://imah-keramik-bogor.vercel.app/" />
   <meta property="og:title" content="Imah Keramik Bogor - Wisata Edukasi Tanah Liat & Keramik" />
   <meta property="og:description"
-    content="Wisata edukasi tanah liat & keramik di Bogor. Dapatkan pengalaman meditatif membuat keramik teknik putar, teknik tangan, glasir & lukis. Tersedia paket fun clay, kelas keramik, batik kayu, dan sewa aula." />
-  <meta property="og:image" content="https://imahkeramikbogor.vercel.app/og-image.jpg" />
+    content="Workshop keramik dan wisata edukasi di Bogor untuk anak, keluarga, sekolah, dan komunitas. Fun Clay, Ceramic Art Class, membatik kayu, factory visit, dan sewa aula." />
+  <meta property="og:image" content="https://imah-keramik-bogor.vercel.app/og-image.jpg" />
+  <meta property="og:image:secure_url" content="https://imah-keramik-bogor.vercel.app/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Proses membentuk tanah liat di Imah Keramik Bogor" />
   <meta property="og:site_name" content="Imah Keramik Bogor" />
   <meta property="og:locale" content="id_ID" />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://imahkeramikbogor.vercel.app/" />
-  <meta property="twitter:title" content="Imah Keramik Bogor - Wisata Edukasi Tanah Liat & Keramik" />
-  <meta property="twitter:description"
-    content="Wisata edukasi tanah liat & keramik di Bogor. Dapatkan pengalaman meditatif membuat keramik teknik putar, teknik tangan, glasir & lukis. Tersedia paket fun clay, kelas keramik, batik kayu, dan sewa aula." />
-  <meta property="twitter:image" content="https://imahkeramikbogor.vercel.app/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Imah Keramik Bogor - Workshop Keramik & Wisata Edukasi" />
+  <meta name="twitter:description"
+    content="Belajar membuat keramik, Fun Clay, glaze coloring, dan membatik kayu di Bogor." />
+  <meta name="twitter:image" content="https://imah-keramik-bogor.vercel.app/og-image.jpg" />
+  <meta name="twitter:image:alt" content="Proses membentuk tanah liat di Imah Keramik Bogor" />
 
+  <!-- TODO(company): Structured data is based on concept/brochure input. Validate domain, contacts, address, hours, activities, prices, and claims before launch. -->
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Imah Keramik Bogor",
-        "image": "https://imahkeramikbogor.vercel.app/favicon.png",
-        "description": "Wisata edukasi tanah liat & keramik di Bogor. Mempelajari proses produksi & membuat keramik.",
-        "url": "https://imahkeramikbogor.vercel.app/",
-        "telephone": "+628128145417",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Jl. Pembangunan No. 22 & 23a, RT 3/RW 5, Kedung Halang Talang",
-          "addressLocality": "Bogor Utara",
-          "addressRegion": "Jawa Barat",
-          "postalCode": "16158",
-          "addressCountry": "ID"
-        },
-        "priceRange": "$",
-        "sameAs": [
-          "https://www.instagram.com/imahkeramikbogor"
+        "@graph": [
+          {
+            "@type": ["LocalBusiness", "TouristAttraction"],
+            "@id": "https://imah-keramik-bogor.vercel.app/#business",
+            "name": "Imah Keramik Bogor",
+            "alternateName": "Imah Keramik",
+            "description": "Studio keramik dan tempat wisata edukasi di Bogor untuk belajar membentuk tanah liat, membuat keramik, mewarnai glazur, membatik kayu, dan melihat proses produksi keramik.",
+            "url": "https://imah-keramik-bogor.vercel.app/",
+            "logo": "https://imah-keramik-bogor.vercel.app/favicon.png",
+            "image": [
+              "https://imah-keramik-bogor.vercel.app/og-image.jpg",
+              "https://imah-keramik-bogor.vercel.app/assets/images/hero-poster.webp"
+            ],
+            "telephone": "+628128145417",
+            "email": "imahkeramikbogor@gmail.com",
+            "priceRange": "IDR 15.000-300.000",
+            "currenciesAccepted": "IDR",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Jl. Pembangunan No.22/23A, RT.03/RW.05, Kedunghalang",
+              "addressLocality": "Bogor Utara",
+              "addressRegion": "Jawa Barat",
+              "postalCode": "16158",
+              "addressCountry": "ID"
+            },
+            "openingHoursSpecification": [
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "13:00",
+                "closes": "18:00"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Saturday", "Sunday"],
+                "opens": "10:00",
+                "closes": "18:00"
+              }
+            ],
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=Imah%20Keramik%20Bogor",
+            "sameAs": ["https://www.instagram.com/imahkeramikbogor"],
+            "knowsAbout": [
+              "Keramik",
+              "Tanah liat",
+              "Ceramic Art Class",
+              "Fun Clay",
+              "Glaze Coloring",
+              "Membatik kayu",
+              "Factory visit"
+            ],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Workshop dan aktivitas Imah Keramik Bogor",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "name": "HTM - Tiket Masuk Studio",
+                  "price": "15000",
+                  "priceCurrency": "IDR",
+                  "url": "https://imah-keramik-bogor.vercel.app/informasi#htm",
+                  "itemOffered": { "@type": "Service", "name": "Factory Visit Imah Keramik Bogor" }
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Fun Clay",
+                  "price": "75000",
+                  "priceCurrency": "IDR",
+                  "url": "https://imah-keramik-bogor.vercel.app/informasi#fun-clay",
+                  "itemOffered": { "@type": "Service", "name": "Kelas Fun Clay" }
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Ceramic Art Class",
+                  "price": "200000",
+                  "priceCurrency": "IDR",
+                  "url": "https://imah-keramik-bogor.vercel.app/informasi#cac",
+                  "itemOffered": { "@type": "Service", "name": "Ceramic Art Class" }
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Glaze Coloring",
+                  "price": "200000",
+                  "priceCurrency": "IDR",
+                  "url": "https://imah-keramik-bogor.vercel.app/informasi#glaze-coloring",
+                  "itemOffered": { "@type": "Service", "name": "Kelas Glaze Coloring" }
+                },
+                {
+                  "@type": "AggregateOffer",
+                  "name": "Paket Membatik Kayu",
+                  "lowPrice": "50000",
+                  "highPrice": "150000",
+                  "priceCurrency": "IDR",
+                  "offerCount": "4",
+                  "url": "https://imah-keramik-bogor.vercel.app/informasi#membatik"
+                }
+              ]
+            },
+            "potentialAction": {
+              "@type": "ReserveAction",
+              "target": "https://wa.me/628128145417",
+              "name": "Booking melalui WhatsApp"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://imah-keramik-bogor.vercel.app/#website",
+            "url": "https://imah-keramik-bogor.vercel.app/",
+            "name": "Imah Keramik Bogor",
+            "inLanguage": "id-ID",
+            "publisher": { "@id": "https://imah-keramik-bogor.vercel.app/#business" }
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://imah-keramik-bogor.vercel.app/#webpage",
+            "url": "https://imah-keramik-bogor.vercel.app/",
+            "name": "Imah Keramik Bogor - Wisata Edukasi Tanah Liat & Keramik",
+            "description": "Informasi workshop keramik, wisata edukasi, harga paket, jam buka, lokasi, dan booking Imah Keramik Bogor.",
+            "inLanguage": "id-ID",
+            "isPartOf": { "@id": "https://imah-keramik-bogor.vercel.app/#website" },
+            "about": { "@id": "https://imah-keramik-bogor.vercel.app/#business" },
+            "mainEntity": { "@id": "https://imah-keramik-bogor.vercel.app/#business" }
+          }
         ]
       }
     </script>
 
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/favicon.png" />
+  <link rel="preload" as="image" href="/assets/images/hero-poster.webp" type="image/webp" fetchpriority="high" />
 
-  <!-- Google Fonts -->
+  <!-- Load the full type system without holding up first paint. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-    rel="stylesheet">
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&amp;family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400;1,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <link rel="stylesheet" media="print" onload="this.onload=null;this.media='all'"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&amp;family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400;1,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&amp;family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400;1,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  </noscript>
   <script>
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
@@ -76,23 +200,20 @@
     window.addEventListener('beforeunload', function () {
       window.scrollTo(0, 0);
     });
-    window.onerror = function (message, source, lineno, colno, error) {
-      const errDiv = document.createElement('div');
-      errDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:red;color:white;z-index:99999;padding:2rem;font-size:20px;white-space:pre-wrap;overflow:auto;';
-      errDiv.innerText = "CRASH: " + message + "\n" + (error ? error.stack : "");
-      document.body.appendChild(errDiv);
-    };
-    window.addEventListener('unhandledrejection', function (event) {
-      const errDiv = document.createElement('div');
-      errDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:red;color:white;z-index:99999;padding:2rem;font-size:20px;white-space:pre-wrap;overflow:auto;';
-      errDiv.innerText = "PROMISE CRASH: " + event.reason;
-      document.body.appendChild(errDiv);
-    });
   </script>
 </head>
 
 <body>
   <div id="root"></div>
+  <noscript>
+    <main style="max-width: 56rem; margin: 4rem auto; padding: 0 1.5rem; font-family: sans-serif; line-height: 1.7; color: #1b5233;">
+      <h1>Imah Keramik Bogor</h1>
+      <p>Workshop keramik dan wisata edukasi tanah liat di Kedunghalang, Bogor Utara.</p>
+      <p>JavaScript tidak aktif. Semua harga, paket, jam buka, alamat, dan kontak tetap tersedia di halaman informasi ringan kami.</p>
+      <p><a href="/informasi">Buka informasi lengkap Imah Keramik Bogor</a></p>
+      <p><a href="https://wa.me/628128145417">Booking melalui WhatsApp</a></p>
+    </main>
+  </noscript>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

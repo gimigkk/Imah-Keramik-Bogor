@@ -7,6 +7,14 @@ interface IntroSplashProps {
   onMorphStart?: () => void;
 }
 
+const INTRO_TIMING = {
+  textRevealDelay: 80,
+  holdDuration: 2200,
+  morphDuration: 1100,
+  morphSafetyBuffer: 200,
+  videoLoadFallback: 1200,
+} as const;
+
 /**
  * Fixed fullscreen video clone intro splash:
  * 1. Clone video starts fullscreen and blurred with a dark backdrop.
@@ -14,17 +22,34 @@ interface IntroSplashProps {
  * 3. Morphs into #hero-video-container, unblurring the video as it shrinks into place.
  */
 export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashProps) {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const [phase, setPhase] = useState<'hold' | 'morph' | 'done'>('hold');
   const [textVisible, setTextVisible] = useState(false);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const onCompleteCb = useCallback(onComplete, [onComplete]);
+  const onCompleteRef = useRef(onComplete);
   const onMorphStartRef = useRef(onMorphStart);
+  const hasCompletedRef = useRef(false);
+
+  const finishIntro = useCallback(() => {
+    if (hasCompletedRef.current) return;
+    hasCompletedRef.current = true;
+    setPhase('done');
+    onCompleteRef.current();
+  }, []);
 
   useEffect(() => {
+    onCompleteRef.current = onComplete;
     onMorphStartRef.current = onMorphStart;
-  }, [onMorphStart]);
+  }, [onComplete, onMorphStart]);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      onMorphStartRef.current?.();
+      finishIntro();
+    }
+  }, [reduceMotion, finishIntro]);
 
   // Disable scrolling during intro and force scroll position to top
   useEffect(() => {
@@ -52,7 +77,7 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
     if (videoLoaded) return;
     const fallback = setTimeout(() => {
       setVideoLoaded(true);
-    }, 1200);
+    }, INTRO_TIMING.videoLoadFallback);
     return () => clearTimeout(fallback);
   }, [videoLoaded]);
 
@@ -61,7 +86,7 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
   useEffect(() => {
     if (!videoLoaded) return;
 
-    const tShow = setTimeout(() => setTextVisible(true), 80);
+    const tShow = setTimeout(() => setTextVisible(true), INTRO_TIMING.textRevealDelay);
     const tMorph = setTimeout(() => {
       const target = document.getElementById('hero-video-container');
       if (target) {
@@ -69,7 +94,7 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
       }
       setPhase('morph');
       onMorphStartRef.current?.();
-    }, 2200);
+    }, INTRO_TIMING.holdDuration);
 
     return () => {
       clearTimeout(tShow);
@@ -82,19 +107,16 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
     if (phase !== 'morph') return;
 
     if (!targetRect) {
-      onCompleteCb();
+      finishIntro();
       return;
     }
 
-    const finish = () => {
-      setPhase('done');
-      onCompleteCb();
-    };
-
-    // Transition is 1100ms, give it a tiny padding
-    const safety = setTimeout(finish, 1300);
+    const safety = setTimeout(
+      finishIntro,
+      INTRO_TIMING.morphDuration + INTRO_TIMING.morphSafetyBuffer,
+    );
     return () => clearTimeout(safety);
-  }, [phase, targetRect, onCompleteCb]);
+  }, [phase, targetRect, finishIntro]);
 
   if (phase === 'done') return null;
 
@@ -114,18 +136,30 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
     <div
       className={`intro-clone${phase === 'morph' ? ' intro-clone--morph' : ''}`}
       style={style}
-      aria-hidden="true"
+      aria-label="Pembuka Imah Keramik Bogor"
     >
+      <img
+        src="/assets/images/hero-poster.webp"
+        alt=""
+        width="1280"
+        height="720"
+        fetchPriority="high"
+        aria-hidden="true"
+        className="intro-clone-poster"
+      />
       <video
         ref={videoRef}
-        autoPlay
+        autoPlay={!reduceMotion}
         loop
         muted
         playsInline
+        preload={reduceMotion ? 'none' : 'auto'}
         onLoadedData={() => setVideoLoaded(true)}
-        poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
+        poster="/assets/images/hero-poster.webp"
+        aria-hidden="true"
         className={`intro-clone-video ${videoLoaded ? 'video-loaded' : ''}`}
       >
+        <source src="/assets/videos/hero/studio-process.webm" type="video/webm" />
         <source src="/assets/videos/hero/studio-process.mp4" type="video/mp4" />
       </video>
 
@@ -153,25 +187,25 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
             className={`intro-float-panel ${textVisible ? 'intro-float-panel-visible' : ''}`}
             style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
           >
-            <h1 className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-[1] px-4">
+            <span className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-[1] px-4">
               Imah
-            </h1>
+            </span>
           </div>
           <div
             className={`intro-float-panel ${textVisible ? 'intro-float-panel-visible' : ''}`}
             style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
           >
-            <h1 className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-[1] px-4">
+            <span className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-[1] px-4">
               Keramik
-            </h1>
+            </span>
           </div>
           <div
             className={`intro-float-panel ${textVisible ? 'intro-float-panel-visible' : ''}`}
             style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
           >
-            <h1 className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-[1] px-4">
+            <span className="font-brand uppercase text-5xl sm:text-7xl md:text-8xl text-background tracking-wider font-extrabold text-center drop-shadow-md leading-[1] px-4">
               Bogor
-            </h1>
+            </span>
           </div>
         </div>
       </div>

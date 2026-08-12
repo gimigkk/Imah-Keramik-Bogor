@@ -5,6 +5,7 @@ export type DaySchedule = {
   isClosed: boolean;
 };
 
+// TODO(company): Confirm regular hours, holiday closures, booking-only exceptions, and timezone before launch. See CONCEPT_HANDOFF.md.
 export const schedule: Record<string, DaySchedule> = {
   sunday: { day: 'Minggu', open: '10:00', close: '18:00', isClosed: false },
   monday: { day: 'Senin', open: null, close: null, isClosed: true },
@@ -14,6 +15,13 @@ export const schedule: Record<string, DaySchedule> = {
   friday: { day: 'Jumat', open: '13:00', close: '18:00', isClosed: false },
   saturday: { day: 'Sabtu', open: '10:00', close: '18:00', isClosed: false },
 };
+
+/** Display-ready weekly hours used by the footer. Keep in sync with `schedule`. */
+export const openingHoursSummary = [
+  { label: 'Sel - Jum', value: '13:00 – 18:00', isClosed: false },
+  { label: 'Sab - Min', value: '10:00 – 18:00', isClosed: false },
+  { label: 'Senin', value: 'Tutup', isClosed: true },
+] as const;
 
 export const getTodayScheduleWIB = (): DaySchedule & { isOpenNow: boolean; displayText: string } => {
   // Get current day in WIB timezone (Asia/Jakarta)

@@ -1,4 +1,26 @@
+# TODO(company): Confirm public indexing (including AI crawlers) and replace the Vercel domain before launch. See CONCEPT_HANDOFF.md.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
 User-agent: *
 Allow: /
 
-Sitemap: https://imahkeramikbogor.vercel.app/sitemap.xml
+Sitemap: https://imah-keramik-bogor.vercel.app/sitemap.xml

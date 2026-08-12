@@ -2,15 +2,11 @@ import React from 'react';
 import { Copyright, Mail } from 'lucide-react';
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa6';
 import { Container } from './Container';
+import { site, getWhatsAppUrl } from '../data/site';
+import { tileAssets } from '../data/assets';
+import { openingHoursSummary } from '../data/schedule';
 
-const TILES = [
-  '/tile.svg',
-  '/tile2.svg',
-  '/tile3.svg',
-  '/tile4.svg',
-  '/tile5.svg',
-];
-
+// TODO(company): Footer identity, contact channels, opening hours, address, decorative assets, copyright owner, and developer credit are concept content pending approval. See CONCEPT_HANDOFF.md.
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-foreground text-background overflow-hidden relative">
@@ -37,29 +33,29 @@ export const Footer: React.FC = () => {
                 </div>
                 <div className="flex flex-col gap-2.5 font-sans text-xs md:text-sm text-background/80">
                   <a
-                    href="https://wa.me/628128145417"
+                    href={getWhatsAppUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2.5 text-background/80 hover:text-background transition-colors group"
                   >
                     <FaWhatsapp size={15} className="text-background/60 group-hover:text-background transition-colors shrink-0" />
-                    <span className="font-medium">WhatsApp (0812-8145-417)</span>
+                    <span className="font-medium">{site.contact.whatsappLabel}</span>
                   </a>
                   <a
-                    href="https://instagram.com/imahkeramikbogor"
+                    href={site.contact.instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2.5 text-background/80 hover:text-background transition-colors group"
                   >
                     <FaInstagram size={15} className="text-background/60 group-hover:text-background transition-colors shrink-0" />
-                    <span className="font-medium">@imahkeramikbogor</span>
+                    <span className="font-medium">{site.contact.instagramHandle}</span>
                   </a>
                   <a
-                    href="mailto:imahkeramikbogor@gmail.com"
+                    href={`mailto:${site.contact.email}`}
                     className="flex items-center gap-2.5 text-background/80 hover:text-background transition-colors group"
                   >
                     <Mail size={15} className="text-background/60 group-hover:text-background transition-colors shrink-0" />
-                    <span className="font-medium">imahkeramikbogor@gmail.com</span>
+                    <span className="font-medium">{site.contact.email}</span>
                   </a>
                 </div>
               </div>
@@ -70,18 +66,12 @@ export const Footer: React.FC = () => {
                   <p className="font-mono text-xs uppercase tracking-widest text-background/50 font-bold">Jam Buka</p>
                 </div>
                 <ul className="font-sans text-xs md:text-sm text-background/80 space-y-2 max-w-[200px]">
-                  <li className="flex justify-between items-center gap-3">
-                    <span className="text-background/60">Sel - Jum</span>
-                    <span className="font-mono text-background/95 font-medium whitespace-nowrap">13:00 – 18:00</span>
-                  </li>
-                  <li className="flex justify-between items-center gap-3">
-                    <span className="text-background/60">Sab - Min</span>
-                    <span className="font-mono text-background/95 font-medium whitespace-nowrap">10:00 – 18:00</span>
-                  </li>
-                  <li className="flex justify-between items-center gap-3">
-                    <span className="text-background/50">Senin</span>
-                    <span className="font-mono text-background/50 font-medium whitespace-nowrap">Tutup</span>
-                  </li>
+                  {openingHoursSummary.map(({ label, value, isClosed }) => (
+                    <li key={label} className="flex justify-between items-center gap-3">
+                      <span className={isClosed ? 'text-background/50' : 'text-background/60'}>{label}</span>
+                      <span className={`font-mono font-medium whitespace-nowrap ${isClosed ? 'text-background/50' : 'text-background/95'}`}>{value}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -91,10 +81,9 @@ export const Footer: React.FC = () => {
                   <p className="font-mono text-xs uppercase tracking-widest text-background/50 font-bold">Lokasi</p>
                 </div>
                 <address className="not-italic font-sans text-xs md:text-sm text-background/80 leading-relaxed">
-                  Jl. Pembangunan No.22/23A,<br />
-                  RT.03/RW.05, Kedunghalang,<br />
-                  Kec. Bogor Utara, Kota Bogor,<br />
-                  Jawa Barat 16158
+                  {site.address.displayLines.map((line) => (
+                    <React.Fragment key={line}>{line}<br /></React.Fragment>
+                  ))}
                 </address>
               </div>
 
@@ -147,11 +136,11 @@ export const Footer: React.FC = () => {
               <pattern id="footer-tiles" width="400" height="400" patternUnits="userSpaceOnUse">
                 {Array.from({ length: 5 }).map((_, rowIndex) =>
                   Array.from({ length: 5 }).map((_, colIndex) => {
-                    const tileIndex = (colIndex + rowIndex) % TILES.length;
+                    const tileIndex = (colIndex + rowIndex) % tileAssets.length;
                     return (
                       <image
                         key={`${rowIndex}-${colIndex}`}
-                        href={TILES[tileIndex]}
+                        href={tileAssets[tileIndex]}
                         x={colIndex * 80}
                         y={rowIndex * 80}
                         width="80"

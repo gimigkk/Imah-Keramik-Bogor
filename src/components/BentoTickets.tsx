@@ -30,6 +30,26 @@ export const BentoTickets: React.FC = () => {
   const interactionVersionRef = useRef(0);
   const pushedHistoryRef = useRef(false);
 
+  const handleTabKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    currentTab: 'keramik' | 'membatik' | 'bundling',
+  ) => {
+    const tabs = ['keramik', 'membatik', 'bundling'] as const;
+    const currentIndex = tabs.indexOf(currentTab);
+    let nextIndex: number | null = null;
+
+    if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % tabs.length;
+    if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    if (event.key === 'Home') nextIndex = 0;
+    if (event.key === 'End') nextIndex = tabs.length - 1;
+    if (nextIndex === null) return;
+
+    event.preventDefault();
+    const nextTab = tabs[nextIndex];
+    setActiveTab(nextTab);
+    window.requestAnimationFrame(() => document.getElementById(`tab-${nextTab}`)?.focus());
+  };
+
   useEffect(() => {
     const opts = { threshold: 0.08 };
     const sObs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setSectionVisible(true); sObs.disconnect(); } }, opts);
@@ -458,9 +478,15 @@ export const BentoTickets: React.FC = () => {
 
         {/* Activity category tabs */}
         <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="flex flex-row w-full sm:w-auto gap-1 sm:gap-2">
+          <div role="tablist" aria-label="Kategori aktivitas" className="flex flex-row w-full sm:w-auto gap-1 sm:gap-2">
             <button
+              id="tab-keramik"
+              role="tab"
+              aria-selected={activeTab === 'keramik'}
+              aria-controls="panel-keramik"
+              tabIndex={activeTab === 'keramik' ? 0 : -1}
               onClick={() => setActiveTab('keramik')}
+              onKeyDown={(event) => handleTabKeyDown(event, 'keramik')}
               className={`flex-1 sm:flex-none px-2 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'keramik'
                 ? 'bg-foreground text-background border-foreground'
                 : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
@@ -469,7 +495,13 @@ export const BentoTickets: React.FC = () => {
               Keramik
             </button>
             <button
+              id="tab-membatik"
+              role="tab"
+              aria-selected={activeTab === 'membatik'}
+              aria-controls="panel-membatik"
+              tabIndex={activeTab === 'membatik' ? 0 : -1}
               onClick={() => setActiveTab('membatik')}
+              onKeyDown={(event) => handleTabKeyDown(event, 'membatik')}
               className={`flex-1 sm:flex-none px-2 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'membatik'
                 ? 'bg-foreground text-background border-foreground'
                 : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
@@ -478,7 +510,13 @@ export const BentoTickets: React.FC = () => {
               Membatik Kayu
             </button>
             <button
+              id="tab-bundling"
+              role="tab"
+              aria-selected={activeTab === 'bundling'}
+              aria-controls="panel-bundling"
+              tabIndex={activeTab === 'bundling' ? 0 : -1}
               onClick={() => setActiveTab('bundling')}
+              onKeyDown={(event) => handleTabKeyDown(event, 'bundling')}
               className={`flex-1 sm:flex-none px-2 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-colors ${activeTab === 'bundling'
                 ? 'bg-foreground text-background border-foreground'
                 : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'
@@ -496,17 +534,17 @@ export const BentoTickets: React.FC = () => {
         </div>
 
         {/* TAB 1: KERAMIK (4-column Bento Grid) */}
-        <div key="keramik" className={`grid grid-cols-1 gap-3 md:grid-cols-4 mb-20 ${activeTab === 'keramik' ? '' : 'hidden'}`}>
+        <div id="panel-keramik" role="tabpanel" aria-labelledby="tab-keramik" hidden={activeTab !== 'keramik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
           {keramikElements}
         </div>
 
         {/* TAB 2: MEMBATIK KAYU (4-column Bento Grid) */}
-        <div key="membatik" className={`grid grid-cols-1 gap-3 md:grid-cols-4 mb-20 ${activeTab === 'membatik' ? '' : 'hidden'}`}>
+        <div id="panel-membatik" role="tabpanel" aria-labelledby="tab-membatik" hidden={activeTab !== 'membatik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
           {membatikElements}
         </div>
 
         {/* TAB 3: BUNDLING (Full-width combination tickets - horizontal, X-axis rotation) */}
-        <div key="bundling" className={`grid grid-cols-1 gap-3 md:grid-cols-4 mb-20 ${activeTab === 'bundling' ? '' : 'hidden'}`}>
+        <div id="panel-bundling" role="tabpanel" aria-labelledby="tab-bundling" hidden={activeTab !== 'bundling'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">
           {bundlingElements}
         </div>
 

@@ -2,21 +2,27 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Container } from './Container';
 import { getTodayScheduleWIB } from '../data/schedule';
+import { site } from '../data/site';
 
 const heroVideos = [
-  { id: 1, title: 'Teknik Putar', src: '/assets/videos/hero/studio-process.mp4' },
-  { id: 2, title: 'Teknik Tangan', src: '/assets/videos/hero/studio-process.mp4' },
-  { id: 3, title: 'Proses Pembakaran', src: '/assets/videos/hero/studio-process.mp4' },
+  { id: 1, title: 'Teknik Putar', src: '/assets/videos/hero/studio-process.mp4', webmSrc: '/assets/videos/hero/studio-process.webm' },
+  { id: 2, title: 'Teknik Tangan', src: '/assets/videos/hero/studio-process.mp4', webmSrc: '/assets/videos/hero/studio-process.webm' },
+  { id: 3, title: 'Proses Pembakaran', src: '/assets/videos/hero/studio-process.mp4', webmSrc: '/assets/videos/hero/studio-process.webm' },
 ];
+
+// TODO(company): Hero copy, location claim, image alt text, video assets, and activity labels are concept content pending company approval. See CONCEPT_HANDOFF.md.
 
 interface HeroProps {
   introStarted?: boolean;
+  videoEnabled?: boolean;
 }
 
-export const Hero: React.FC<HeroProps> = ({ introStarted }) => {
+export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true }) => {
   const [visible, setVisible] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const todaySchedule = getTodayScheduleWIB();
+  const currentVideo = heroVideos[activeVideo];
 
   useEffect(() => {
     if (introStarted === undefined) {
@@ -81,7 +87,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted }) => {
               className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} text-xs md:text-sm lg:text-base text-foreground mb-4 md:mb-6 font-medium`}
               style={{ '--reveal-delay': '480ms' } as React.CSSProperties}
             >
-              Imah Keramik Bogor<br />Studio Terbuka Jawa Barat
+              {site.name}<br />Studio Terbuka Jawa Barat
             </p>
             <a
               href="#activities"
@@ -95,21 +101,28 @@ export const Hero: React.FC<HeroProps> = ({ introStarted }) => {
 
         {/* Massive Cinematic Video */}
         <div id="hero-video-container" className="w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#0d0d0d] relative border border-foreground/10 mb-4">
-          {heroVideos.map((video, idx) => (
+          <img
+            src="/assets/images/hero-poster.webp"
+            alt={`Proses membentuk tanah liat di studio ${site.name}`}
+            width="1280"
+            height="720"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          {videoEnabled && (
             <video
-              key={video.id}
-              autoPlay
+              autoPlay={!reduceMotion}
               loop
               muted
               playsInline
-              poster="https://images.unsplash.com/photo-1609881583302-61548332039c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000"
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-                idx === activeVideo ? 'opacity-100 z-10' : 'opacity-0 z-0'
-              }`}
+              preload={reduceMotion ? 'none' : 'metadata'}
+              poster="/assets/images/hero-poster.webp"
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover"
             >
-              <source src={video.src} type="video/mp4" />
+              <source src={currentVideo.webmSrc} type="video/webm" />
+              <source src={currentVideo.src} type="video/mp4" />
             </video>
-          ))}
+          )}
         </div>
 
         {/* Video Controls */}
@@ -118,13 +131,14 @@ export const Hero: React.FC<HeroProps> = ({ introStarted }) => {
           style={{ '--reveal-delay': '720ms' } as React.CSSProperties}
         >
           <div className="font-accent italic text-base md:text-lg text-foreground/90 lowercase">
-            vid. {activeVideo + 1}: {heroVideos[activeVideo].title}
+            vid. {activeVideo + 1}: {currentVideo.title}
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <button
+              type="button"
               onClick={handlePrevVideo}
-              className="flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-sm border border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-300 focus:outline-none"
-              aria-label="Previous Video"
+              className="flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-sm border border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+              aria-label="Video sebelumnya"
             >
               <ChevronLeft className="w-3 h-3 md:w-3.5 md:h-3.5" />
             </button>
@@ -132,14 +146,16 @@ export const Hero: React.FC<HeroProps> = ({ introStarted }) => {
               {heroVideos.map((_, idx) => (
                 <div
                   key={idx}
+                  aria-hidden="true"
                   className={`w-1 h-1 md:w-1.5 md:h-1.5 rounded-none transition-colors duration-500 ${idx === activeVideo ? 'bg-foreground' : 'bg-foreground/20'}`}
                 />
               ))}
             </div>
             <button
+              type="button"
               onClick={handleNextVideo}
-              className="flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-sm border border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-300 focus:outline-none"
-              aria-label="Next Video"
+              className="flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-sm border border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+              aria-label="Video berikutnya"
             >
               <ChevronRight className="w-3 h-3 md:w-3.5 md:h-3.5" />
             </button>

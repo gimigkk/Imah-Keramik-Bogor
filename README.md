@@ -1,5 +1,9 @@
 # Imah Keramik Bogor - UX Concept & Digital Hub Design
 
+> See [`CONCEPT_HANDOFF.md`](./CONCEPT_HANDOFF.md) for every company fact, asset, URL, and public-facing claim that must be confirmed before this concept can become a production website.
+
+New maintainers should start with [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md). It maps each feature to its owner, identifies the deliberately coupled animation code, and lists the required validation steps.
+
 A web design and digital product concept built for **Imah Keramik Bogor**, an educational ceramic studio and cultural tourism venue in Bogor, Indonesia.
 
 ---
@@ -69,9 +73,23 @@ src/
 │   ├── TicketModal.tsx        # Detail overlay with pre-filled booking actions
 │   └── TileBackground.tsx     # RAF-driven SVG tile parallax background
 ├── data/
-│   └── tickets.ts             # Sourced and structured catalog dataset
+│   ├── assets.ts              # Shared public asset paths
+│   ├── schedule.ts            # Opening hours and live-status calculation
+│   ├── site.ts                # Runtime business/contact/location details
+│   ├── ticketMedia.ts         # Ticket-to-video mapping
+│   └── tickets.ts             # Structured catalogue dataset
+├── lib/
+│   └── responsiveImage.ts     # Unsplash image transformation helpers
+├── data/
 └── types/
     └── ticket.ts              # TypeScript interfaces for catalog items
+
+public/                           # Static files copied directly to deployment
+├── assets/                       # Optimized visual/video assets
+├── informasi.html                # Non-JavaScript public information page
+├── llms.txt                      # AI-readable concept information
+├── robots.txt / sitemap.xml      # Crawler configuration
+└── og-image.jpg                  # Social sharing image
 ```
 
 ---
@@ -98,6 +116,9 @@ npm install
 
 # Run dev server
 npm run dev
+
+# Type-check without creating a production build
+npm run typecheck
 
 # Build for production
 npm run build

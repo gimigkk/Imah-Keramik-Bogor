@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <!-- TODO(company): This entire static page contains concept/brochure facts. Approve or replace its domain, contacts, hours, address, activities, prices, FAQs, and imagery before launch. See CONCEPT_HANDOFF.md. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harga Workshop & Informasi Kunjungan | Imah Keramik Bogor</title>
+  <meta name="description" content="Daftar harga Fun Clay, Ceramic Art Class, glaze coloring, membatik kayu, tiket masuk studio, sewa aula, jam buka, alamat, dan booking Imah Keramik Bogor.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#1b5233">
+  <link rel="canonical" href="https://imah-keramik-bogor.vercel.app/informasi">
+  <link rel="alternate" hreflang="id-ID" href="https://imah-keramik-bogor.vercel.app/informasi">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://imah-keramik-bogor.vercel.app/informasi">
+  <meta property="og:title" content="Harga Workshop & Informasi Kunjungan | Imah Keramik Bogor">
+  <meta property="og:description" content="Informasi lengkap kelas keramik, membatik kayu, kunjungan studio, jam buka, dan booking di Bogor.">
+  <meta property="og:image" content="https://imah-keramik-bogor.vercel.app/og-image.jpg">
+  <meta property="og:image:alt" content="Proses membentuk tanah liat di Imah Keramik Bogor">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Apakah kunjungan dan kelas perlu reservasi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Reservasi melalui WhatsApp sangat disarankan untuk memastikan jadwal, kapasitas, dan ketersediaan pendamping kelas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kapan Imah Keramik Bogor buka?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Imah Keramik Bogor buka Selasa sampai Jumat pukul 13.00-18.00 WIB dan Sabtu sampai Minggu pukul 10.00-18.00 WIB. Senin tutup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Berapa harga tiket masuk studio?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "HTM atau tiket masuk studio adalah Rp15.000 per orang dan mencakup tur untuk melihat beberapa tahap proses produksi keramik."
+          }
+        }
+      ]
+    }
+  </script>
+  <style>
+    :root { color-scheme: light; --green: #1b5233; --cream: #fdfaf6; --card: #f2ece4; --muted: #655f57; --yellow: #ffbe5d; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--cream); color: var(--green); font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.65; }
+    a { color: inherit; }
+    a:focus-visible, summary:focus-visible { outline: 3px solid var(--yellow); outline-offset: 4px; }
+    .skip { position: fixed; left: 1rem; top: -5rem; z-index: 10; background: var(--cream); padding: .75rem 1rem; font-weight: 800; }
+    .skip:focus { top: 1rem; }
+    .wrap { width: min(72rem, calc(100% - 2rem)); margin-inline: auto; }
+    header { background: var(--green); color: var(--cream); }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1rem; }
+    .brand { font-weight: 900; text-decoration: none; letter-spacing: .05em; text-transform: uppercase; }
+    nav { display: flex; flex-wrap: wrap; gap: 1rem; font-size: .9rem; font-weight: 700; }
+    main { padding-block: 3rem 5rem; }
+    h1, h2, h3, h4 { line-height: 1.08; text-wrap: balance; }
+    h1 { max-width: 15ch; margin: 0; font-family: Georgia, serif; font-size: clamp(2.7rem, 8vw, 5.8rem); text-transform: uppercase; }
+    h2 { margin: 0 0 1rem; font-family: Georgia, serif; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; }
+    h3 { margin: 0 0 .5rem; font-size: 1.25rem; }
+    h4 { margin: 0 0 .5rem; font-size: 1.15rem; }
+    .lede { max-width: 48rem; font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--muted); }
+    .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+    .button { display: inline-block; border: 2px solid var(--green); padding: .75rem 1rem; font-weight: 800; text-decoration: none; }
+    .button.primary { background: var(--yellow); }
+    section { padding-top: 4rem; }
+    .facts, .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; }
+    .fact, article { border: 1px solid color-mix(in srgb, var(--green) 25%, transparent); background: var(--card); padding: 1.25rem; }
+    .fact strong, .price { display: block; margin-bottom: .25rem; font-weight: 900; }
+    .price { margin-top: 1rem; font-size: 1.1rem; }
+    article p, article ul { margin-bottom: 0; color: var(--muted); }
+    article ul { padding-left: 1.25rem; }
+    .group-title { margin-top: 2.5rem; }
+    details { border-top: 1px solid color-mix(in srgb, var(--green) 25%, transparent); padding-block: 1rem; }
+    details:last-child { border-bottom: 1px solid color-mix(in srgb, var(--green) 25%, transparent); }
+    summary { cursor: pointer; font-weight: 800; }
+    address { font-style: normal; }
+    footer { background: var(--green); color: var(--cream); padding-block: 2rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#konten">Lewati ke konten utama</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="/">Imah Keramik Bogor</a>
+      <nav aria-label="Navigasi halaman informasi">
+        <a href="#aktivitas">Aktivitas & harga</a>
+        <a href="#kunjungan">Kunjungan</a>
+        <a href="#faq">Tanya jawab</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="konten" class="wrap">
+    <h1>Harga & informasi kunjungan</h1>
+    <p class="lede">Imah Keramik Bogor adalah studio keramik dan tempat wisata edukasi di Kedunghalang, Bogor Utara. Halaman ringan ini memuat informasi yang dapat dibaca tanpa JavaScript.</p>
+    <div class="actions">
+      <a class="button primary" href="https://wa.me/628128145417">Booking via WhatsApp</a>
+      <a class="button" href="/">Lihat halaman utama</a>
+    </div>
+
+    <section aria-labelledby="ringkas-heading">
+      <h2 id="ringkas-heading">Informasi ringkas</h2>
+      <div class="facts">
+        <div class="fact"><strong>Jam buka</strong>Selasa-Jumat 13.00-18.00 WIB<br>Sabtu-Minggu 10.00-18.00 WIB<br>Senin tutup</div>
+        <div class="fact"><strong>Alamat</strong>Jl. Pembangunan No.22/23A, RT.03/RW.05, Kedunghalang, Bogor Utara, Kota Bogor, Jawa Barat 16158</div>
+        <div class="fact"><strong>Kontak</strong><a href="tel:+628128145417">0812-8145-417</a><br><a href="mailto:imahkeramikbogor@gmail.com">imahkeramikbogor@gmail.com</a></div>
+      </div>
+    </section>
+
+    <section id="aktivitas" aria-labelledby="aktivitas-heading">
+      <h2 id="aktivitas-heading">Aktivitas & harga</h2>
+
+      <h3 class="group-title">Kunjungan dan kelas keramik</h3>
+      <div class="cards">
+        <article id="htm">
+          <h4>HTM / Tiket Masuk Studio</h4>
+          <p>Tur untuk melihat pengolahan bahan baku, proses putar dan mug tuang, dekor kerok, glazur celup, serta tungku pembakaran.</p>
+          <strong class="price">Rp15.000 / orang</strong>
+        </article>
+        <article id="fun-clay">
+          <h4>Fun Clay</h4>
+          <p>Factory visit dan tutorial membentuk tanah liat dengan teknik tangan seperti mencubit, menggulung, dan memipihkan.</p>
+          <strong class="price">Rp75.000 / orang / sesi</strong>
+        </article>
+        <article id="cac">
+          <h4>Ceramic Art Class (CAC)</h4>
+          <p>Factory visit, tutorial pembuatan keramik, dua kali pembakaran, dan glazur satu warna.</p>
+          <strong class="price">Rp200.000 / orang / sesi</strong>
+        </article>
+        <article id="glaze-coloring">
+          <h4>Glaze Coloring</h4>
+          <p>Satu body bisque, tutorial mewarnai glazur, beragam pilihan warna, dan satu kali pembakaran glazur.</p>
+          <strong class="price">Rp200.000 / orang / sesi</strong>
+        </article>
+      </div>
+
+      <h3 id="membatik" class="group-title">Membatik kayu</h3>
+      <div class="cards">
+        <article><h4>Paket Membatik Kayu 1</h4><p>Satu centong, satu warna, dan tutorial membatik.</p><strong class="price">Rp50.000 / orang / sesi</strong></article>
+        <article><h4>Paket Membatik Kayu 2</h4><p>Dua centong, satu warna, dan tutorial membatik.</p><strong class="price">Rp75.000 / orang / sesi</strong></article>
+        <article><h4>Paket Membatik Kayu 3</h4><p>Satu pigura, satu centong, satu warna, dan tutorial membatik.</p><strong class="price">Rp100.000 / orang / sesi</strong></article>
+        <article><h4>Paket Membatik Kayu 4</h4><p>Satu talenan, dua warna, dan tutorial membatik.</p><strong class="price">Rp150.000 / orang / sesi</strong></article>
+      </div>
+
+      <h3 class="group-title">Bundling dan fasilitas</h3>
+      <div class="cards">
+        <article><h4>Fun Clay + Membatik</h4><p>Bundling Fun Clay dan Membatik Kayu Paket 1.</p><strong class="price">Rp100.000 / orang / sesi</strong></article>
+        <article><h4>CAC / Glaze + Membatik</h4><p>Pilih Ceramic Art Class atau Glaze Coloring, ditambah Membatik Kayu Paket 1.</p><strong class="price">Rp225.000 / orang / sesi</strong></article>
+        <article><h4>Sewa Aula</h4><p>Dua jam untuk maksimal 30 orang. Tambahan Rp150.000 per jam dan Rp10.000 per peserta tambahan.</p><strong class="price">Rp300.000 / 2 jam</strong></article>
+        <article><h4>Workshop Custom</h4><p>Jenis kelas dan harga mengikuti aktivitas yang dipilih. Transportasi dan akomodasi tidak termasuk.</p><strong class="price">Harga sesuai kelas</strong></article>
+        <article><h4>Paket Usaha</h4><p>Bahan baku, enam warna glazur, dan dua kali pembakaran untuk peserta level expert.</p><strong class="price">Rp200.000 / orang</strong></article>
+      </div>
+    </section>
+
+    <section id="kunjungan" aria-labelledby="kunjungan-heading">
+      <h2 id="kunjungan-heading">Rencanakan kunjungan</h2>
+      <address>
+        <strong>Imah Keramik Bogor</strong><br>
+        Jl. Pembangunan No.22/23A, RT.03/RW.05, Kedunghalang,<br>
+        Kecamatan Bogor Utara, Kota Bogor, Jawa Barat 16158, Indonesia.
+      </address>
+      <div class="actions">
+        <a class="button primary" href="https://wa.me/628128145417">Konfirmasi jadwal via WhatsApp</a>
+        <a class="button" href="https://www.google.com/maps/search/?api=1&amp;query=Imah%20Keramik%20Bogor">Buka Google Maps</a>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Tanya jawab</h2>
+      <details><summary>Apakah kunjungan dan kelas perlu reservasi?</summary><p>Reservasi melalui WhatsApp sangat disarankan untuk memastikan jadwal, kapasitas, dan ketersediaan pendamping kelas.</p></details>
+      <details><summary>Kapan Imah Keramik Bogor buka?</summary><p>Selasa-Jumat pukul 13.00-18.00 WIB dan Sabtu-Minggu pukul 10.00-18.00 WIB. Senin tutup.</p></details>
+      <details><summary>Berapa harga tiket masuk studio?</summary><p>HTM atau tiket masuk studio adalah Rp15.000 per orang dan mencakup tur untuk melihat beberapa tahap proses produksi keramik.</p></details>
+      <details><summary>Apakah harga dan jadwal dapat berubah?</summary><p>Jadwal, kapasitas, dan ketersediaan dapat berubah. Konfirmasikan informasi terbaru kepada tim studio melalui WhatsApp sebelum datang.</p></details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Imah Keramik Bogor</span>
+      <a href="https://www.instagram.com/imahkeramikbogor">Instagram @imahkeramikbogor</a>
+    </div>
+  </footer>
+</body>
+</html>

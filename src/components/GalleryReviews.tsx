@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Container } from './Container';
+import { getResponsiveImageProps } from '../lib/responsiveImage';
+
+const galleryImageSizes = '(min-width: 1400px) 270px, (min-width: 1024px) 22vw, (min-width: 640px) 46vw, calc(100vw - 5rem)';
 
 export const GalleryReviews = () => {
   const [visible, setVisible] = useState(false);
@@ -11,38 +14,50 @@ export const GalleryReviews = () => {
     const calculateDelays = () => {
       if (!gridRef.current) return;
       const cards = Array.from(gridRef.current.children) as HTMLElement[];
-      
-      const colMap = new Map<number, HTMLElement[]>();
-      cards.forEach((card) => {
-        // Skip elements that are hidden on the current viewport (e.g. mobile hides cards 4-15)
-        if (card.offsetWidth === 0 && card.offsetHeight === 0) return;
-        
-        const rect = card.getBoundingClientRect();
+      const layouts = cards.map((card) => ({ card, rect: card.getBoundingClientRect() }));
+      const colMap = new Map<number, typeof layouts>();
+
+      layouts.forEach((layout) => {
+        // Skip elements that are hidden on the current viewport (e.g. mobile hides cards 4-15).
+        if (layout.rect.width === 0 && layout.rect.height === 0) return;
+
         // Group by physical X position (rounded to 20px to ignore subpixel rounding differences)
-        const xPos = Math.round(rect.left / 20) * 20; 
+        const xPos = Math.round(layout.rect.left / 20) * 20;
         if (!colMap.has(xPos)) colMap.set(xPos, []);
-        colMap.get(xPos)!.push(card);
+        colMap.get(xPos)!.push(layout);
       });
 
       // Sort columns left-to-right
       const sortedXs = Array.from(colMap.keys()).sort((a, b) => a - b);
-      
+      const delays: Array<{ card: HTMLElement; delay: number }> = [];
+
       sortedXs.forEach((x, colIdx) => {
         const colCards = colMap.get(x)!;
         // Sort cards within the column top-to-bottom
-        colCards.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
-        
-        colCards.forEach((card, rowIdx) => {
-          // Exact user request: +delay per column, +delay per row
-          const delay = (colIdx * 80) + (rowIdx * 100);
-          card.style.setProperty('--reveal-delay', `${delay}ms`);
+        colCards.sort((a, b) => a.rect.top - b.rect.top);
+
+        colCards.forEach(({ card }, rowIdx) => {
+          delays.push({ card, delay: (colIdx * 80) + (rowIdx * 100) });
         });
+      });
+
+      // Keep every layout read above separate from these style writes to avoid forced reflow.
+      delays.forEach(({ card, delay }) => {
+        card.style.setProperty('--reveal-delay', `${delay}ms`);
       });
     };
 
-    calculateDelays();
-    window.addEventListener('resize', calculateDelays);
-    return () => window.removeEventListener('resize', calculateDelays);
+    let frame = window.requestAnimationFrame(calculateDelays);
+    const scheduleCalculation = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(calculateDelays);
+    };
+
+    window.addEventListener('resize', scheduleCalculation);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('resize', scheduleCalculation);
+    };
   }, []);
 
   useEffect(() => {
@@ -63,6 +78,7 @@ export const GalleryReviews = () => {
     return () => observer.disconnect();
   }, []);
 
+  // TODO(company): Confirm permission, accuracy, source links, and editorial approval for every quoted review and concept/stock image below before launch. See CONCEPT_HANDOFF.md.
   // All 16 real Google Reviews from Imah Keramik Bogor customers with exact direct Google share links
   // Array is ordered Left-to-Right, Top-to-Bottom:
   // Items 0..3 are the top row across the 4 columns (and top 4 highlights for mobile)
@@ -253,10 +269,13 @@ export const GalleryReviews = () => {
               {review.img && (
                 <div className={`relative overflow-hidden rounded-sm bg-black/5 mb-2 w-full ${review.aspect}`}>
                   <img
-                    src={review.img}
+                    {...getResponsiveImageProps(review.img, galleryImageSizes, [240, 360, 480, 640])}
                     alt={review.alt || "Karya peserta"}
                     className="h-full w-full object-cover opacity-100"
                     loading="lazy"
+                    decoding="async"
+                    width="640"
+                    height="426"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                     <span className="opacity-0 group-hover:opacity-100 bg-white/95 text-[10px] px-2 py-0.5 rounded-full font-sans font-medium text-[#111b21] shadow-md transition-opacity duration-200">

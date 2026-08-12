@@ -1,6 +1,7 @@
 import { Ticket } from '../types/ticket';
 import { ticketVideoGalleries } from './ticketMedia';
 
+// TODO(company): All catalogue names, prices, inclusions, descriptions, package rules, images, and WhatsApp copy below are concept/brochure input pending company approval. See CONCEPT_HANDOFF.md.
 export const keramikTickets: Ticket[] = [
   {
     id: 'cac',

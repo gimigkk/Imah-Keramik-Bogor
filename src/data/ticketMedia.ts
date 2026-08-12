@@ -1,5 +1,6 @@
 import { TicketId, TicketVideo } from '../types/ticket';
 
+// TODO(company): Video assignments and captions are concept media. Replace with company-approved footage and rights-cleared descriptions before launch. See CONCEPT_HANDOFF.md.
 export const ticketVideoGalleries: Record<TicketId, TicketVideo[]> = {
   cac: [
     {

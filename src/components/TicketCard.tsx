@@ -1,5 +1,6 @@
 import React from 'react';
 import { Ticket } from '../types/ticket';
+import { getResponsiveImageProps } from '../lib/responsiveImage';
 
 interface TicketCardProps {
   ticket: Ticket;
@@ -88,6 +89,22 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 }) => {
   const isAccent = ticket.isAccent;
   const isFeatured = ticket.featured;
+  const imageSizes = standalone
+    ? '(min-width: 1024px) 460px, calc(100vw - 5rem)'
+    : isFeatured || (ticket.gridSpan?.cols ?? 1) >= 2
+      ? '(min-width: 1400px) 560px, (min-width: 768px) 44vw, calc(100vw - 5rem)'
+      : '(min-width: 1400px) 270px, (min-width: 768px) 22vw, calc(100vw - 5rem)';
+  const imageProps = ticket.image
+    ? getResponsiveImageProps(ticket.image, imageSizes)
+    : null;
+  const handleKeyDown = onClick
+    ? (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onClick(ticket);
+        }
+      }
+    : undefined;
 
   // Determine badge styling based on design system
   const renderBadge = () => {
@@ -154,7 +171,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   const gridPlacementClass = standalone
     ? ''
     : `${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass}`;
-  const containerClass = `ticket-shell group relative flex justify-between ${onClick ? 'cursor-pointer' : 'cursor-default'} ${gridPlacementClass} ${className} ${isAccent ? 'ticket-accent text-background' : 'text-foreground'
+  const containerClass = `ticket-shell group relative flex justify-between ${onClick ? 'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground' : 'cursor-default'} ${gridPlacementClass} ${className} ${isAccent ? 'ticket-accent text-background' : 'text-foreground'
     }`;
 
   // 1. FEATURED VERTICAL TICKET (CAC - 2 cols x 2 rows vertical ticket, image under title/content)
@@ -162,6 +179,10 @@ export const TicketCard: React.FC<TicketCardProps> = ({
     return (
       <div
         onClick={onClick ? () => onClick(ticket) : undefined}
+        onKeyDown={handleKeyDown}
+        role={onClick ? 'button' : undefined}
+        tabIndex={onClick ? 0 : undefined}
+        aria-label={onClick ? `Lihat detail ${ticket.title}, ${ticket.price}` : undefined}
         className={`${containerClass} flex-col`}
         style={style}
         data-ticket-id={ticket.id}
@@ -193,10 +214,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               className="w-full flex-1 min-h-50 border border-foreground/10 overflow-hidden bg-muted relative mt-1"
             >
               <img
-                src={ticket.image}
+                {...imageProps}
                 alt={ticket.title}
                 loading="lazy"
                 decoding="async"
+                width="720"
+                height="480"
                 className="absolute inset-0 h-full w-full object-cover opacity-100"
               />
             </div>
@@ -217,6 +240,10 @@ export const TicketCard: React.FC<TicketCardProps> = ({
     return (
       <div
         onClick={onClick ? () => onClick(ticket) : undefined}
+        onKeyDown={handleKeyDown}
+        role={onClick ? 'button' : undefined}
+        tabIndex={onClick ? 0 : undefined}
+        aria-label={onClick ? `Lihat detail ${ticket.title}, ${ticket.price}` : undefined}
         className={`${containerClass} ticket-horizontal flex-col md:flex-row ${isDoubleTall ? 'min-h-70 md:min-h-85' : ''
           }`}
         style={style}
@@ -234,10 +261,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({
                 }`}
             >
               <img
-                src={ticket.image}
+                {...imageProps}
                 alt={ticket.title}
                 loading="lazy"
                 decoding="async"
+                width="720"
+                height="480"
                 className="absolute inset-0 h-full w-full object-cover opacity-100"
               />
             </div>
@@ -295,6 +324,10 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   return (
     <div
       onClick={onClick ? () => onClick(ticket) : undefined}
+      onKeyDown={handleKeyDown}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      aria-label={onClick ? `Lihat detail ${ticket.title}, ${ticket.price}` : undefined}
       className={`${containerClass} flex-col`}
       style={style}
       data-ticket-id={ticket.id}
@@ -332,10 +365,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
           >
             <img
-              src={ticket.image}
+              {...imageProps}
               alt={ticket.title}
               loading="lazy"
               decoding="async"
+              width="720"
+              height="480"
               className="absolute inset-0 h-full w-full object-cover opacity-100"
             />
           </div>
