@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { FaWhatsapp } from 'react-icons/fa6';
 import { Container } from './Container';
 
 export const CTA = () => {
@@ -57,13 +58,14 @@ export const CTA = () => {
               Kapasitas di studio kami sangat terbatas. Lengkapi formulir pendaftaran resmi untuk mengamankan sesi Anda pada musim ini.
             </p>
             <a
-              href="https://forms.google.com"
+              href="https://wa.me/628128145417"
               target="_blank"
               rel="noopener noreferrer"
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} inline-flex items-center justify-center border border-primary bg-primary text-primary-foreground px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-background hover:text-foreground transition-colors duration-300 w-fit`}
+              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} inline-flex items-center justify-center gap-2 border border-primary bg-primary text-primary-foreground px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-foreground hover:text-background hover:border-foreground transition-colors duration-300 w-fit`}
               style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
             >
-              Booking Sekarng
+              <FaWhatsapp size={16} aria-hidden="true" />
+              Booking Sekarang
             </a>
           </div>
 
