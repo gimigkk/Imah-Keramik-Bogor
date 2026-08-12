@@ -8,24 +8,53 @@ interface ActivityDetailsProps {
   className?: string;
 }
 
-const ActivityVideo: React.FC<{ video: TicketVideo }> = ({ video }) => (
-  <figure className="min-w-0 overflow-hidden border border-foreground/15 bg-background">
-    <video
-      aria-label={video.title}
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="metadata"
-      className="aspect-video w-full bg-muted object-cover grayscale"
-    >
-      <source src={video.src} type="video/mp4" />
-    </video>
-    <figcaption className="px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-      {video.title}
-    </figcaption>
-  </figure>
-);
+const ActivityVideo: React.FC<{ video: TicketVideo }> = ({ video }) => {
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [hasError, setHasError] = React.useState(false);
+
+  React.useEffect(() => {
+    const videoEl = videoRef.current;
+    if (!videoEl || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoEl.play().catch(() => {});
+          } else {
+            videoEl.pause();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(videoEl);
+    return () => observer.disconnect();
+  }, [video.src]);
+
+  if (hasError) return null;
+
+  return (
+    <figure className="min-w-0 overflow-hidden border border-foreground/15 bg-background">
+      <video
+        ref={videoRef}
+        aria-label={video.title}
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        onError={() => setHasError(true)}
+        className="aspect-video w-full bg-muted object-cover grayscale"
+      >
+        <source src={video.src} type="video/mp4" />
+      </video>
+      <figcaption className="px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+        {video.title}
+      </figcaption>
+    </figure>
+  );
+};
 
 export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClose, className = '' }) => (
   <section
@@ -58,8 +87,8 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClos
     {ticket.videos && ticket.videos.length > 0 && (
       <div className="mt-7">
         <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
-          {ticket.videos.map((video) => (
-            <ActivityVideo key={video.src} video={video} />
+          {ticket.videos.map((video, idx) => (
+            <ActivityVideo key={`${video.src}-${idx}`} video={video} />
           ))}
         </div>
       </div>

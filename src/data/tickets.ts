@@ -59,6 +59,7 @@ export const keramikTickets: Ticket[] = [
     description: 'Hidupkan karya setengah matang Anda dengan berbagai pilihan warna dan glazur.',
     additionalDetails: 'Paket mencakup satu body bisque, tutorial mewarnai, dan satu kali pembakaran glazur setelah karya selesai dihias.',
     category: 'keramik',
+    videos: ticketVideoGalleries['glaze-coloring'],
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk kelas Glaze Coloring.',
   },
 ];
@@ -76,6 +77,7 @@ export const membatikTickets: Ticket[] = [
     description: 'Belajar membatik kayu pada satu centong dengan satu pilihan warna. Semua alat dan bahan disediakan.',
     additionalDetails: 'Paket sudah termasuk tutorial membatik untuk pengerjaan satu centong.',
     category: 'membatik',
+    videos: ticketVideoGalleries['membatik-kayu-1'],
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Membatik Kayu 1 (1 Centong, 1 Warna).',
   },
   {
@@ -90,6 +92,7 @@ export const membatikTickets: Ticket[] = [
     description: 'Belajar membatik kayu pada dua centong dengan satu pilihan warna. Semua alat dan bahan disediakan.',
     additionalDetails: 'Paket sudah termasuk tutorial membatik untuk pengerjaan kedua centong.',
     category: 'membatik',
+    videos: ticketVideoGalleries['membatik-kayu-2'],
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Membatik Kayu 2 (2 Centong, 1 Warna).',
   },
   {
@@ -104,6 +107,7 @@ export const membatikTickets: Ticket[] = [
     description: 'Belajar membatik kayu pada satu pigura dan satu centong dengan satu pilihan warna. Semua alat dan bahan disediakan.',
     additionalDetails: 'Paket sudah termasuk tutorial membatik untuk pengerjaan pigura dan centong.',
     category: 'membatik',
+    videos: ticketVideoGalleries['membatik-kayu-3'],
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Membatik Kayu 3 (1 Pigura, 1 Centong, 1 Warna).',
   },
   {
@@ -118,6 +122,7 @@ export const membatikTickets: Ticket[] = [
     description: 'Belajar membatik kayu pada satu talenan dengan dua pilihan warna. Semua alat dan bahan disediakan.',
     additionalDetails: 'Paket sudah termasuk tutorial membatik untuk pengerjaan talenan dengan dua warna.',
     category: 'membatik',
+    videos: ticketVideoGalleries['membatik-kayu-4'],
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Membatik Kayu 4 (1 Talenan, 2 Warna).',
   },
 ];
@@ -137,6 +142,7 @@ export const bundlingTickets: Ticket[] = [
     description: 'Paket hemat menggabungkan Fun Clay tanah liat dan Membatik Kayu Paket 1.',
     additionalDetails: 'Bagian membatik menggunakan Paket 1, yaitu satu centong kayu dengan satu pilihan warna.',
     category: 'bundling',
+    videos: ticketVideoGalleries['bundling-1'],
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Bundling Fun Clay + Membatik Kayu.',
   },
   {
@@ -153,6 +159,7 @@ export const bundlingTickets: Ticket[] = [
     description: 'Kombinasi kelas keramik lanjutan (CAC/Glaze) dan Membatik Kayu Paket 1.',
     additionalDetails: 'Peserta dapat memilih Ceramic Art Class atau Glaze Coloring, kemudian membatik satu centong dengan satu pilihan warna melalui Membatik Kayu Paket 1.',
     category: 'bundling',
+    videos: ticketVideoGalleries['bundling-2'],
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / booking untuk Paket Bundling CAC / Glaze + Membatik Kayu.',
   },
 ];
@@ -174,6 +181,7 @@ export const infoUmumTickets: Ticket[] = [
     description: 'Akses tur melihat seluruh proses produksi keramik dan tungku pembakaran studio.',
     additionalDetails: 'Rangkaian kunjungan mencakup pengolahan bahan baku, proses putar dan mug tuang, dekor kerok, pewarnaan glazur celup, serta tungku pembakaran atau kiln.',
     category: 'info_umum',
+    videos: ticketVideoGalleries.htm,
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya informasi kunjungan studio & HTM (Tiket Masuk).',
   },
   {
@@ -188,6 +196,7 @@ export const infoUmumTickets: Ticket[] = [
     description: 'Sewa ruang aula studio untuk gathering, rapat, atau acara privat.',
     additionalDetails: 'Harga dasar berlaku untuk dua jam dan maksimal 30 orang. Waktu tambahan dikenakan Rp 150.000 per jam, sedangkan peserta tambahan dikenakan Rp 10.000 per orang.',
     category: 'info_umum',
+    videos: ticketVideoGalleries['sewa-aula'],
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya / reservasi untuk Sewa Aula.',
   },
   {
@@ -203,6 +212,7 @@ export const infoUmumTickets: Ticket[] = [
     description: 'Sesi privat khusus rombongan/instansi disesuaikan kebutuhan acara Anda.',
     additionalDetails: 'Jenis kelas dan harga workshop mengikuti aktivitas yang dipilih. Biaya transportasi dan akomodasi tidak termasuk dalam harga kelas.',
     category: 'info_umum',
+    videos: ticketVideoGalleries.workshop,
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya informasi & koordinasi untuk Workshop Custom.',
   },
   {
@@ -223,6 +233,7 @@ export const infoUmumTickets: Ticket[] = [
     description: 'Pelatihan & fasilitas produksi lengkap untuk peserta level expert.',
     additionalDetails: 'Fasilitas paket mencakup bahan baku, enam warna glazur, dan dua kali pembakaran untuk mendukung proses produksi keramik.',
     category: 'info_umum',
+    videos: ticketVideoGalleries['paket-usaha'],
     whatsappMessage: 'Halo Imah Keramik Bogor, saya mau tanya informasi & pendaftaran untuk Paket Usaha keramik.',
   },
 ];
@@ -233,4 +244,3 @@ export const getTicketWhatsappMessage = (ticket: Ticket): string => {
   }
   return `Halo Imah Keramik Bogor, saya mau tanya / booking untuk ${ticket.title}.`;
 };
-
