@@ -33,3 +33,8 @@ This repository is a concept site, not an approved production website. Do not pu
 4. Synchronize `public/informasi.html`, `public/llms.txt`, `public/robots.txt`, and `public/sitemap.xml`.
 5. Replace the social-preview image and update the sitemap `lastmod` date.
 6. Have the company review the staging URL, then enable indexing and submit the final sitemap.
+
+## Future Enhancement Ideas
+
+- **Zero-CMS YouTube Playlist Auto-Sync**: Integrate YouTube Data API v3 (`playlistItems` endpoint) using a `VITE_YOUTUBE_API_KEY`. The website will automatically parse and display videos, titles, and thumbnails from a single YouTube Playlist ID (`list=PL...`). This allows the client to update site hero videos anytime just by managing their YouTube playlist, eliminating the need for a CMS or code changes.
+

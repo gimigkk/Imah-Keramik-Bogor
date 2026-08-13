@@ -227,7 +227,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
                         ref={(el) => {
                           iframeRefs.current[idx] = el;
                         }}
-                        src={`https://www.youtube-nocookie.com/embed/${ytId}?autoplay=${isSelected ? 1 : 0}&mute=1&loop=0&playlist=${ytId}&controls=1&rel=0&playsinline=1&enablejsapi=1`}
+                        src={`https://www.youtube-nocookie.com/embed/${ytId}?autoplay=${isSelected ? 1 : 0}&mute=1&loop=0&controls=1&rel=0&playsinline=1&enablejsapi=1`}
                         title={vid.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
