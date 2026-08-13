@@ -1,7 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { TileBackground } from './TileBackground';
 import { pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
-import { mediaAssets } from '../data/assets';
 
 interface IntroSplashProps {
   onComplete: () => void;
@@ -10,25 +8,22 @@ interface IntroSplashProps {
 
 const INTRO_TIMING = {
   textRevealDelay: 80,
-  holdDuration: 2200,
+  holdDuration: 1300,
   morphDuration: 1100,
-  morphSafetyBuffer: 200,
-  videoLoadFallback: 1200,
+  dockFadeDuration: 400,
 } as const;
 
 /**
- * Fixed fullscreen video clone intro splash:
- * 1. Clone video starts fullscreen and blurred with a dark backdrop.
- * 2. Brand icon, "IMAH KERAMIK BOGOR" title, and tagline float up with blur and stagger.
- * 3. Morphs into #hero-video-container, unblurring the video as it shrinks into place.
+ * Fixed fullscreen clone intro splash:
+ * 1. Black clone panel starts fullscreen with brand title float-up entrance.
+ * 2. Morphs into #hero-video-container coordinates over 1.1s.
+ * 3. Once docked on top of #hero-video-container, fades out over 400ms to reveal video.
  */
 export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashProps) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const [phase, setPhase] = useState<'hold' | 'morph' | 'done'>('hold');
+  const [phase, setPhase] = useState<'hold' | 'morph' | 'docked' | 'done'>('hold');
   const [textVisible, setTextVisible] = useState(false);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const onCompleteRef = useRef(onComplete);
   const onMorphStartRef = useRef(onMorphStart);
   const hasCompletedRef = useRef(false);
@@ -66,28 +61,14 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
     };
   }, []);
 
-  // Handle case where video is already loaded (e.g. from cache)
+  // Step 1: Reveal brand text stagger
   useEffect(() => {
-    if (videoRef.current && videoRef.current.readyState >= 2) {
-      setVideoLoaded(true);
-    }
+    const tShow = setTimeout(() => setTextVisible(true), INTRO_TIMING.textRevealDelay);
+    return () => clearTimeout(tShow);
   }, []);
 
-  // Fallback timer in case network latency delays onLoadedData on prod
+  // Step 2: Hold for 2.2s, then measure target rect and trigger morph
   useEffect(() => {
-    if (videoLoaded) return;
-    const fallback = setTimeout(() => {
-      setVideoLoaded(true);
-    }, INTRO_TIMING.videoLoadFallback);
-    return () => clearTimeout(fallback);
-  }, [videoLoaded]);
-
-  // Step 1: Trigger float-up blur stagger entrance right after video loads
-  // Step 2: Hold for 2.2s, then measure target and trigger morph
-  useEffect(() => {
-    if (!videoLoaded) return;
-
-    const tShow = setTimeout(() => setTextVisible(true), INTRO_TIMING.textRevealDelay);
     const tMorph = setTimeout(() => {
       const target = document.getElementById('hero-video-container');
       if (target) {
@@ -97,13 +78,10 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
       onMorphStartRef.current?.();
     }, INTRO_TIMING.holdDuration);
 
-    return () => {
-      clearTimeout(tShow);
-      clearTimeout(tMorph);
-    };
-  }, [videoLoaded]);
+    return () => clearTimeout(tMorph);
+  }, []);
 
-  // Step 3: Wait for transition to finish, then unmount
+  // Step 3: Wait for 1.1s morph to finish, then set phase to 'docked'
   useEffect(() => {
     if (phase !== 'morph') return;
 
@@ -112,77 +90,54 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
       return;
     }
 
-    const safety = setTimeout(
-      finishIntro,
-      INTRO_TIMING.morphDuration + INTRO_TIMING.morphSafetyBuffer,
-    );
-    return () => clearTimeout(safety);
+    const tDock = setTimeout(() => {
+      setPhase('docked');
+    }, INTRO_TIMING.morphDuration);
+
+    return () => clearTimeout(tDock);
   }, [phase, targetRect, finishIntro]);
+
+  // Step 4: Fade out clone over 400ms while docked, then unmount
+  useEffect(() => {
+    if (phase !== 'docked') return;
+
+    const tFinish = setTimeout(() => {
+      finishIntro();
+    }, INTRO_TIMING.dockFadeDuration);
+
+    return () => clearTimeout(tFinish);
+  }, [phase, finishIntro]);
 
   if (phase === 'done') return null;
 
-  const style: React.CSSProperties = phase === 'morph' && targetRect ? {
+  const isMorphOrDocked = phase === 'morph' || phase === 'docked';
+  const style: React.CSSProperties = isMorphOrDocked && targetRect ? {
     top: `${targetRect.top}px`,
     left: `${targetRect.left}px`,
     width: `${targetRect.width}px`,
     height: `${targetRect.height}px`,
+    opacity: phase === 'docked' ? 0 : 1,
+    transition: phase === 'docked'
+      ? 'opacity 400ms ease-out'
+      : 'top 1100ms cubic-bezier(0.76, 0, 0.24, 1), left 1100ms cubic-bezier(0.76, 0, 0.24, 1), width 1100ms cubic-bezier(0.76, 0, 0.24, 1), height 1100ms cubic-bezier(0.76, 0, 0.24, 1), opacity 400ms ease-out',
   } : {
     top: '0px',
     left: '0px',
     width: '100vw',
     height: '100vh',
+    opacity: 1,
   };
 
   return (
     <div
-      className={`intro-clone${phase === 'morph' ? ' intro-clone--morph' : ''}`}
+      className={`intro-clone${isMorphOrDocked ? ' intro-clone--morph' : ''}${phase === 'docked' ? ' intro-clone--docked' : ''}`}
       style={style}
       aria-label="Pembuka Imah Keramik Bogor"
     >
-      <img
-        src={mediaAssets.hero.poster}
-        alt=""
-        width="1280"
-        height="720"
-        fetchPriority="high"
-        aria-hidden="true"
-        className="intro-clone-poster"
-      />
-      <video
-        ref={videoRef}
-        autoPlay={!reduceMotion}
-        loop
-        muted
-        playsInline
-        preload={reduceMotion ? 'none' : 'auto'}
-        onLoadedData={() => setVideoLoaded(true)}
-        poster={mediaAssets.hero.poster}
-        aria-hidden="true"
-        className={`intro-clone-video ${videoLoaded ? 'video-loaded' : ''}`}
-      >
-        <source src={mediaAssets.hero.videoWebm} type="video/webm" />
-        <source src={mediaAssets.hero.videoMp4} type="video/mp4" />
-      </video>
-
-      {/* Tile Overlay - Optional visual texture over the video */}
-      <div
-        className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-out z-5 ${phase === 'morph' ? 'opacity-0' : 'opacity-100'
-          }`}
-        style={{
-          mixBlendMode: 'overlay',
-          filter: 'invert(1) brightness(2)',
-          opacity: phase === 'morph' ? 0 : 1
-        }}
-      >
-        <TileBackground gridOpacity={0.15} tileOpacity={0.4} />
-      </div>
-
       {/* Brand Text Overlay */}
       <div
-        className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-500 ease-out z-10 ${phase === 'morph' ? 'opacity-0 scale-95 blur-md' : 'opacity-100'
-          }`}
+        className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-500 ease-out z-10 ${isMorphOrDocked ? 'opacity-0 scale-95 blur-md' : 'opacity-100'}`}
       >
-        {/* Title Lines Staggered */}
         <div className="flex flex-col items-center justify-center">
           <div
             className={`intro-float-panel ${textVisible ? 'intro-float-panel-visible' : ''}`}
@@ -213,3 +168,4 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
     </div>
   );
 }
+

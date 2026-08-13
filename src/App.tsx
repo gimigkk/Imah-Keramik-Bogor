@@ -30,7 +30,7 @@ export default function App() {
         </a>
         <Navbar />
         <main id="main-content" tabIndex={-1}>
-          <Hero introStarted={introMorphing || introDone} videoEnabled={introDone} />
+          <Hero introStarted={introMorphing || introDone} videoEnabled={introMorphing || introDone} />
           <BentoTickets />
           <GalleryReviews />
           <CTA />

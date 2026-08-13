@@ -1,14 +1,48 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Container } from './Container';
 import { getTodayScheduleWIB } from '../data/schedule';
 import { site } from '../data/site';
 import { mediaAssets } from '../data/assets';
+import { getYouTubeId } from '../utils/youtube';
 
-const heroVideos = [
-  { id: 1, title: 'Teknik Putar' },
-  { id: 2, title: 'Teknik Tangan' },
-  { id: 3, title: 'Proses Pembakaran' },
+export interface HeroVideo {
+  id: number;
+  title: string;
+  type: 'youtube' | 'local';
+  youtubeUrl?: string;
+  youtubeId?: string;
+  videoMp4?: string;
+  videoWebm?: string;
+  poster?: string;
+}
+
+
+const heroVideos: HeroVideo[] = [
+  {
+    id: 1,
+    title: 'Imah Keramik Bogor | BBO Documentary',
+    type: 'youtube',
+    youtubeUrl: mediaAssets.hero.youtubeUrl,
+    youtubeId: mediaAssets.hero.youtubeId,
+    poster: mediaAssets.hero.poster,
+  },
+  {
+    id: 2,
+    title: 'Seni Membuat Kerajinan Keramik - Imah Keramik Bogor | BBO Preneur',
+    type: 'youtube',
+    youtubeUrl: mediaAssets.hero.youtubeUrl2,
+    youtubeId: mediaAssets.hero.youtubeId2,
+    poster: mediaAssets.hero.poster,
+  },
+  {
+    id: 3,
+    title: 'Kreasi Keramik di Imah Keramik Bogor dan Batik Ayu Dewi',
+    type: 'youtube',
+    youtubeUrl: mediaAssets.hero.youtubeUrl3,
+    youtubeId: mediaAssets.hero.youtubeId3,
+    poster: mediaAssets.hero.poster,
+  },
 ];
 
 // TODO(company): Hero copy, location claim, image alt text, video assets, and activity labels are concept content pending company approval. See CONCEPT_HANDOFF.md.
@@ -21,6 +55,7 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true }) => {
   const [visible, setVisible] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
+  const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([]);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const todaySchedule = getTodayScheduleWIB();
   const currentVideo = heroVideos[activeVideo];
@@ -35,13 +70,71 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
     }
   }, [introStarted]);
 
-  const handlePrevVideo = () => {
+  const handlePrevVideo = useCallback(() => {
     setActiveVideo((prev) => (prev === 0 ? heroVideos.length - 1 : prev - 1));
-  };
+  }, []);
 
-  const handleNextVideo = () => {
+  const handleNextVideo = useCallback(() => {
     setActiveVideo((prev) => (prev === heroVideos.length - 1 ? 0 : prev + 1));
-  };
+  }, []);
+
+  // Play active video iframe and pause inactive video iframes automatically on video change
+  useEffect(() => {
+    if (!videoEnabled) return;
+
+    heroVideos.forEach((_, idx) => {
+      const iframe = iframeRefs.current[idx];
+      if (!iframe || !iframe.contentWindow) return;
+
+      try {
+        if (idx === activeVideo) {
+          iframe.contentWindow.postMessage(
+            JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+            '*'
+          );
+        } else {
+          iframe.contentWindow.postMessage(
+            JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+            '*'
+          );
+        }
+      } catch {
+        // Ignore cross-origin issues
+      }
+    });
+  }, [activeVideo, videoEnabled]);
+
+  // Listen for YouTube embed ENDED state or time end to auto-advance
+  useEffect(() => {
+    const handleYouTubeMessage = (event: MessageEvent) => {
+      if (typeof event.origin === 'string' && !event.origin.includes('youtube')) return;
+      try {
+        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+        if (!data) return;
+
+        const isEndedState =
+          (data?.event === 'infoDelivery' && data?.info?.playerState === 0) ||
+          data?.info?.playerState === 0 ||
+          data?.playerState === 0 ||
+          (data?.event === 'onStateChange' && data?.info === 0);
+
+        const isTimeEnded =
+          data?.info?.currentTime &&
+          data?.info?.duration &&
+          data.info.duration > 0 &&
+          data.info.currentTime >= data.info.duration - 1;
+
+        if (isEndedState || isTimeEnded) {
+          handleNextVideo();
+        }
+      } catch {
+        // Ignore non-JSON messages
+      }
+    };
+
+    window.addEventListener('message', handleYouTubeMessage);
+    return () => window.removeEventListener('message', handleYouTubeMessage);
+  }, [handleNextVideo]);
 
   return (
     <section id="about" className="relative pt-20 md:pt-24 pb-6 md:pb-12 border-b border-foreground/20 bg-background">
@@ -100,30 +193,69 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
           </div>
         </div>
 
-        {/* Massive Cinematic Video */}
-        <div id="hero-video-container" className="w-full aspect-video md:aspect-21/9 overflow-hidden bg-[#0d0d0d] relative border border-foreground/10 mb-4">
-          <img
-            src={mediaAssets.hero.poster}
-            alt={`Proses membentuk tanah liat di studio ${site.name}`}
-            width="1280"
-            height="720"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          {videoEnabled && (
-            <video
-              autoPlay={!reduceMotion}
-              loop
-              muted
-              playsInline
-              preload={reduceMotion ? 'none' : 'metadata'}
-              poster={mediaAssets.hero.poster}
-              aria-hidden="true"
-              className="absolute inset-0 h-full w-full object-cover"
-            >
-              <source src={mediaAssets.hero.videoWebm} type="video/webm" />
-              <source src={mediaAssets.hero.videoMp4} type="video/mp4" />
-            </video>
-          )}
+        {/* Massive Cinematic Video Slider */}
+        <div id="hero-video-container" className="w-full aspect-video md:aspect-[377/180] overflow-hidden bg-[#0d0d0d] relative border border-foreground/10 mb-4">
+          <div
+            className="absolute inset-0 flex h-full transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
+            style={{
+              width: `${heroVideos.length * 100}%`,
+              transform: `translateX(-${(activeVideo * 100) / heroVideos.length}%)`,
+            }}
+          >
+            {heroVideos.map((vid, idx) => {
+              const isSelected = idx === activeVideo;
+              const ytId = vid.type === 'youtube'
+                ? (vid.youtubeId || getYouTubeId(vid.youtubeUrl))
+                : null;
+
+              return (
+                <div
+                  key={vid.id}
+                  style={{ width: `${100 / heroVideos.length}%` }}
+                  className="relative h-full flex-shrink-0 bg-[#0d0d0d] overflow-hidden"
+                >
+                  <img
+                    src={vid.poster || mediaAssets.hero.poster}
+                    alt={vid.title}
+                    width="1280"
+                    height="720"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  {videoEnabled && (
+                    ytId ? (
+                      <iframe
+                        ref={(el) => {
+                          iframeRefs.current[idx] = el;
+                        }}
+                        src={`https://www.youtube-nocookie.com/embed/${ytId}?autoplay=${isSelected ? 1 : 0}&mute=1&loop=0&playlist=${ytId}&controls=1&rel=0&playsinline=1&enablejsapi=1`}
+                        title={vid.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        style={{ pointerEvents: isSelected ? 'auto' : 'none' }}
+                        className="absolute inset-0 w-full h-full border-0 z-10"
+                      />
+                    ) : (
+                      <video
+                        autoPlay={isSelected && !reduceMotion}
+                        muted
+                        playsInline
+                        preload="auto"
+                        poster={vid.poster || mediaAssets.hero.poster}
+                        onEnded={() => {
+                          if (isSelected) handleNextVideo();
+                        }}
+                        style={{ pointerEvents: isSelected ? 'auto' : 'none' }}
+                        className="absolute inset-0 h-full w-full object-cover z-10"
+                      >
+                        {vid.videoWebm && <source src={vid.videoWebm} type="video/webm" />}
+                        {vid.videoMp4 && <source src={vid.videoMp4} type="video/mp4" />}
+                      </video>
+                    )
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Video Controls */}
@@ -166,3 +298,4 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
     </section>
   );
 };
+
