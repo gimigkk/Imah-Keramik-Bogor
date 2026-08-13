@@ -81,7 +81,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClos
       </h3>
     </div>
 
-    <p id="activity-detail-description" className="mt-6 max-w-2xl font-sans text-sm leading-7 text-foreground/75 md:text-base">
+    <p id="activity-detail-description" className="mt-6 max-w-2xl font-sans text-sm leading-relaxed text-foreground/75 md:text-base md:leading-7">
       {ticket.description} {ticket.additionalDetails}
     </p>
 

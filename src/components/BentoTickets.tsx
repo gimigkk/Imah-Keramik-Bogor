@@ -366,7 +366,7 @@ export const BentoTickets: React.FC = () => {
     <section ref={sectionRef} id="activities" className="pt-12 pb-20 md:pt-16 md:pb-24 bg-card border-b border-foreground/10 relative">
       <TileBackground />
       <Container className="relative z-10">
-        <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-foreground/20 pb-4">
+        <div className="mb-4 md:mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-0 md:border-b border-foreground/20 pb-0 md:pb-4">
           <div>
             <div className="mb-3"><span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-3 py-1.5 font-bold text-foreground inline-block">Workshop &amp; Kelas</span></div>
             <h2 className="font-serif text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">Aktivitas Kita.</h2>

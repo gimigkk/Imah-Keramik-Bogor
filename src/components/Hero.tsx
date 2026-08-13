@@ -140,21 +140,21 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
     <section id="about" className="relative pt-20 md:pt-24 pb-6 md:pb-12 border-b border-foreground/20 bg-background">
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 gap-6 md:gap-10">
-          <div className="max-w-4xl">
+          <div className="w-full max-w-4xl flex flex-col items-start text-left">
             <div
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} flex items-center gap-3 md:gap-4 mb-4 md:mb-6`}
+              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} flex items-center justify-start gap-3 md:gap-4 mb-4 md:mb-6`}
               style={{ '--reveal-delay': '0ms' } as React.CSSProperties}
             >
-              <span className={`inline-block border ${!todaySchedule.isOpenNow ? 'border-foreground/50 text-foreground/50' : 'border-foreground'} px-2.5 py-0.5 leading-none text-[10px] md:text-xs font-mono uppercase tracking-widest rounded-full`}>
+              <span className={`inline-flex items-center justify-center border ${!todaySchedule.isOpenNow ? 'border-foreground/50 text-foreground/50' : 'border-foreground'} px-2.5 h-5 md:h-6 text-[10px] md:text-xs font-mono uppercase tracking-wider rounded-full`}>
                 {!todaySchedule.isOpenNow ? 'CLOSED' : 'OPEN'}
               </span>
               <span className="font-mono text-[11px] md:text-xs text-muted-foreground uppercase tracking-widest">
                 {todaySchedule.displayText}
               </span>
             </div>
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase flex flex-col">
+            <h1 className="font-serif text-[11.2vw] sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase flex flex-col">
               <span
-                className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} block`}
+                className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} block whitespace-nowrap`}
                 style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
               >
                 Wisata edukasi
@@ -169,7 +169,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
           </div>
 
           <div
-            className="text-left lg:text-right font-sans lg:max-w-xs flex flex-col justify-end border-l lg:border-l-0 lg:border-r border-foreground/20 pl-4 lg:pl-0 lg:pr-6 py-1"
+            className="hidden lg:flex text-right font-sans max-w-xs flex-col justify-end border-r border-foreground/20 pr-6 py-1"
           >
             <p
               className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground mb-1 font-mono`}
@@ -185,7 +185,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
             </p>
             <a
               href="#activities"
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} border-b-2 border-foreground pb-1 text-xs font-bold uppercase tracking-widest hover:text-primary hover:border-primary transition-colors inline-block w-fit lg:ml-auto`}
+              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} border-b-2 border-foreground pb-1 text-xs font-bold uppercase tracking-widest hover:text-primary hover:border-primary transition-colors inline-block w-fit ml-auto`}
               style={{ '--reveal-delay': '600ms' } as React.CSSProperties}
             >
               Lihat paket!
@@ -263,7 +263,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
           className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} flex justify-between items-center px-1`}
           style={{ '--reveal-delay': '720ms' } as React.CSSProperties}
         >
-          <div className="font-accent italic text-base md:text-lg text-foreground/90 lowercase">
+          <div className="font-accent italic text-base md:text-lg text-foreground/90 lowercase truncate min-w-0 pr-2">
             vid. {activeVideo + 1}: {currentVideo.title}
           </div>
           <div className="flex items-center gap-2 md:gap-3">

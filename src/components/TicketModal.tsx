@@ -191,7 +191,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
             type="button"
             onClick={onClose}
             aria-label="Tutup modal"
-            className="flex w-[46px] shrink-0 items-center justify-center rounded-lg border border-foreground/20 bg-foreground text-background shadow-2xl transition-colors hover:bg-foreground/90 active:scale-[0.97]"
+            className="flex w-[46px] shrink-0 items-center justify-center rounded-sm border border-foreground/20 bg-foreground text-background shadow-2xl transition-colors hover:bg-foreground/90 active:scale-[0.97]"
           >
             <X size={20} strokeWidth={2.5} />
           </button>
@@ -201,7 +201,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-foreground/20 bg-primary px-4 py-3.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-primary-foreground shadow-2xl transition-colors hover:bg-foreground hover:text-background active:scale-[0.99]"
+            className="flex flex-1 items-center justify-center gap-2 rounded-sm border border-foreground/20 bg-primary px-4 py-3.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-primary-foreground shadow-2xl transition-colors hover:bg-foreground hover:text-background active:scale-[0.99]"
           >
             <FaWhatsapp size={18} aria-hidden="true" />
             Tanya / pesan via WhatsApp

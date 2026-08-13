@@ -198,7 +198,7 @@ export const GalleryReviews = () => {
     <section ref={sectionRef} id="gallery" className="pt-12 pb-6 md:pt-16 md:pb-8 bg-background overflow-hidden">
       <Container>
         {/* Section Header */}
-        <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-foreground/20 pb-4">
+        <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-0 md:border-b border-foreground/20 pb-2 md:pb-4">
           <div>
             <div className="mb-3">
               <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-3 py-1.5 font-bold text-foreground inline-block">
