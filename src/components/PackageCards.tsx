@@ -78,7 +78,7 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
         </div>
       )}
 
-      <div className="mt-4">
+      <div className="mt-4 hidden md:block">
         <p className="mb-3 text-xs leading-5 text-muted-foreground">
           Tanyakan jadwal dan ketersediaan tempat langsung kepada tim studio.
         </p>

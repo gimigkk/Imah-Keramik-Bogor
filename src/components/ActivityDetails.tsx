@@ -87,9 +87,11 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClos
 
     {ticket.videos && ticket.videos.length > 0 && (
       <div className="mt-7">
-        <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 md:grid md:grid-cols-2 xl:grid-cols-3 md:overflow-visible md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {ticket.videos.map((video, idx) => (
-            <ActivityVideo key={`${video.src}-${idx}`} video={video} />
+            <div key={`${video.src}-${idx}`} className="w-[85%] shrink-0 snap-start md:w-auto md:shrink">
+              <ActivityVideo video={video} />
+            </div>
           ))}
         </div>
       </div>

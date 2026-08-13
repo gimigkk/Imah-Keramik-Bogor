@@ -1,4 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { FaWhatsapp } from 'react-icons/fa6';
+import { X } from 'lucide-react';
 import { Ticket } from '../types/ticket';
 import { getTicketWhatsappMessage } from '../data/tickets';
 import { ActivityDetails } from './ActivityDetails';
@@ -16,6 +18,7 @@ interface TicketModalProps {
 export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClosing }) => {
   const [isVisible, setIsVisible] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
 
   useEffect(() => {
@@ -26,6 +29,10 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
     if (!ticket || isClosing) {
       setIsVisible(false);
       return;
+    }
+
+    if (rootRef.current) {
+      rootRef.current.scrollTop = 0;
     }
 
     const frame = window.requestAnimationFrame(() => setIsVisible(true));
@@ -49,7 +56,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
     if (!ticket || isClosing) return;
 
     const preventBackgroundScroll = (event: WheelEvent | TouchEvent) => {
-      const modal = document.querySelector<HTMLElement>('[data-ticket-modal-root]');
+      const modal = rootRef.current ?? document.querySelector<HTMLElement>('[data-ticket-modal-root]');
       if (!modal?.contains(event.target as Node)) event.preventDefault();
     };
 
@@ -66,9 +73,12 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
     if (!ticket || isClosing) return;
 
     const focusFrame = window.requestAnimationFrame(() => {
+      if (rootRef.current) {
+        rootRef.current.scrollTop = 0;
+      }
       dialogRef.current
         ?.querySelector<HTMLElement>('[data-modal-initial-focus]')
-        ?.focus();
+        ?.focus({ preventScroll: true });
     });
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -90,10 +100,10 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
       const last = focusable[focusable.length - 1];
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
-        last.focus();
+        last.focus({ preventScroll: true });
       } else if (!event.shiftKey && document.activeElement === last) {
         event.preventDefault();
-        first.focus();
+        last.focus({ preventScroll: true });
       }
     };
 
@@ -111,17 +121,14 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
   const whatsappHref = getWhatsAppUrl(whatsappMessage);
 
   const showPanels = isVisible && !isClosing;
-  const detailMotion = `modal-reveal-panel ${
-    showPanels ? 'modal-reveal-panel-visible reveal-delay-1' : ''
-  }`;
-  const packageMotion = `modal-reveal-panel ${
-    showPanels ? 'modal-reveal-panel-visible reveal-delay-2' : ''
-  }`;
+  const detailMotion = `modal-reveal-panel ${showPanels ? 'modal-reveal-panel-visible reveal-delay-1' : ''
+    }`;
+  const packageMotion = `modal-reveal-panel ${showPanels ? 'modal-reveal-panel-visible reveal-delay-2' : ''
+    }`;
 
   return (
-    <div data-ticket-modal-root data-lenis-prevent className={`fixed inset-0 z-50 overflow-y-auto overscroll-contain px-3 pb-3 pt-16 md:px-6 md:pb-6 md:pt-20 ${
-      isClosing ? 'pointer-events-none' : ''
-    }`}>
+    <div ref={rootRef} data-ticket-modal-root data-lenis-prevent className={`fixed inset-0 z-50 overflow-y-auto overscroll-contain px-3 pb-16 pt-14 md:px-6 md:pb-6 md:pt-20 ${isClosing ? 'pointer-events-none' : ''
+      }`}>
       <div
         aria-hidden="true"
         className={`modal-scrim fixed inset-0 z-30 ${showPanels ? 'pointer-events-auto' : 'pointer-events-none'}`}
@@ -137,7 +144,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
         aria-labelledby="activity-detail-heading"
         aria-describedby="activity-detail-description"
         data-ticket-modal-dialog
-        className="relative z-40 mx-auto flex min-h-full w-full max-w-6xl items-center py-12 lg:py-0"
+        className="relative z-40 mx-auto flex min-h-full w-full max-w-6xl items-start lg:items-center pt-2 pb-0 md:pb-6 lg:py-0"
         onMouseDown={(event) => {
           if (event.target === event.currentTarget) onClose();
         }}
@@ -160,6 +167,45 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
               <PackageCards ticket={ticket} whatsappHref={whatsappHref} className={packageMotion} />
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Mobile Fixed Action Bar (Never shifts when scrolling) */}
+      <div
+        className={`fixed bottom-0 left-0 right-0 z-[80] transition-all duration-300 md:hidden ${showPanels ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+      >
+        {/* Dark gradient backdrop with progressive blur behind buttons */}
+        <div
+          className="pointer-events-none absolute -bottom-2 -left-2 -right-2 h-28 bg-gradient-to-t from-black/70 via-black/30 to-transparent backdrop-blur-md"
+          style={{
+            maskImage: 'linear-gradient(to top, black 0%, black 70%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 0%, black 70%, transparent 100%)',
+          }}
+        />
+
+        {/* Buttons (Unmasked & Unblurred) */}
+        <div className="relative z-10 flex items-stretch gap-1.5 px-3 pb-5 pt-6">
+          {/* Green X Close Button */}
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Tutup modal"
+            className="flex w-[46px] shrink-0 items-center justify-center rounded-lg border border-foreground/20 bg-foreground text-background shadow-2xl transition-colors hover:bg-foreground/90 active:scale-[0.97]"
+          >
+            <X size={20} strokeWidth={2.5} />
+          </button>
+
+          {/* WhatsApp Button */}
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-foreground/20 bg-primary px-4 py-3.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-primary-foreground shadow-2xl transition-colors hover:bg-foreground hover:text-background active:scale-[0.99]"
+          >
+            <FaWhatsapp size={18} aria-hidden="true" />
+            Tanya / pesan via WhatsApp
+          </a>
         </div>
       </div>
     </div>
