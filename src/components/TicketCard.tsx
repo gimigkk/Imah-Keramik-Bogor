@@ -218,15 +218,27 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               data-ticket-image
               className="w-full flex-1 min-h-50 border border-foreground/10 overflow-hidden bg-muted relative mt-1"
             >
-              <img
-                {...imageProps}
-                alt={ticket.title}
-                loading="lazy"
-                decoding="async"
-                width="720"
-                height="480"
-                className="absolute inset-0 h-full w-full object-cover opacity-100"
-              />
+              {ticket.image.endsWith('.mp4') ? (
+                <video
+                  src={ticket.image}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  aria-label={ticket.title}
+                  className="absolute inset-0 h-full w-full object-cover opacity-100"
+                />
+              ) : (
+                <img
+                  {...imageProps}
+                  alt={ticket.title}
+                  loading="lazy"
+                  decoding="async"
+                  width="720"
+                  height="480"
+                  className="absolute inset-0 h-full w-full object-cover opacity-100"
+                />
+              )}
             </div>
           )}
         </div>
@@ -261,15 +273,27 @@ export const TicketCard: React.FC<TicketCardProps> = ({
                 } ${isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
                 }`}
             >
-              <img
-                {...imageProps}
-                alt={ticket.title}
-                loading="lazy"
-                decoding="async"
-                width="720"
-                height="480"
-                className="absolute inset-0 h-full w-full object-cover opacity-100"
-              />
+              {ticket.image.endsWith('.mp4') ? (
+                <video
+                  src={ticket.image}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  aria-label={ticket.title}
+                  className="absolute inset-0 h-full w-full object-cover opacity-100"
+                />
+              ) : (
+                <img
+                  {...imageProps}
+                  alt={ticket.title}
+                  loading="lazy"
+                  decoding="async"
+                  width="720"
+                  height="480"
+                  className="absolute inset-0 h-full w-full object-cover opacity-100"
+                />
+              )}
             </div>
           )}
 
@@ -361,15 +385,27 @@ export const TicketCard: React.FC<TicketCardProps> = ({
                 : 'h-56 md:h-72'
               } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
           >
-            <img
-              {...imageProps}
-              alt={ticket.title}
-              loading="lazy"
-              decoding="async"
-              width="720"
-              height="480"
-              className="absolute inset-0 h-full w-full object-cover opacity-100"
-            />
+            {ticket.image.endsWith('.mp4') ? (
+              <video
+                src={ticket.image}
+                autoPlay
+                loop
+                muted
+                playsInline
+                aria-label={ticket.title}
+                className="absolute inset-0 h-full w-full object-cover opacity-100"
+              />
+            ) : (
+              <img
+                {...imageProps}
+                alt={ticket.title}
+                loading="lazy"
+                decoding="async"
+                width="720"
+                height="480"
+                className="absolute inset-0 h-full w-full object-cover opacity-100"
+              />
+            )}
           </div>
         )}
       </div>

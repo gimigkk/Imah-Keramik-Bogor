@@ -26,6 +26,7 @@ export const ticketVideoGalleries: Record<TicketId, TicketVideo[]> = {
     video('Kunjungan area studio', hero.videoMp4),
   ],
   'membatik-kayu-2': [
+    video('Proses membatik 2 centong', '/2-centong.mp4'),
     video('Teknik membatik kayu', packageVideos.handBuilding),
     video('Proses pewarnaan', hero.videoMp4),
   ],
