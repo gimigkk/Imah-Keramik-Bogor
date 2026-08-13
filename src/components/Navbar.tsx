@@ -1,6 +1,7 @@
 import React from 'react';
+import { FaWhatsapp } from 'react-icons/fa6';
 import { Container } from './Container';
-import { site } from '../data/site';
+import { site, getWhatsAppUrl } from '../data/site';
 import { mediaAssets } from '../data/assets';
 
 // TODO(company): Confirm the approved logo asset, business name, navigation labels, and booking destination before launch. See CONCEPT_HANDOFF.md.
@@ -21,16 +22,20 @@ export const Navbar: React.FC = () => {
             Imah<br />Keramik<br />Bogor.
           </a>
         </div>
-        <nav aria-label="Navigasi utama" className="hidden md:flex gap-10 font-sans text-xs font-bold tracking-widest uppercase text-background/85">
+        <nav aria-label="Navigasi utama" className="hidden md:flex gap-8 lg:gap-10 font-sans text-xs font-bold tracking-widest uppercase text-background/85">
           <a href="#about" className="hover:text-background transition-colors">Tentang</a>
           <a href="#activities" className="hover:text-background transition-colors">Aktivitas</a>
           <a href="#gallery" className="hover:text-background transition-colors">Ulasan</a>
+          <a href="#book" className="hover:text-background transition-colors">Lokasi</a>
         </nav>
         <a
-          href="#book"
-          className="inline-block bg-background text-foreground px-4 py-1.5 md:px-5 md:py-2 text-[10px] md:text-[11px] uppercase tracking-widest hover:bg-background/80 transition-colors font-sans font-bold"
+          href={getWhatsAppUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 md:gap-2 bg-background text-foreground px-3.5 py-1.5 md:px-5 md:py-2 text-[10px] md:text-[11px] uppercase tracking-widest hover:bg-background/80 transition-colors font-sans font-bold"
         >
-          Booking
+          <FaWhatsapp className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" aria-hidden="true" />
+          <span>Booking</span>
         </a>
       </Container>
     </header>
