@@ -205,7 +205,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-2 leading-tight">
               {ticket.title}
             </h3>
-            <p className="text-muted-foreground font-sans text-sm mb-3 leading-relaxed">
+            <p className="text-muted-foreground font-sans text-sm mb-3 leading-relaxed text-balance">
               {ticket.description}
             </p>
 
@@ -308,7 +308,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               <h3 className={`font-serif text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>
                 {ticket.title}
               </h3>
-              <p className={`font-sans text-xs md:text-sm mb-3 leading-relaxed ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
+              <p className={`font-sans text-xs md:text-sm mb-3 leading-relaxed text-balance ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
                 {ticket.description}
               </p>
             </div>
@@ -372,7 +372,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             <h3 className={`font-serif text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
               {ticket.title}
             </h3>
-            <p className={`font-sans text-xs md:text-sm leading-relaxed ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
+            <p className={`font-sans text-xs md:text-sm leading-relaxed text-balance ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
               {ticket.description}
             </p>
           </div>
@@ -440,7 +440,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           <h3 className={`font-serif text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
             {ticket.title}
           </h3>
-          <p className={`font-sans text-xs md:text-sm mb-3 leading-relaxed ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
+          <p className={`font-sans text-xs md:text-sm mb-3 leading-relaxed text-balance ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
             {ticket.description}
           </p>
         </div>
