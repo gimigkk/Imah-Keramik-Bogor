@@ -39,7 +39,7 @@ export type Ticket = {
   image?: string;
   tags?: string[];
   description: string;
-  additionalDetails: string;
+  additionalDetails?: string;
   tiers?: TicketTier[];
   category: TicketCategory;
   featured?: boolean;

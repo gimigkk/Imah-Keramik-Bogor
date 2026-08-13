@@ -354,11 +354,11 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         {ticket.image && (
           <div
             data-ticket-image
-            className={`w-full bg-muted overflow-hidden border relative my-2 ${standalone
-              ? 'min-h-40 flex-1'
+            className={`w-full bg-muted overflow-hidden border relative mt-3 mb-1 ${standalone
+              ? 'min-h-56 flex-1'
               : ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2
-                ? 'h-36 md:h-44'
-                : 'h-28 md:h-32'
+                ? 'h-60 md:h-80'
+                : 'h-56 md:h-72'
               } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
           >
             <img

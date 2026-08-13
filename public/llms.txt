@@ -25,10 +25,10 @@ Informasi lengkap dan harga: https://imah-keramik-bogor.vercel.app/informasi
 - Fun Clay: Rp75.000 per orang per sesi. Termasuk factory visit dan tutorial membentuk tanah liat dengan teknik tangan.
 - Ceramic Art Class (CAC): Rp200.000 per orang per sesi. Termasuk factory visit, tutorial membuat keramik, dua kali pembakaran, dan glazur satu warna.
 - Glaze Coloring: Rp200.000 per orang per sesi. Termasuk satu body bisque, tutorial mewarnai glazur, pilihan warna, dan satu kali pembakaran glazur.
-- Membatik Kayu Paket 1: Rp50.000 per orang per sesi, satu centong dan satu warna.
-- Membatik Kayu Paket 2: Rp75.000 per orang per sesi, dua centong dan satu warna.
-- Membatik Kayu Paket 3: Rp100.000 per orang per sesi, satu pigura, satu centong, dan satu warna.
-- Membatik Kayu Paket 4: Rp150.000 per orang per sesi, satu talenan dan dua warna.
+- Batik Dasar Pemula: Rp50.000 per orang per sesi, satu centong dan satu warna.
+- Batik Extra Media: Rp75.000 per orang per sesi, dua centong dan satu warna.
+- Batik Combo Decor: Rp100.000 per orang per sesi, satu pigura, satu centong, dan satu warna.
+- Batik Multi-Warna: Rp150.000 per orang per sesi, satu talenan dan dua warna.
 - Bundling Fun Clay + Membatik: Rp100.000 per orang per sesi.
 - Bundling CAC/Glaze + Membatik: Rp225.000 per orang per sesi.
 - Sewa aula: Rp300.000 untuk dua jam, maksimal 30 orang. Tambahan Rp150.000 per jam dan Rp10.000 per peserta tambahan.
