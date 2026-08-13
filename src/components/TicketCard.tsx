@@ -194,7 +194,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         data-ticket-surface={standalone ? 'modal' : 'grid'}
       >
         {/* Top Content Area: Title & Content at top, Image expands to fill remaining space */}
-        <div className="ticket-notch-body bg-background p-6 md:p-8 flex flex-col flex-1 gap-4">
+        <div className="ticket-notch-body bg-background p-5 md:p-6 flex flex-col flex-1 gap-3">
           <div>
             {ticket.badge && (
               <div className="flex justify-between items-start mb-3">
@@ -216,7 +216,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           {ticket.image && (
             <div
               data-ticket-image
-              className="w-full flex-1 min-h-50 border border-foreground/10 overflow-hidden bg-muted relative mt-1"
+              className="w-full flex-1 min-h-36 border border-foreground/10 overflow-hidden bg-muted relative mt-1"
             >
               {ticket.image.endsWith('.mp4') ? (
                 <video
@@ -354,7 +354,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       data-ticket-id={ticket.id}
       data-ticket-surface={standalone ? 'modal' : 'grid'}
     >
-      <div className={`ticket-notch-body flex-1 p-6 flex flex-col justify-between ${isAccent ? 'bg-[#5c3a28]' : 'bg-background'
+      <div className={`ticket-notch-body flex-1 p-5 flex flex-col justify-between ${isAccent ? 'bg-[#5c3a28]' : 'bg-background'
         }`}>
         <div>
           {ticket.badge && (
@@ -363,11 +363,11 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             </div>
           )}
 
-          <h3 className={`font-serif text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>
+          <h3 className={`font-serif text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
             {ticket.title}
           </h3>
 
-          <p className={`font-sans text-xs md:text-sm mb-4 leading-relaxed ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
+          <p className={`font-sans text-xs md:text-sm mb-2 leading-relaxed ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
             {ticket.description}
           </p>
 
@@ -378,11 +378,11 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         {ticket.image && (
           <div
             data-ticket-image
-            className={`w-full bg-muted overflow-hidden border relative mt-3 mb-1 ${standalone
-              ? 'min-h-56 flex-1'
+            className={`w-full bg-muted overflow-hidden border relative mt-2 mb-1 ${standalone
+              ? 'min-h-40 flex-1'
               : ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2
-                ? 'h-60 md:h-80'
-                : 'h-56 md:h-72'
+                ? 'h-32 md:h-36'
+                : 'h-32 md:h-36'
               } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
           >
             {ticket.image.endsWith('.mp4') ? (

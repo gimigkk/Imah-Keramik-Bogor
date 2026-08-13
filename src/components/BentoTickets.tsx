@@ -382,9 +382,9 @@ export const BentoTickets: React.FC = () => {
           </div>
           <span className="hidden md:inline-block font-mono text-xs text-muted-foreground uppercase tracking-widest">{activeTabSummary}</span>
         </div>
-        <div id="panel-keramik" role="tabpanel" aria-labelledby="tab-keramik" hidden={activeTab !== 'keramik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">{keramikElements}</div>
-        <div id="panel-membatik" role="tabpanel" aria-labelledby="tab-membatik" hidden={activeTab !== 'membatik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">{membatikElements}</div>
-        <div id="panel-bundling" role="tabpanel" aria-labelledby="tab-bundling" hidden={activeTab !== 'bundling'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-20">{bundlingElements}</div>
+        <div id="panel-keramik" role="tabpanel" aria-labelledby="tab-keramik" hidden={activeTab !== 'keramik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{keramikElements}</div>
+        <div id="panel-membatik" role="tabpanel" aria-labelledby="tab-membatik" hidden={activeTab !== 'membatik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{membatikElements}</div>
+        <div id="panel-bundling" role="tabpanel" aria-labelledby="tab-bundling" hidden={activeTab !== 'bundling'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{bundlingElements}</div>
         <div ref={infoRef} className="pt-12 border-t-2 border-dashed border-foreground/20">
           <div className="mb-8 text-center md:text-left">
             <h3 className="font-serif text-3xl md:text-4xl uppercase tracking-tight text-foreground mb-2"><span className="md:hidden">Informasi Umum</span><span className="hidden md:inline">Informasi Umum & Sewa</span></h3>
