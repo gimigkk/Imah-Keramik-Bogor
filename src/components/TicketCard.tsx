@@ -254,11 +254,15 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   // 2. HORIZONTAL TICKET BRANCH (Bundling - Image on Left, Content in Middle, Vertical Rip & Price Stub on Right)
   if (isAccent || ticket.isHorizontal) {
     const isDoubleTall = ticket.gridSpan?.rows === 2;
+    const heightClass = isDoubleTall
+      ? 'min-h-70 md:min-h-85'
+      : ticket.category === 'bundling'
+        ? 'min-h-50 md:min-h-55'
+        : '';
     return (
       <div
         {...interactiveCardProps}
-        className={`${containerClass} ticket-horizontal flex-col md:flex-row ${isDoubleTall ? 'min-h-70 md:min-h-85' : ''
-          }`}
+        className={`${containerClass} ticket-horizontal flex-col md:flex-row ${heightClass}`}
         style={style}
         data-ticket-id={ticket.id}
         data-ticket-surface={standalone ? 'modal' : 'grid'}

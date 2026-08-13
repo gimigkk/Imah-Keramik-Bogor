@@ -369,7 +369,7 @@ export const BentoTickets: React.FC = () => {
         <div className="mb-4 md:mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-0 md:border-b border-foreground/20 pb-0 md:pb-4">
           <div>
             <div className="mb-3"><span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-3 py-1.5 font-bold text-foreground inline-block">Workshop &amp; Kelas</span></div>
-            <h2 className="font-serif text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">Aktivitas Kita.</h2>
+            <h2 className="font-serif text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">Katalog Aktivitas.</h2>
           </div>
           <p className="text-muted-foreground font-sans text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">Berikut merupakan katalog wisata kita.<br className="hidden md:inline" /> Tempat terbatas agar perhatian individu maksimal.</p>
         </div>
