@@ -205,7 +205,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-2 leading-tight">
               {ticket.title}
             </h3>
-            <p className="text-muted-foreground font-sans text-sm max-w-md mb-3 leading-relaxed">
+            <p className="text-muted-foreground font-sans text-sm mb-3 leading-relaxed">
               {ticket.description}
             </p>
 
@@ -345,7 +345,78 @@ export const TicketCard: React.FC<TicketCardProps> = ({
     );
   }
 
-  // 3. REGULAR VERTICAL CARDS (Fun Clay, Glaze Coloring, Membatik, HTM, Sewa Aula, Workshop, Paket Usaha)
+  // 3. REGULAR VERTICAL & DESKTOP SPLIT CARDS
+  const isWide = !standalone && Boolean(ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2 && (!ticket.gridSpan.rows || ticket.gridSpan.rows === 1));
+
+  if (isWide) {
+    return (
+      <div
+        {...interactiveCardProps}
+        className={`${containerClass} flex-col`}
+        style={style}
+        data-ticket-id={ticket.id}
+        data-ticket-surface={standalone ? 'modal' : 'grid'}
+      >
+        <div
+          className={`ticket-notch-body flex-1 p-5 flex flex-col md:flex-row md:items-stretch md:gap-5 ${
+            isAccent ? 'bg-[#5c3a28]' : 'bg-background'
+          }`}
+        >
+          {/* Mobile: Text top (order-1), Desktop: Text right (order-2) */}
+          <div className="order-1 md:order-2 flex-1 flex flex-col justify-start">
+            {ticket.badge && (
+              <div className="flex justify-between items-start mb-2">
+                {renderBadge()}
+              </div>
+            )}
+            <h3 className={`font-serif text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
+              {ticket.title}
+            </h3>
+            <p className={`font-sans text-xs md:text-sm leading-relaxed ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
+              {ticket.description}
+            </p>
+          </div>
+
+          {/* Mobile: Image bottom (order-2), Desktop: Image left (order-1) */}
+          {ticket.image && (
+            <div
+              data-ticket-image
+              className={`order-2 md:order-1 w-full md:w-5/12 h-32 md:h-auto md:min-h-36 shrink-0 overflow-hidden border relative mt-3 md:mt-0 ${
+                isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
+              }`}
+            >
+              {ticket.image.endsWith('.mp4') ? (
+                <video
+                  src={ticket.image}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  aria-label={ticket.title}
+                  className="absolute inset-0 h-full w-full object-cover opacity-100"
+                />
+              ) : (
+                <img
+                  {...imageProps}
+                  alt={ticket.title}
+                  loading="lazy"
+                  decoding="async"
+                  width="720"
+                  height="480"
+                  className="absolute inset-0 h-full w-full object-cover opacity-100"
+                />
+              )}
+            </div>
+          )}
+        </div>
+
+        <TicketPerforation />
+        <TicketPriceFooter ticket={ticket} isAccent={isAccent} />
+      </div>
+    );
+  }
+
+  // Standard 1-Column Vertical Cards (Membatik Kayu 1-4, HTM, Sewa Aula)
   return (
     <div
       {...interactiveCardProps}
@@ -354,36 +425,33 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       data-ticket-id={ticket.id}
       data-ticket-surface={standalone ? 'modal' : 'grid'}
     >
-      <div className={`ticket-notch-body flex-1 p-5 flex flex-col justify-between ${isAccent ? 'bg-[#5c3a28]' : 'bg-background'
-        }`}>
+      <div
+        className={`ticket-notch-body flex-1 p-5 flex flex-col justify-between ${
+          isAccent ? 'bg-[#5c3a28]' : 'bg-background'
+        }`}
+      >
+        {/* Top Text Area (Title & Description) */}
         <div>
           {ticket.badge && (
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex justify-between items-start mb-2">
               {renderBadge()}
             </div>
           )}
-
           <h3 className={`font-serif text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
             {ticket.title}
           </h3>
-
-          <p className={`font-sans text-xs md:text-sm mb-2 leading-relaxed ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
+          <p className={`font-sans text-xs md:text-sm mb-3 leading-relaxed ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
             {ticket.description}
           </p>
-
-
         </div>
 
-        {/* Optional Card Image slot */}
+        {/* Bottom Image Area */}
         {ticket.image && (
           <div
             data-ticket-image
-            className={`w-full bg-muted overflow-hidden border relative mt-2 mb-1 ${standalone
-              ? 'min-h-40 flex-1'
-              : ticket.gridSpan?.cols && ticket.gridSpan.cols >= 2
-                ? 'h-32 md:h-36'
-                : 'h-32 md:h-36'
-              } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
+            className={`w-full bg-muted overflow-hidden border relative mt-2 mb-1 ${
+              standalone ? 'min-h-40 flex-1' : 'h-48 md:h-64'
+            } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
           >
             {ticket.image.endsWith('.mp4') ? (
               <video
@@ -411,8 +479,6 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       </div>
 
       <TicketPerforation />
-
-      {/* Shared Price Footer Component */}
       <TicketPriceFooter ticket={ticket} isAccent={isAccent} />
     </div>
   );
