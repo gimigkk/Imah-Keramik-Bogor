@@ -25,6 +25,7 @@ export const Navbar: React.FC = () => {
         <nav aria-label="Navigasi utama" className="hidden md:flex gap-8 lg:gap-10 font-sans text-xs font-bold tracking-widest uppercase text-background/85">
           <a href="#about" className="hover:text-background transition-colors">Tentang</a>
           <a href="#activities" className="hover:text-background transition-colors">Aktivitas</a>
+          <a href="#faq" className="hover:text-background transition-colors">FAQ</a>
           <a href="#gallery" className="hover:text-background transition-colors">Ulasan</a>
           <a href="#book" className="hover:text-background transition-colors">Lokasi</a>
         </nav>

@@ -52,22 +52,20 @@ export const TileBackground: React.FC<TileBackgroundProps> = ({
     // Subscribe to Lenis directly to guarantee perfect sync with the virtual scroll engine
     const unsubscribe = subscribeToLenis(updatePosition);
 
-    // Fallback native scroll listener just in case Lenis is permanently missing
-    window.addEventListener('scroll', updatePosition, { passive: true });
-
     return () => {
       observer.disconnect();
       unsubscribe();
-      window.removeEventListener('scroll', updatePosition);
     };
   }, []);
 
   return (
-    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none" style={{ contain: 'paint' }}>
+      {/* Keep the expensive SVG surface viewport-relative. If its height follows
+          the section, an accordion resize forces the whole pattern to rasterize again. */}
       <div
         ref={bgRef}
         className="absolute inset-x-0 will-change-transform"
-        style={{ top: '-50vh', bottom: '-50%' }}
+        style={{ top: '-50vh', height: '500vh' }}
       >
         {/* Subtle Background Grid Pattern */}
         <div

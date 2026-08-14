@@ -10,6 +10,7 @@ type LenisScrollListener = (instance: Lenis) => void;
 
 export const pauseSmoothScroll = () => lenisInstance?.stop();
 export const resumeSmoothScroll = () => lenisInstance?.start();
+export const resizeSmoothScroll = () => lenisInstance?.resize();
 
 const scrollListeners = new Set<LenisScrollListener>();
 
@@ -35,6 +36,7 @@ export const SmoothScroll = () => {
       smoothWheel: true,
       lerp: 0.08,
       stopInertiaOnNavigate: true,
+      autoResize: false,
     });
     lenisInstance = lenis;
     lenis.scrollTo(0, { immediate: true });
@@ -53,7 +55,10 @@ export const SmoothScroll = () => {
       lenis.resize();
     };
 
+    const handleWindowResize = () => lenis.resize();
+
     window.addEventListener('focus', handleWindowFocus);
+    window.addEventListener('resize', handleWindowResize);
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         handleWindowFocus();
@@ -95,6 +100,7 @@ export const SmoothScroll = () => {
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('focus', handleWindowFocus);
+      window.removeEventListener('resize', handleWindowResize);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       document.removeEventListener('click', handleAnchorClick);
       scrollListeners.forEach(cb => lenisInstance?.off('scroll', cb));

@@ -91,7 +91,7 @@ export const GalleryReviews = () => {
               Kata Mereka.
             </h2>
           </div>
-          <p className="text-muted-foreground font-sans text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">
+          <p className="text-muted-foreground font-sans font-semibold text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">
             Ulasan jujur dari peserta di Google Reviews.<br className="hidden md:inline" /> Klik bubble untuk buka langsung di Google Maps.
           </p>
         </div>

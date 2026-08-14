@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Container } from '../layout/Container';
 import { bundlingTickets, keramikTickets, membatikTickets, infoUmumTickets } from '../../data/tickets';
 import type { Ticket } from '../../types/ticket';
@@ -7,6 +7,8 @@ import { TileBackground } from '../effects/TileBackground';
 import { TicketModal } from '../tickets/TicketModal';
 import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
 import { useTicketModal } from '../../hooks/useTicketModal';
+import { resizeSmoothScroll } from '../providers/SmoothScroll';
+import FAQ from './FAQ';
 
 const TICKET_TABS = [
   { id: 'keramik', label: 'Keramik', summary: '3 Pilihan Kelas' },
@@ -65,6 +67,11 @@ export const BentoTickets: React.FC = () => {
 
   const activeTabSummary = TICKET_TABS.find((tab) => tab.id === activeTab)?.summary;
 
+  useEffect(() => {
+    const frameId = window.requestAnimationFrame(() => resizeSmoothScroll());
+    return () => window.cancelAnimationFrame(frameId);
+  }, [activeTab]);
+
   return (
     <section ref={sectionRef} id="activities" className="pt-12 pb-20 md:pt-16 md:pb-24 bg-card border-b border-foreground/10 relative">
       <TileBackground />
@@ -73,7 +80,7 @@ export const BentoTickets: React.FC = () => {
           <div>
             <h2 className="font-serif font-bold text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">Katalog Aktivitas.</h2>
           </div>
-          <p className="text-muted-foreground font-sans text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">Berikut merupakan katalog wisata kita.<br className="hidden md:inline" /> Tempat terbatas agar perhatian individu maksimal.</p>
+          <p className="text-muted-foreground font-sans font-semibold text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">Berikut merupakan katalog wisata kita.<br className="hidden md:inline" /> Tempat terbatas agar perhatian individu maksimal.</p>
         </div>
         <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div role="tablist" aria-label="Kategori aktivitas" className="flex flex-row w-full sm:w-auto gap-1 sm:gap-2">
@@ -87,13 +94,14 @@ export const BentoTickets: React.FC = () => {
         <div id="panel-keramik" role="tabpanel" aria-labelledby="tab-keramik" hidden={activeTab !== 'keramik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{keramikElements}</div>
         <div id="panel-membatik" role="tabpanel" aria-labelledby="tab-membatik" hidden={activeTab !== 'membatik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{membatikElements}</div>
         <div id="panel-bundling" role="tabpanel" aria-labelledby="tab-bundling" hidden={activeTab !== 'bundling'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{bundlingElements}</div>
-        <div ref={infoRef} className="pt-12 border-t-2 border-dashed border-foreground/20">
-          <div className="mb-8 text-center md:text-left">
+        <div ref={infoRef} className="pt-12">
+          <div className="mb-8 text-center">
             <h3 className="font-serif font-bold text-3xl md:text-4xl uppercase tracking-tight text-foreground mb-2"><span className="md:hidden">Informasi Umum</span><span className="hidden md:inline">Informasi Umum & Sewa</span></h3>
-            <p className="font-sans text-xs md:text-sm text-muted-foreground text-balance">Tiket masuk studio, workshop kustom, paket usaha expert, dan penyewaan aula.</p>
+            <p className="font-sans font-semibold text-xs md:text-sm text-muted-foreground text-balance">Tiket masuk studio, workshop kustom, paket usaha expert, dan penyewaan aula.</p>
           </div>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-4">{infoUmumElements}</div>
         </div>
+        <FAQ />
       </Container>
       <TicketModal ticket={selectedTicket} onClose={closeTicket} isClosing={isClosing} />
     </section>

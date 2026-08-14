@@ -188,7 +188,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
         </div>
 
         {/* Massive Cinematic Video Slider */}
-        <div id="hero-video-container" className="w-full aspect-video md:aspect-[377/180] overflow-hidden bg-[#0d0d0d] relative border border-foreground/10 mb-4">
+        <div id="hero-video-container" className="w-full aspect-video md:aspect-[377/180] overflow-hidden rounded-sm bg-[#0d0d0d] relative border border-foreground/10 mb-4">
           <div
             className="absolute inset-0 flex h-full transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
             style={{
