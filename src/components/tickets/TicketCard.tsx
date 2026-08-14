@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Ticket } from '../../types/ticket';
+import { TicketBadge } from './TicketBadge';
 import { TicketMedia } from './TicketMedia';
 import { TicketPerforation } from './TicketPerforation';
 import { TicketPriceFooter } from './TicketPriceFooter';
@@ -97,6 +98,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         {/* Top Content Area: Title & Content at top, Image expands to fill remaining space */}
         <div className="ticket-notch-body bg-background p-5 md:p-6 flex flex-col flex-1 gap-3">
           <div>
+            {ticket.badge && (
+              <div className="flex justify-between items-start mb-3">
+                <TicketBadge badge={ticket.badge} savings={ticket.savings} />
+              </div>
+            )}
+
             <h3 className="font-serif font-bold text-3xl md:text-4xl text-foreground mb-2 leading-tight">
               {ticket.title}
             </h3>
@@ -154,6 +161,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
           <div className="order-1 md:order-2 flex-1 w-full flex flex-col justify-between md:h-full">
             <div>
+              {ticket.badge && (
+                <div className="flex justify-between items-start mb-3">
+                  <TicketBadge badge={ticket.badge} savings={ticket.savings} />
+                </div>
+              )}
+
               <h3 className={`font-serif font-bold text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>
                 {ticket.title}
               </h3>
@@ -214,6 +227,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         >
           {/* Mobile: Text top (order-1), Desktop: Text right (order-2) */}
           <div className="order-1 md:order-2 flex-1 flex flex-col justify-start">
+            {ticket.badge && (
+              <div className="flex justify-between items-start mb-2">
+                <TicketBadge badge={ticket.badge} savings={ticket.savings} />
+              </div>
+            )}
+
             <h3 className={`font-serif font-bold text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
               {ticket.title}
             </h3>
@@ -255,6 +274,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       >
         {/* Top Text Area (Title & Description) */}
         <div>
+          {ticket.badge && (
+            <div className="flex justify-between items-start mb-2">
+              <TicketBadge badge={ticket.badge} savings={ticket.savings} />
+            </div>
+          )}
+
           <h3 className={`font-serif font-bold text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
             {ticket.title}
           </h3>
