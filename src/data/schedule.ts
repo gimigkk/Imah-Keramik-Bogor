@@ -1,3 +1,5 @@
+export type Weekday = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
+
 export type DaySchedule = {
   day: string;
   open: string | null;
@@ -5,8 +7,20 @@ export type DaySchedule = {
   isClosed: boolean;
 };
 
+const WEEKDAYS: Weekday[] = [
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+];
+
+const WIB_TIME_ZONE = 'Asia/Jakarta';
+
 // TODO(company): Confirm regular hours, holiday closures, booking-only exceptions, and timezone before launch. See CONCEPT_HANDOFF.md.
-export const schedule: Record<string, DaySchedule> = {
+export const schedule: Record<Weekday, DaySchedule> = {
   sunday: { day: 'Minggu', open: '10:00', close: '18:00', isClosed: false },
   monday: { day: 'Senin', open: null, close: null, isClosed: true },
   tuesday: { day: 'Selasa', open: '13:00', close: '18:00', isClosed: false },
@@ -23,60 +37,64 @@ export const openingHoursSummary = [
   { label: 'Senin', value: 'Tutup', isClosed: true },
 ] as const;
 
-export const getTodayScheduleWIB = (): DaySchedule & { isOpenNow: boolean; displayText: string } => {
-  // Get current day in WIB timezone (Asia/Jakarta)
-  const dateStr = new Date().toLocaleString("en-US", { timeZone: "Asia/Jakarta" });
-  const dateWIB = new Date(dateStr);
-  
-  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  const currentDayIndex = dateWIB.getDay();
-  const dayName = days[currentDayIndex];
-  
-  const todaySchedule = schedule[dayName];
-  
-  let isOpenNow = false;
-  const currentHour = dateWIB.getHours();
-  const currentMinute = dateWIB.getMinutes();
-  const currentTime = currentHour + currentMinute / 60;
-  
-  if (!todaySchedule.isClosed && todaySchedule.open && todaySchedule.close) {
-    const [openHour, openMinute] = todaySchedule.open.split(':').map(Number);
-    const openTime = openHour + openMinute / 60;
-    
-    const [closeHour, closeMinute] = todaySchedule.close.split(':').map(Number);
-    const closeTime = closeHour + closeMinute / 60;
-    
-    if (currentTime >= openTime && currentTime < closeTime) {
-      isOpenNow = true;
-    }
-  }
-  
-  let displayText = '';
+const timeToMinutes = (time: string): number => {
+  const [hours, minutes] = time.split(':').map(Number);
+  return hours * 60 + minutes;
+};
+
+const getWibDateParts = (date: Date) => {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: WIB_TIME_ZONE,
+    weekday: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    hourCycle: 'h23',
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+  const dayIndex = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].indexOf(values.weekday);
+
+  return {
+    dayIndex: dayIndex === -1 ? 0 : dayIndex,
+    currentTime: Number(values.hour) * 60 + Number(values.minute),
+  };
+};
+
+export const getTodayScheduleWIB = (date = new Date()): DaySchedule & { isOpenNow: boolean; displayText: string } => {
+  const { dayIndex, currentTime } = getWibDateParts(date);
+  const todaySchedule = schedule[WEEKDAYS[dayIndex]];
+  const openTime = todaySchedule.open ? timeToMinutes(todaySchedule.open) : null;
+  const closeTime = todaySchedule.close ? timeToMinutes(todaySchedule.close) : null;
+  const isOpenNow = openTime !== null && closeTime !== null
+    && currentTime >= openTime
+    && currentTime < closeTime;
 
   if (isOpenNow) {
-    displayText = `${todaySchedule.day.toUpperCase()}: ${todaySchedule.open} - ${todaySchedule.close}`;
-  } else {
-    // Check if it will open later today
-    if (!todaySchedule.isClosed && todaySchedule.open) {
-      const [openHour, openMinute] = todaySchedule.open.split(':').map(Number);
-      const openTime = openHour + openMinute / 60;
-      if (currentTime < openTime) {
-        displayText = `BUKA HARI INI: ${todaySchedule.open}`;
-      }
-    }
-    
-    // If not opening today, find the next day it is open
-    if (!displayText) {
-      for (let i = 1; i <= 7; i++) {
-        const nextDayIndex = (currentDayIndex + i) % 7;
-        const nextDaySchedule = schedule[days[nextDayIndex]];
-        if (!nextDaySchedule.isClosed && nextDaySchedule.open) {
-          displayText = `BUKA ${nextDaySchedule.day.toUpperCase()}: ${nextDaySchedule.open}`;
-          break;
-        }
-      }
+    return {
+      ...todaySchedule,
+      isOpenNow,
+      displayText: `${todaySchedule.day.toUpperCase()}: ${todaySchedule.open} - ${todaySchedule.close}`,
+    };
+  }
+
+  if (openTime !== null && currentTime < openTime) {
+    return {
+      ...todaySchedule,
+      isOpenNow,
+      displayText: `BUKA HARI INI: ${todaySchedule.open}`,
+    };
+  }
+
+  for (let offset = 1; offset <= WEEKDAYS.length; offset += 1) {
+    const nextDay = schedule[WEEKDAYS[(dayIndex + offset) % WEEKDAYS.length]];
+    if (!nextDay.isClosed && nextDay.open) {
+      return {
+        ...todaySchedule,
+        isOpenNow,
+        displayText: `BUKA ${nextDay.day.toUpperCase()}: ${nextDay.open}`,
+      };
     }
   }
-  
-  return { ...todaySchedule, isOpenNow, displayText };
+
+  return { ...todaySchedule, isOpenNow, displayText: 'JADWAL BELUM TERSEDIA' };
 };

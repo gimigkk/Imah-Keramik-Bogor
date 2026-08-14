@@ -1,6 +1,6 @@
 import React from 'react';
 import { X } from 'lucide-react';
-import { Ticket, TicketVideo } from '../types/ticket';
+import { Ticket, TicketVideo } from '../../types/ticket';
 
 interface ActivityDetailsProps {
   ticket: Ticket;

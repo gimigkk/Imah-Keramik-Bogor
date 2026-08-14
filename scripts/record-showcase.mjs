@@ -112,7 +112,7 @@ async function installRecordingCursor(targetPage, cursorAsset) {
           pointer-events: none;
           opacity: 0;
         }
-        #recording-cursor > svg {
+        #recording-cursor > img {
           display: block;
           width: 32px;
           height: 32px;
@@ -124,7 +124,10 @@ async function installRecordingCursor(targetPage, cursorAsset) {
       const cursor = document.createElement('div');
       cursor.id = 'recording-cursor';
       // This is the actual default pointer from the active KDE cursor theme.
-      cursor.innerHTML = markup;
+      const cursorImage = document.createElement('img');
+      cursorImage.alt = '';
+      cursorImage.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(markup)}`;
+      cursor.appendChild(cursorImage);
       document.documentElement.appendChild(cursor);
 
       document.addEventListener('mousemove', (event) => {

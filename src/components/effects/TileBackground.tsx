@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import { subscribeToLenis } from './SmoothScroll';
-import { tileAssets } from '../data/assets';
+import { subscribeToLenis } from '../providers/SmoothScroll';
+import { tileAssets } from '../../data/assets';
 
 interface TileBackgroundProps {
   gridOpacity?: number;

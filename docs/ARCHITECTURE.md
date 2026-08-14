@@ -19,6 +19,20 @@ index.html
 
 The application is a Vite/React single-page site. There is no client-side router and no API/database. Booking opens WhatsApp with a prefilled message.
 
+## Component boundaries
+
+The component tree is organized by responsibility rather than by file type:
+
+| Folder | Owns | May depend on |
+| --- | --- | --- |
+| `components/layout` | Site-wide chrome and layout primitives | Shared data and styling |
+| `components/providers` | Global browser lifecycles such as Lenis | Browser APIs and shared utilities |
+| `components/sections` | Page-level composition and section state | Layout, tickets, effects, hooks, and data |
+| `components/tickets` | Catalog presentation, ticket details, and modal behavior | Ticket data, shared libraries, and the scroll provider |
+| `components/effects` | Decorative and entrance animations | Shared assets and providers |
+
+Keep catalog data in `src/data`, reusable browser logic in `src/lib` or `src/hooks`, and avoid importing page sections into ticket or effect components. New components should be placed in the narrowest folder that matches their responsibility.
+
 ## Source-of-truth map
 
 | Change needed | Edit here first | Also review |
@@ -27,21 +41,23 @@ The application is a Vite/React single-page site. There is no client-side router
 | Weekly hours and live open/closed calculation | `src/data/schedule.ts` | Footer summary and static SEO content. |
 | Catalogue copy, prices, ticket layout, booking messages | `src/data/tickets.ts` | `Katalog.md`, `public/informasi.html`, `public/llms.txt`, and JSON-LD. |
 | Ticket-specific videos and captions | `src/data/ticketMedia.ts` | `public/assets/videos/README.md`. |
-| Tile-pattern SVG paths | `src/data/assets.ts` | The SVG files in `public/`. |
-| Reviews, review links, and stock images | `src/components/GalleryReviews.tsx` | Company approval and source/usage rights. |
+| Tile-pattern SVG paths | `src/data/assets.ts` | The SVG files in `public/assets/patterns/`. |
+| Reviews, review links, and stock images | `src/components/sections/GalleryReviews.tsx` | Company approval and source/usage rights. |
 | Public search/AI metadata | `index.html`, `public/robots.txt`, `public/sitemap.xml`, `public/informasi.html`, `public/llms.txt` | Keep every domain and business fact synchronized. |
 
 `public/` files are copied directly to the deployment and cannot import TypeScript. That is why public SEO files intentionally repeat some confirmed company facts.
 
 `src/hooks/useRevealOnIntersect.ts` owns the one-time viewport-triggered reveal state used by page sections. Use it for entrance animations only; do not use it for data loading or continuous visibility tracking.
+`src/hooks/useTicketModal.ts` owns ticket selection, browser history, and the lifecycle of grid-to-modal transitions. Keep this behavior out of page-section rendering code.
 
 ## Components with behavior worth preserving
 
-- `TicketCard.tsx` and `src/index.css` implement the ticket perforation masks. The mask dimensions are coordinated; change them only after visual testing at mobile and desktop widths.
-- `BentoTickets.tsx` owns ticket opening/closing and the morph animation. Its `data-ticket-*` attributes are part of the animation contract with `TicketCard.tsx` and `TicketModal.tsx`.
-- `TicketModal.tsx` owns modal focus, Escape handling, background-scroll locking, and focus restoration. Keep these together when changing the modal.
-- `SmoothScroll.tsx` owns the only Lenis instance. Other components subscribe through `subscribeToLenis`; do not instantiate Lenis elsewhere.
-- `IntroSplash.tsx` synchronizes the opening video with the hero. Timings are grouped in `INTRO_TIMING` and should be adjusted there.
+- `tickets/TicketCard.tsx`, `tickets/TicketPerforation.tsx`, and `src/index.css` implement the ticket perforation masks. The mask dimensions are coordinated; change them only after visual testing at mobile and desktop widths.
+- `sections/BentoTickets.tsx` owns catalog tabs and section composition. `hooks/useTicketModal.ts` owns ticket opening/closing and browser-history state. Its `data-ticket-*` attributes are part of the animation contract with `tickets/TicketCard.tsx` and `tickets/TicketModal.tsx`.
+- `lib/ticketMorph.ts` owns the low-level ticket DOM animation. Keep catalog state, browser history, and animation mechanics separate when extending ticket interactions.
+- `tickets/TicketModal.tsx` owns modal focus, Escape handling, background-scroll locking, and focus restoration. Keep these together when changing the modal.
+- `providers/SmoothScroll.tsx` owns the only Lenis instance. Other components subscribe through `subscribeToLenis`; do not instantiate Lenis elsewhere.
+- `effects/IntroSplash.tsx` synchronizes the opening video with the hero. Timings are grouped in `INTRO_TIMING` and should be adjusted there.
 
 ## Styling
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { Container } from './Container';
-import { site, getWhatsAppUrl } from '../data/site';
-import { mediaAssets } from '../data/assets';
+import { site, getWhatsAppUrl } from '../../data/site';
+import { mediaAssets } from '../../data/assets';
 
 // TODO(company): Confirm the approved logo asset, business name, navigation labels, and booking destination before launch. See CONCEPT_HANDOFF.md.
 export const Navbar: React.FC = () => {

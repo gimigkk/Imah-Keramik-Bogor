@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa6';
-import { Container } from './Container';
-import { getWhatsAppUrl, site } from '../data/site';
-import { useRevealOnIntersect } from '../hooks/useRevealOnIntersect';
+import { Container } from '../layout/Container';
+import { getWhatsAppUrl, site } from '../../data/site';
+import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
 
 export const CTA = () => {
   const [copied, setCopied] = useState(false);
   const [mapInteractive, setMapInteractive] = useState(false);
   const [sectionRef, visible] = useRevealOnIntersect<HTMLElement>();
 
-  const handleCopy = () => {
-    void navigator.clipboard.writeText(site.address.copyText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(site.address.copyText);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
   };
 
   return (

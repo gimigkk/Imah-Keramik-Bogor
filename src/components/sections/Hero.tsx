@@ -1,17 +1,18 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Container } from './Container';
-import { getTodayScheduleWIB } from '../data/schedule';
-import { site } from '../data/site';
-import { mediaAssets } from '../data/assets';
-import { getYouTubeId } from '../utils/youtube';
+import { Container } from '../layout/Container';
+import { getTodayScheduleWIB } from '../../data/schedule';
+import { site } from '../../data/site';
+import { mediaAssets } from '../../data/assets';
+import { getYouTubeId } from '../../utils/youtube';
+
+const YOUTUBE_EMBED_ORIGIN = 'https://www.youtube-nocookie.com';
 
 export interface HeroVideo {
   id: number;
   title: string;
   type: 'youtube' | 'local';
   youtubeUrl?: string;
-  youtubeId?: string;
   videoMp4?: string;
   videoWebm?: string;
   poster?: string;
@@ -24,7 +25,6 @@ const heroVideos: HeroVideo[] = [
     title: 'Imah Keramik Bogor | BBO Documentary',
     type: 'youtube',
     youtubeUrl: mediaAssets.hero.youtubeUrl,
-    youtubeId: mediaAssets.hero.youtubeId,
     poster: mediaAssets.hero.poster,
   },
   {
@@ -32,7 +32,6 @@ const heroVideos: HeroVideo[] = [
     title: 'Seni Membuat Kerajinan Keramik - Imah Keramik Bogor | BBO Preneur',
     type: 'youtube',
     youtubeUrl: mediaAssets.hero.youtubeUrl2,
-    youtubeId: mediaAssets.hero.youtubeId2,
     poster: mediaAssets.hero.poster,
   },
   {
@@ -40,7 +39,6 @@ const heroVideos: HeroVideo[] = [
     title: 'Kreasi Keramik di Imah Keramik Bogor dan Batik Ayu Dewi',
     type: 'youtube',
     youtubeUrl: mediaAssets.hero.youtubeUrl3,
-    youtubeId: mediaAssets.hero.youtubeId3,
     poster: mediaAssets.hero.poster,
   },
 ];
@@ -87,17 +85,11 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
       if (!iframe || !iframe.contentWindow) return;
 
       try {
-        if (idx === activeVideo) {
-          iframe.contentWindow.postMessage(
-            JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
-            '*'
-          );
-        } else {
-          iframe.contentWindow.postMessage(
-            JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
-            '*'
-          );
-        }
+        const message = idx === activeVideo ? 'playVideo' : 'pauseVideo';
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: message, args: [] }),
+          YOUTUBE_EMBED_ORIGIN,
+        );
       } catch {
         // Ignore cross-origin issues
       }
@@ -107,7 +99,9 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
   // Listen for YouTube embed ENDED state or time end to auto-advance
   useEffect(() => {
     const handleYouTubeMessage = (event: MessageEvent) => {
-      if (typeof event.origin === 'string' && !event.origin.includes('youtube')) return;
+      if (event.origin !== YOUTUBE_EMBED_ORIGIN) return;
+      if (iframeRefs.current[activeVideo]?.contentWindow !== event.source) return;
+
       try {
         const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
         if (!data) return;
@@ -134,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
 
     window.addEventListener('message', handleYouTubeMessage);
     return () => window.removeEventListener('message', handleYouTubeMessage);
-  }, [handleNextVideo]);
+  }, [activeVideo, handleNextVideo]);
 
   return (
     <section id="about" className="relative pt-20 md:pt-24 pb-6 md:pb-12 border-b border-foreground/20 bg-background">
@@ -205,7 +199,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
             {heroVideos.map((vid, idx) => {
               const isSelected = idx === activeVideo;
               const ytId = vid.type === 'youtube'
-                ? (vid.youtubeId || getYouTubeId(vid.youtubeUrl))
+                ? getYouTubeId(vid.youtubeUrl)
                 : null;
 
               return (
@@ -227,7 +221,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
                         ref={(el) => {
                           iframeRefs.current[idx] = el;
                         }}
-                        src={`https://www.youtube-nocookie.com/embed/${ytId}?autoplay=${isSelected ? 1 : 0}&mute=1&loop=0&controls=1&rel=0&playsinline=1&enablejsapi=1`}
+                        src={`${YOUTUBE_EMBED_ORIGIN}/embed/${ytId}?autoplay=${isSelected ? 1 : 0}&mute=1&loop=0&controls=1&rel=0&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
                         title={vid.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
@@ -298,4 +292,3 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
     </section>
   );
 };
-

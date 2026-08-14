@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
+import { pauseSmoothScroll, resumeSmoothScroll } from '../providers/SmoothScroll';
 
 interface IntroSplashProps {
   onComplete: () => void;
@@ -128,4 +128,3 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
     />
   );
 }
-

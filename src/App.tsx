@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import BentoTickets from './components/BentoTickets';
-import IntroSplash from './components/IntroSplash';
-import { SmoothScroll } from './components/SmoothScroll';
-import { Hero } from './components/Hero';
-import { CTA } from './components/CTA';
-import { GalleryReviews } from './components/GalleryReviews';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import { SmoothScroll } from './components/providers/SmoothScroll';
+import BentoTickets from './components/sections/BentoTickets';
+import { CTA } from './components/sections/CTA';
+import { GalleryReviews } from './components/sections/GalleryReviews';
+import { Hero } from './components/sections/Hero';
+import IntroSplash from './components/effects/IntroSplash';
 
 export default function App() {
   const [introDone, setIntroDone] = useState(false);

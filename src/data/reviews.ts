@@ -24,7 +24,7 @@ export const reviewColumns: ReviewData[][] = [
       quote: "Pengalaman pertama membuat mangkok dari tanah liat dan membatik 😍💕 paket liburan 100rb per org. Cocok nih buat ide liburan anak sekolah..ada guidenya jadi bisa diajarin membuat gerabah, hasil karya bisa dibawa pulang...seru banget 😍👍",
       googleMapsUrl: "https://share.google/iN2EGFT6ElyXZmOiN",
       image: {
-        url: "/anisa.webp",
+        url: "/assets/images/reviews/anisa.webp",
         alt: "Hasil kreasi membatik media kayu bentuk kucing",
         aspectRatio: "aspect-square"
       }
@@ -43,7 +43,7 @@ export const reviewColumns: ReviewData[][] = [
       quote: "Suasana nyaman, seperti sedang di kampung; dipandu dengan baik dan ramah dalam berkreasi...",
       googleMapsUrl: "https://share.google/v50zBANRkD79q6sTh",
       image: {
-        url: "/irwan.webp",
+        url: "/assets/images/reviews/irwan.webp",
         alt: "Peserta memamerkan karya membatik kayu bersama",
         aspectRatio: "aspect-video"
       }
@@ -65,7 +65,7 @@ export const reviewColumns: ReviewData[][] = [
       quote: "Ikut kelas Clay dan Belajar membatik di media kayu. Seru banget, tempatnya adem, luas dan owner nya ramah banget. Keren",
       googleMapsUrl: "https://share.google/QKQUj9dLy21prRArB",
       image: {
-        url: "/devi.webp",
+        url: "/assets/images/reviews/devi.webp",
         alt: "Peserta memegang hasil karya gerabah tanah liat",
         aspectRatio: "aspect-[5/4]"
       }
@@ -77,7 +77,7 @@ export const reviewColumns: ReviewData[][] = [
       quote: "they welcome customers warmly, kebetulan dateng kesini after 4 days lebaran jadi sepi bgt dan belum beroperasi juga karena karyawan lainnya lagi pada mudik hihi tapi tetep welcome buat yg mau coba kerajinan disini seru bgt kita di ajak tour dulu liat' sekitar tempat pembuatannya dan tentunya kita di temenin sama pekerja disana juga paa kita lagi buat kerajinan pokoknya org' disanaa baik' ramah' poll jadi nyaman kitanya hehe",
       googleMapsUrl: "https://share.google/725tcptBt413Djn6K",
       image: {
-        url: "/siti.webp",
+        url: "/assets/images/reviews/siti.webp",
         alt: "Galeri display kerajinan gerabah dan keramik Imah Keramik Bogor",
         aspectRatio: "aspect-video"
       }
@@ -106,7 +106,7 @@ export const reviewColumns: ReviewData[][] = [
       quote: "Ibu dan bapanya sangat ramah sekali, disini ada fun clay dan juga membatik, saya kemaren ambil paket yg harga 100k udh bisa fun clay dan membatik, dan seru juga guyss, disini kalian bisa reservasi h-1 sebelum ketempat ini yaaa, bisa grup bisa individu",
       googleMapsUrl: "https://share.google/10vpqXBLaoJqy6S4X",
       image: {
-        url: "/nafisa.mp4",
+        url: "/assets/videos/reviews/nafisa.mp4",
         type: "video",
         alt: "Video suasana fun clay dan membatik Nafisa D.",
         aspectRatio: "aspect-[4/3]"
@@ -119,7 +119,7 @@ export const reviewColumns: ReviewData[][] = [
       quote: "Seru banget buat belajar hal baru, help full dan baik banget karena sebelumnya ga pernah belajar bikin clay dan batik. Saran buat pengunjung bikin clay yang mudah di bawa karena harus jemur sendiri di rumah",
       googleMapsUrl: "https://share.google/gNXlUu4RTAkAxl8Ng",
       image: {
-        url: "/zahwatul.webp",
+        url: "/assets/images/reviews/zahwatul.webp",
         alt: "Peserta memutar dan membentuk gerabah tanah liat di alat meubeler",
         aspectRatio: "aspect-[4/3]"
       }
@@ -131,7 +131,7 @@ export const reviewColumns: ReviewData[][] = [
       quote: "Utk anak2 belajar mandiri dan kreatif ,, dengan suasana yg Asri 👍👍👍",
       googleMapsUrl: "https://share.google/P4aEr88qUajj4HfkH",
       image: {
-        url: "/dedi.webp",
+        url: "/assets/images/reviews/dedi.webp",
         alt: "Mural dinding Welcome to Imah Keramik Bogor dengan suasana asri",
         aspectRatio: "aspect-video"
       }
@@ -153,7 +153,7 @@ export const reviewColumns: ReviewData[][] = [
       quote: "SERU BANGET ! Terimakasih banyak bapak dan ibu yang udah ikut membantu proses tugas kami pak, kegiatan nya seru banget dan sangat informatif dan menginspirasi 🤩",
       googleMapsUrl: "https://share.google/JCfk8ROHTkCCMXW2e",
       image: {
-        url: "/satya.webp",
+        url: "/assets/images/reviews/satya.webp",
         alt: "Lima mahasiswa memamerkan hasil karya gerabah dan batik kayu",
         aspectRatio: "aspect-video"
       }
@@ -165,7 +165,7 @@ export const reviewColumns: ReviewData[][] = [
       quote: "Seru banget, ibu dan bapak ramah dan sabar dalam mengajar, dan tentunya keren-keren karyanya🫶",
       googleMapsUrl: "https://share.google/GHPzTV6OofVqpOhbC",
       image: {
-        url: "/dhiya.webp",
+        url: "/assets/images/reviews/dhiya.webp",
         alt: "Hasil karya sendok kayu bermotif batik merah",
         aspectRatio: "aspect-[3/4]"
       }

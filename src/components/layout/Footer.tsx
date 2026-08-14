@@ -2,9 +2,9 @@ import React from 'react';
 import { Copyright, Mail } from 'lucide-react';
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa6';
 import { Container } from './Container';
-import { site, getWhatsAppUrl } from '../data/site';
-import { tileAssets } from '../data/assets';
-import { openingHoursSummary } from '../data/schedule';
+import { site, getWhatsAppUrl } from '../../data/site';
+import { tileAssets } from '../../data/assets';
+import { openingHoursSummary } from '../../data/schedule';
 
 // TODO(company): Footer identity, contact channels, opening hours, address, decorative assets, copyright owner, and developer credit are concept content pending approval. See CONCEPT_HANDOFF.md.
 export const Footer: React.FC = () => {

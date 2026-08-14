@@ -1,13 +1,13 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { X } from 'lucide-react';
-import { Ticket } from '../types/ticket';
-import { getTicketWhatsappMessage } from '../data/tickets';
+import { Ticket } from '../../types/ticket';
+import { getTicketWhatsappMessage } from '../../data/tickets';
 import { ActivityDetails } from './ActivityDetails';
 import { PackageCards } from './PackageCards';
 import { TicketCard } from './TicketCard';
-import { pauseSmoothScroll, resumeSmoothScroll } from './SmoothScroll';
-import { getWhatsAppUrl } from '../data/site';
+import { pauseSmoothScroll, resumeSmoothScroll } from '../providers/SmoothScroll';
+import { getWhatsAppUrl } from '../../data/site';
 
 interface TicketModalProps {
   ticket: Ticket | null;
@@ -20,10 +20,28 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
   const dialogRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     onCloseRef.current = onClose;
   }, [onClose]);
+
+  useEffect(() => {
+    if (ticket && !isClosing && !previouslyFocusedRef.current) {
+      previouslyFocusedRef.current = document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+      return;
+    }
+
+    if (ticket || !previouslyFocusedRef.current) return;
+
+    const elementToRestore = previouslyFocusedRef.current;
+    previouslyFocusedRef.current = null;
+    window.requestAnimationFrame(() => {
+      if (elementToRestore.isConnected) elementToRestore.focus({ preventScroll: true });
+    });
+  }, [ticket, isClosing]);
 
   useLayoutEffect(() => {
     if (!ticket || isClosing) {

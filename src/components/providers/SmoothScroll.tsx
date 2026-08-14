@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
+import { resetScrollPosition } from '../../lib/browserScroll';
 
 const easeOutExpo = (x: number): number => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x));
 
@@ -27,13 +28,7 @@ export const subscribeToLenis = (callback: LenisScrollListener) => {
 
 export const SmoothScroll = () => {
   useEffect(() => {
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
-    }
-    window.scrollTo(0, 0);
+    resetScrollPosition();
 
     const lenis = new Lenis({
       autoRaf: false,
@@ -78,7 +73,7 @@ export const SmoothScroll = () => {
       if (href === '#top') {
         lenis.scrollTo(0, { duration: 1, easing: easeOutExpo, lerp: 0.22 });
       } else {
-        const elem = document.querySelector(href);
+        const elem = document.getElementById(href.slice(1));
         if (elem) {
           if (href === '#main-content' && elem instanceof HTMLElement) {
             elem.focus({ preventScroll: true });

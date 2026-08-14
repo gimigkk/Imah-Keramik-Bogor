@@ -1,7 +1,7 @@
-import { Container } from './Container';
-import { getResponsiveImageProps } from '../lib/responsiveImage';
-import { useRevealOnIntersect } from '../hooks/useRevealOnIntersect';
-import { reviewColumns, ReviewData } from '../data/reviews';
+import { Container } from '../layout/Container';
+import { getResponsiveImageProps } from '../../lib/responsiveImage';
+import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
+import { reviewColumns, ReviewData } from '../../data/reviews';
 
 const galleryImageSizes = '(min-width: 1400px) 270px, (min-width: 1024px) 22vw, (min-width: 640px) 46vw, calc(100vw - 5rem)';
 

@@ -1,6 +1,9 @@
 import React from 'react';
-import { Ticket } from '../types/ticket';
-import { getResponsiveImageProps } from '../lib/responsiveImage';
+import type { Ticket } from '../../types/ticket';
+import { TicketBadge } from './TicketBadge';
+import { TicketMedia } from './TicketMedia';
+import { TicketPerforation } from './TicketPerforation';
+import { TicketPriceFooter } from './TicketPriceFooter';
 
 interface TicketCardProps {
   ticket: Ticket;
@@ -9,62 +12,6 @@ interface TicketCardProps {
   className?: string;
   style?: React.CSSProperties;
 }
-
-interface TicketPriceFooterProps {
-  ticket: Ticket;
-  isAccent?: boolean;
-}
-
-interface TicketPerforationProps {
-  horizontal?: boolean;
-}
-
-const NotchOutline: React.FC<{ className: string }> = ({ className }) => (
-  <span
-    aria-hidden="true"
-    className={`pointer-events-none absolute h-6 w-6 rounded-full border border-(--ticket-edge) ${className}`}
-  />
-);
-
-const TicketPerforation: React.FC<TicketPerforationProps> = ({ horizontal = false }) => (
-  <div
-    aria-hidden="true"
-    className={horizontal ? 'relative z-10 h-0 w-full shrink-0 md:h-auto md:w-0' : 'relative z-10 h-0 w-full shrink-0'}
-  >
-    <NotchOutline
-      className={horizontal
-        ? '-left-3 -top-3 [clip-path:inset(0_0_0_50%)] md:[clip-path:inset(50%_0_0_0)]'
-        : '-left-3 -top-3 [clip-path:inset(0_0_0_50%)]'}
-    />
-    <NotchOutline
-      className={horizontal
-        ? '-right-3 -top-3 [clip-path:inset(0_50%_0_0)] md:-bottom-3 md:-left-3 md:right-auto md:top-auto md:[clip-path:inset(0_0_50%_0)]'
-        : '-right-3 -top-3 [clip-path:inset(0_50%_0_0)]'}
-    />
-  </div>
-);
-
-// Single shared Price Footer Component used by all vertical cards
-const TicketPriceFooter: React.FC<TicketPriceFooterProps> = ({ ticket, isAccent }) => (
-  <div
-    className={`ticket-notch-stub w-full shrink-0 py-7 md:py-8 px-6 md:px-8 min-h-24 flex items-center justify-between ${isAccent ? 'bg-[#644431]' : 'bg-[#215336]'
-      }`}
-  >
-    <div>
-      <span className="font-mono font-bold block text-xl md:text-2xl text-background">
-        {ticket.price}
-      </span>
-      {ticket.unitLabel && (
-        <span className="font-sans text-xs block mt-1 text-background/60">
-          {ticket.unitLabel}
-        </span>
-      )}
-    </div>
-    <span className="font-mono text-xs uppercase tracking-widest border-b text-background/80 border-background/40">
-      Detail
-    </span>
-  </div>
-);
 
 const colStartClasses: Record<number, string> = {
   1: 'md:col-start-1',
@@ -94,9 +41,6 @@ export const TicketCard: React.FC<TicketCardProps> = ({
     : isFeatured || (ticket.gridSpan?.cols ?? 1) >= 2
       ? '(min-width: 1400px) 560px, (min-width: 768px) 44vw, calc(100vw - 5rem)'
       : '(min-width: 1400px) 270px, (min-width: 768px) 22vw, calc(100vw - 5rem)';
-  const imageProps = ticket.image
-    ? getResponsiveImageProps(ticket.image, imageSizes)
-    : null;
   const handleKeyDown = onClick
     ? (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -114,49 +58,6 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         'aria-label': `Lihat detail ${ticket.title}, ${ticket.price}`,
       }
     : undefined;
-
-  // Determine badge styling based on design system
-  const renderBadge = () => {
-    if (!ticket.badge) return null;
-    switch (ticket.badge) {
-      case 'favorit':
-        return (
-          <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-2 py-1 bg-foreground text-background font-bold">
-            favorit
-          </span>
-        );
-      case 'hemat':
-        return (
-          <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-2 py-1 bg-foreground text-background font-bold">
-            hemat{ticket.savings ? ` ${ticket.savings}` : ''}
-          </span>
-        );
-      case '4_pilihan':
-        return (
-          <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-2 py-1 bg-primary text-primary-foreground font-bold">
-            4 pilihan
-          </span>
-        );
-      case 'kustom':
-        return (
-          <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-2 py-1 bg-foreground/10 text-foreground font-bold">
-            kustom
-          </span>
-        );
-      case 'expert':
-        return (
-          <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-2 py-1 bg-foreground text-background font-bold">
-            expert
-          </span>
-        );
-      default:
-        return (
-          <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-2 py-1">
-            {ticket.badge}
-          </span>
-        );
-    }
-  };
 
   // Build grid column & row span/start classes dynamically
   let colSpanClass = 'md:col-span-1';
@@ -198,7 +99,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           <div>
             {ticket.badge && (
               <div className="flex justify-between items-start mb-3">
-                {renderBadge()}
+                <TicketBadge badge={ticket.badge} savings={ticket.savings} />
               </div>
             )}
 
@@ -213,34 +114,12 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           </div>
 
           {/* Image stays full-color with no hover effects */}
-          {ticket.image && (
-            <div
-              data-ticket-image
-              className="w-full flex-1 min-h-36 border border-foreground/10 overflow-hidden bg-muted relative mt-1"
-            >
-              {ticket.image.endsWith('.mp4') ? (
-                <video
-                  src={ticket.image}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  aria-label={ticket.title}
-                  className="absolute inset-0 h-full w-full object-cover opacity-100"
-                />
-              ) : (
-                <img
-                  {...imageProps}
-                  alt={ticket.title}
-                  loading="lazy"
-                  decoding="async"
-                  width="720"
-                  height="480"
-                  className="absolute inset-0 h-full w-full object-cover opacity-100"
-                />
-              )}
-            </div>
-          )}
+          <TicketMedia
+            src={ticket.image}
+            alt={ticket.title}
+            sizes={imageSizes}
+            className="w-full flex-1 min-h-36 border border-foreground/10 overflow-hidden bg-muted relative mt-1"
+          />
         </div>
 
         <TicketPerforation />
@@ -270,42 +149,20 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         {/* Left Side: Image on left of title/content */}
         <div className={`ticket-notch-body flex-1 p-6 ${isDoubleTall ? 'md:p-8' : ''} flex flex-col md:flex-row gap-6 items-stretch md:items-center ${isAccent ? 'bg-[#5c3a28]' : 'bg-background'
           }`}>
-          {ticket.image && (
-            <div
-              data-ticket-image
-              className={`order-2 md:order-1 w-full md:w-5/12 aspect-video md:aspect-auto h-auto md:h-full overflow-hidden border relative shrink-0 ${isDoubleTall ? 'min-h-50 md:min-h-65' : 'min-h-35'
-                } ${isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
-                }`}
-            >
-              {ticket.image.endsWith('.mp4') ? (
-                <video
-                  src={ticket.image}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  aria-label={ticket.title}
-                  className="absolute inset-0 h-full w-full object-cover opacity-100"
-                />
-              ) : (
-                <img
-                  {...imageProps}
-                  alt={ticket.title}
-                  loading="lazy"
-                  decoding="async"
-                  width="720"
-                  height="480"
-                  className="absolute inset-0 h-full w-full object-cover opacity-100"
-                />
-              )}
-            </div>
-          )}
+          <TicketMedia
+            src={ticket.image}
+            alt={ticket.title}
+            sizes={imageSizes}
+            className={`order-2 md:order-1 w-full md:w-5/12 aspect-video md:aspect-auto h-auto md:h-full overflow-hidden border relative shrink-0 ${isDoubleTall ? 'min-h-50 md:min-h-65' : 'min-h-35'
+              } ${isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
+              }`}
+          />
 
           <div className="order-1 md:order-2 flex-1 w-full flex flex-col justify-between md:h-full">
             <div>
               {ticket.badge && (
                 <div className="flex justify-between items-start mb-3">
-                  {renderBadge()}
+                  <TicketBadge badge={ticket.badge} savings={ticket.savings} />
                 </div>
               )}
 
@@ -370,7 +227,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           <div className="order-1 md:order-2 flex-1 flex flex-col justify-start">
             {ticket.badge && (
               <div className="flex justify-between items-start mb-2">
-                {renderBadge()}
+                <TicketBadge badge={ticket.badge} savings={ticket.savings} />
               </div>
             )}
             <h3 className={`font-serif text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
@@ -382,36 +239,14 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           </div>
 
           {/* Mobile: Image bottom (order-2), Desktop: Image left (order-1) */}
-          {ticket.image && (
-            <div
-              data-ticket-image
-              className={`order-2 md:order-1 w-full md:w-5/12 h-32 md:h-auto md:min-h-36 shrink-0 overflow-hidden border relative mt-3 md:mt-0 ${
-                isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
-              }`}
-            >
-              {ticket.image.endsWith('.mp4') ? (
-                <video
-                  src={ticket.image}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  aria-label={ticket.title}
-                  className="absolute inset-0 h-full w-full object-cover opacity-100"
-                />
-              ) : (
-                <img
-                  {...imageProps}
-                  alt={ticket.title}
-                  loading="lazy"
-                  decoding="async"
-                  width="720"
-                  height="480"
-                  className="absolute inset-0 h-full w-full object-cover opacity-100"
-                />
-              )}
-            </div>
-          )}
+          <TicketMedia
+            src={ticket.image}
+            alt={ticket.title}
+            sizes={imageSizes}
+            className={`order-2 md:order-1 w-full md:w-5/12 h-32 md:h-auto md:min-h-36 shrink-0 overflow-hidden border relative mt-3 md:mt-0 ${
+              isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
+            }`}
+          />
         </div>
 
         <TicketPerforation />
@@ -438,7 +273,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         <div>
           {ticket.badge && (
             <div className="flex justify-between items-start mb-2">
-              {renderBadge()}
+              <TicketBadge badge={ticket.badge} savings={ticket.savings} />
             </div>
           )}
           <h3 className={`font-serif text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
@@ -450,36 +285,14 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         </div>
 
         {/* Bottom Image Area */}
-        {ticket.image && (
-          <div
-            data-ticket-image
-            className={`w-full bg-muted overflow-hidden border relative mt-2 mb-1 ${
-              standalone ? 'min-h-40 flex-1' : 'h-48 md:h-64'
-            } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
-          >
-            {ticket.image.endsWith('.mp4') ? (
-              <video
-                src={ticket.image}
-                autoPlay
-                loop
-                muted
-                playsInline
-                aria-label={ticket.title}
-                className="absolute inset-0 h-full w-full object-cover opacity-100"
-              />
-            ) : (
-              <img
-                {...imageProps}
-                alt={ticket.title}
-                loading="lazy"
-                decoding="async"
-                width="720"
-                height="480"
-                className="absolute inset-0 h-full w-full object-cover opacity-100"
-              />
-            )}
-          </div>
-        )}
+        <TicketMedia
+          src={ticket.image}
+          alt={ticket.title}
+          sizes={imageSizes}
+          className={`w-full bg-muted overflow-hidden border relative mt-2 mb-1 ${
+            standalone ? 'min-h-40 flex-1' : 'h-48 md:h-64'
+          } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
+        />
       </div>
 
       <TicketPerforation />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Check, Plus } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa6';
-import { Ticket } from '../types/ticket';
+import { Ticket } from '../../types/ticket';
 
 interface PackageCardsProps {
   ticket: Ticket;

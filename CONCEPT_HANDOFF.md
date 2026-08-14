@@ -12,9 +12,9 @@ This repository is a concept site, not an approved production website. Do not pu
 | Location and map | Address and Google Maps embed in `CTA.tsx` | Exact public address, map pin/embed, directions, parking/accessibility information, and whether the location may be shown publicly. |
 | Opening hours | `src/data/schedule.ts`, footer, structured data, static info page | Regular hours, holiday closures, booking-only exceptions, and timezone. |
 | Activities, prices, packages, capacities | `src/data/tickets.ts`, `Katalog.md`, `public/informasi.html`, `public/llms.txt`, structured data | Current approved products, prices, inclusions, age limits, duration, availability, taxes, cancellation/refund terms, and all package names. |
-| Images, video, logo, icons, tiles | `public/assets/`, `public/tile*.svg`, `public/favicon.*`, `src/imports/`, Unsplash image URLs | Company-owned/approved assets, captions, alt text, licenses, and usage consent. Replace concept/stock assets before launch. |
-| Reviews and testimonials | `src/components/GalleryReviews.tsx` | Permission, current source URLs, editorial policy, and whether reviews may be quoted on the official site. |
-| SEO, social previews, AI-readable content | `index.html`, `public/informasi.html`, `public/llms.txt`, `public/og-image.jpg` | Approved descriptions, facts, images, pricing, and social handles. These must stay consistent with the final company data. |
+| Images, video, logo, icons, tiles | `public/assets/`, `public/favicon.*`, `src/imports/`, Unsplash image URLs | Company-owned/approved assets, captions, alt text, licenses, and usage consent. Replace concept/stock assets before launch. |
+| Reviews and testimonials | `src/components/sections/GalleryReviews.tsx` | Permission, current source URLs, editorial policy, and whether reviews may be quoted on the official site. |
+| SEO, social previews, AI-readable content | `index.html`, `public/informasi.html`, `public/llms.txt`, `public/assets/seo/og-image.jpg` | Approved descriptions, facts, images, pricing, and social handles. These must stay consistent with the final company data. |
 | Ownership and legal | Footer credit and all public claims | Copyright owner, privacy policy, terms, booking terms, and the approved developer credit (if any). |
 
 ## Technical decisions to review
@@ -37,4 +37,3 @@ This repository is a concept site, not an approved production website. Do not pu
 ## Future Enhancement Ideas
 
 - **Zero-CMS YouTube Playlist Auto-Sync**: Integrate YouTube Data API v3 (`playlistItems` endpoint) using a `VITE_YOUTUBE_API_KEY`. The website will automatically parse and display videos, titles, and thumbnails from a single YouTube Playlist ID (`list=PL...`). This allows the client to update site hero videos anytime just by managing their YouTube playlist, eliminating the need for a CMS or code changes.
-
