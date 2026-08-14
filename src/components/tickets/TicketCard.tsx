@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Ticket } from '../../types/ticket';
-import { TicketBadge } from './TicketBadge';
 import { TicketMedia } from './TicketMedia';
 import { TicketPerforation } from './TicketPerforation';
 import { TicketPriceFooter } from './TicketPriceFooter';
+import { TicketPrice } from './TicketPrice';
 
 interface TicketCardProps {
   ticket: Ticket;
@@ -97,13 +97,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         {/* Top Content Area: Title & Content at top, Image expands to fill remaining space */}
         <div className="ticket-notch-body bg-background p-5 md:p-6 flex flex-col flex-1 gap-3">
           <div>
-            {ticket.badge && (
-              <div className="flex justify-between items-start mb-3">
-                <TicketBadge badge={ticket.badge} savings={ticket.savings} />
-              </div>
-            )}
-
-            <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-2 leading-tight">
+            <h3 className="font-serif font-bold text-3xl md:text-4xl text-foreground mb-2 leading-tight">
               {ticket.title}
             </h3>
             <p className="text-muted-foreground font-sans text-sm mb-3 leading-relaxed text-balance">
@@ -160,13 +154,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
           <div className="order-1 md:order-2 flex-1 w-full flex flex-col justify-between md:h-full">
             <div>
-              {ticket.badge && (
-                <div className="flex justify-between items-start mb-3">
-                  <TicketBadge badge={ticket.badge} savings={ticket.savings} />
-                </div>
-              )}
-
-              <h3 className={`font-serif text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>
+              <h3 className={`font-serif font-bold text-2xl md:text-3xl mb-2 ${isAccent ? 'text-background' : 'text-foreground'}`}>
                 {ticket.title}
               </h3>
               <p className={`font-sans text-xs md:text-sm mb-3 leading-relaxed text-balance ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
@@ -182,25 +170,26 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
         {/* Right Side Price Stub */}
         <div
-          className={`ticket-notch-stub w-full md:w-56 shrink-0 py-7 px-6 md:p-6 min-h-24 flex flex-row md:flex-col items-center md:justify-center justify-between text-left md:text-center ${isAccent ? 'bg-[#644431]' : 'bg-[#215336]'
+          className={`ticket-notch-stub w-full md:w-56 shrink-0 py-7 px-6 md:p-6 min-h-24 flex flex-row md:flex-col items-center justify-center text-center ${isAccent ? 'bg-[#644431]' : 'bg-[#215336]'
             }`}
         >
           <div className="flex flex-col md:items-center">
             <span className="hidden md:block font-mono text-[10px] uppercase tracking-[0.2em] mb-1 text-background/60">
               Harga Tiket
             </span>
-            <span className="font-mono font-bold block text-xl md:text-2xl md:mb-1 text-background">
-              {ticket.price}
-            </span>
+            <TicketPrice
+              price={ticket.price}
+              originalPrice={ticket.originalPrice}
+              className="md:text-center"
+              originalPriceClassName="font-sans text-xs text-background/60 line-through decoration-background/70 tracking-tight"
+              priceClassName="font-brand font-bold text-xl md:text-2xl text-background tracking-tight md:mb-1"
+            />
             {ticket.unitLabel && (
               <span className="font-sans text-xs md:text-[10px] block mt-1 md:mt-0 md:mb-3 text-background/60">
                 {ticket.unitLabel}
               </span>
             )}
           </div>
-          <span className="font-mono text-xs md:text-[10px] uppercase tracking-widest border-b text-background/80 border-background/40">
-            Detail
-          </span>
         </div>
       </div>
     );
@@ -225,12 +214,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         >
           {/* Mobile: Text top (order-1), Desktop: Text right (order-2) */}
           <div className="order-1 md:order-2 flex-1 flex flex-col justify-start">
-            {ticket.badge && (
-              <div className="flex justify-between items-start mb-2">
-                <TicketBadge badge={ticket.badge} savings={ticket.savings} />
-              </div>
-            )}
-            <h3 className={`font-serif text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
+            <h3 className={`font-serif font-bold text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
               {ticket.title}
             </h3>
             <p className={`font-sans text-xs md:text-sm leading-relaxed text-balance ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>
@@ -271,12 +255,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       >
         {/* Top Text Area (Title & Description) */}
         <div>
-          {ticket.badge && (
-            <div className="flex justify-between items-start mb-2">
-              <TicketBadge badge={ticket.badge} savings={ticket.savings} />
-            </div>
-          )}
-          <h3 className={`font-serif text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
+          <h3 className={`font-serif font-bold text-2xl md:text-3xl mb-1.5 ${isAccent ? 'text-background' : 'text-foreground'}`}>
             {ticket.title}
           </h3>
           <p className={`font-sans text-xs md:text-sm mb-3 leading-relaxed text-balance ${isAccent ? 'text-background/80' : 'text-muted-foreground'}`}>

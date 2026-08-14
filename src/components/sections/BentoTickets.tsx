@@ -71,8 +71,7 @@ export const BentoTickets: React.FC = () => {
       <Container className="relative z-10">
         <div className="mb-4 md:mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-0 md:border-b border-foreground/20 pb-0 md:pb-4">
           <div>
-            <div className="mb-3"><span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-3 py-1.5 font-bold text-foreground inline-block">Workshop &amp; Kelas</span></div>
-            <h2 className="font-serif text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">Katalog Aktivitas.</h2>
+            <h2 className="font-serif font-bold text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">Katalog Aktivitas.</h2>
           </div>
           <p className="text-muted-foreground font-sans text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">Berikut merupakan katalog wisata kita.<br className="hidden md:inline" /> Tempat terbatas agar perhatian individu maksimal.</p>
         </div>
@@ -90,7 +89,7 @@ export const BentoTickets: React.FC = () => {
         <div id="panel-bundling" role="tabpanel" aria-labelledby="tab-bundling" hidden={activeTab !== 'bundling'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{bundlingElements}</div>
         <div ref={infoRef} className="pt-12 border-t-2 border-dashed border-foreground/20">
           <div className="mb-8 text-center md:text-left">
-            <h3 className="font-serif text-3xl md:text-4xl uppercase tracking-tight text-foreground mb-2"><span className="md:hidden">Informasi Umum</span><span className="hidden md:inline">Informasi Umum & Sewa</span></h3>
+            <h3 className="font-serif font-bold text-3xl md:text-4xl uppercase tracking-tight text-foreground mb-2"><span className="md:hidden">Informasi Umum</span><span className="hidden md:inline">Informasi Umum & Sewa</span></h3>
             <p className="font-sans text-xs md:text-sm text-muted-foreground text-balance">Tiket masuk studio, workshop kustom, paket usaha expert, dan penyewaan aula.</p>
           </div>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-4">{infoUmumElements}</div>

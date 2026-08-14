@@ -76,7 +76,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClos
       <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-muted-foreground">
         Tentang aktivitas
       </p>
-      <h3 id="activity-detail-heading" className="font-serif text-3xl leading-none md:text-4xl pr-8">
+      <h3 id="activity-detail-heading" className="font-serif font-bold text-3xl leading-none md:text-4xl pr-8">
         {ticket.title}
       </h3>
     </div>

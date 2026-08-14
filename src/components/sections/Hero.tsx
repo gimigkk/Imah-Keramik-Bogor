@@ -146,7 +146,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
                 {todaySchedule.displayText}
               </span>
             </div>
-            <h1 className="font-serif text-[11.2vw] sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase flex flex-col">
+            <h1 className="font-serif font-bold text-[11.2vw] sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase flex flex-col">
               <span
                 className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} block whitespace-nowrap`}
                 style={{ '--reveal-delay': '120ms' } as React.CSSProperties}

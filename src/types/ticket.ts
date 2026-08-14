@@ -33,6 +33,7 @@ export type Ticket = {
   id: TicketId;
   title: string;
   price: string;
+  originalPrice?: string;
   unitLabel?: string;
   badge?: TicketBadge;
   savings?: string;

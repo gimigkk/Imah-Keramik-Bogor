@@ -33,15 +33,9 @@ export const GalleryReviews = () => {
         </svg>
 
         {/* Author Header */}
-        <div className="flex items-center justify-between gap-2 mb-2 relative z-0">
+        <div className="flex items-center gap-2 mb-2 relative z-0">
           <span className="font-sans font-bold text-xs text-foreground">
             {review.author}
-          </span>
-          <span className="text-[9px] font-sans px-1.5 py-0.5 rounded bg-black/5 text-[#54656f] flex items-center gap-1 font-semibold shrink-0">
-            <svg viewBox="0 0 24 24" width="9" height="9" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z" />
-            </svg>
-            Google Review
           </span>
         </div>
 
@@ -93,13 +87,8 @@ export const GalleryReviews = () => {
         {/* Section Header */}
         <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-0 md:border-b border-foreground/20 pb-2 md:pb-4">
           <div>
-            <div className="mb-3">
-              <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-3 py-1.5 font-bold text-foreground inline-block">
-                Google Reviews
-              </span>
-            </div>
-            <h2 className="font-serif text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">
-              Ulasan Peserta.
+            <h2 className="font-serif font-bold text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">
+              Kata Mereka.
             </h2>
           </div>
           <p className="text-muted-foreground font-sans text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">

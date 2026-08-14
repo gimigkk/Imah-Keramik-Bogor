@@ -26,14 +26,8 @@ export const CTA = () => {
 
           {/* Left Column: CTA & Booking */}
           <div className="lg:col-span-5 flex flex-col">
-            <div
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} mb-8`}
-              style={{ '--reveal-delay': '0ms' } as React.CSSProperties}
-            >
-              <span className="uppercase tracking-widest text-[10px] font-mono border border-foreground px-3 py-1.5 font-bold">Pendaftaran Dibuka</span>
-            </div>
             <h2
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} font-serif text-6xl md:text-8xl mb-6 leading-[0.85] tracking-tighter uppercase text-foreground`}
+              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} font-serif font-bold text-6xl md:text-8xl mb-6 leading-[0.85] tracking-tighter uppercase text-foreground`}
               style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
             >
               Booking <br />

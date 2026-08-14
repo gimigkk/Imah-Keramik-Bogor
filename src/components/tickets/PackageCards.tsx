@@ -2,6 +2,7 @@ import React from 'react';
 import { Check, Plus } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { Ticket } from '../../types/ticket';
+import { TicketPrice } from './TicketPrice';
 
 interface PackageCardsProps {
   ticket: Ticket;
@@ -14,12 +15,14 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
     ? ticket.tiers.map((tier) => ({
         name: tier.name,
         price: tier.price,
+        originalPrice: undefined,
         items: tier.items?.length ? tier.items : [tier.detail],
       }))
     : [
         {
           name: ticket.badge === 'kustom' ? 'Paket sesuai pilihan' : ticket.title,
           price: ticket.price,
+          originalPrice: ticket.originalPrice,
           items: ticket.tags?.length ? ticket.tags : [ticket.description],
         },
       ];
@@ -43,11 +46,15 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
                 <span className="mb-2 block font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
                   {packages.length > 1 ? `Pilihan ${String(index + 1).padStart(2, '0')}` : 'Termasuk'}
                 </span>
-                <h4 className="font-serif text-2xl leading-none">{item.name}</h4>
+                <h4 className="font-serif font-bold text-2xl leading-none">{item.name}</h4>
               </div>
-              <strong className="shrink-0 border border-foreground/20 bg-primary px-2.5 py-1.5 text-right font-mono text-xs">
-                {item.price}
-              </strong>
+              <TicketPrice
+                price={item.price}
+                originalPrice={item.originalPrice}
+                className="shrink-0 border border-foreground/20 bg-primary px-2.5 py-1.5 text-right"
+                originalPriceClassName="font-sans text-[10px] line-through decoration-foreground/70 tracking-tight"
+                priceClassName="font-brand text-xs tracking-tight"
+              />
             </div>
 
             <ul className="mt-4 grid [grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr))] gap-x-6 gap-y-2">
