@@ -1,9 +1,51 @@
+import { useEffect, useRef, useState } from 'react';
 import { Container } from '../layout/Container';
 import { getResponsiveImageProps } from '../../lib/responsiveImage';
 import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
 import { reviewColumns, ReviewData } from '../../data/reviews';
 
 const galleryImageSizes = '(min-width: 1400px) 270px, (min-width: 1024px) 22vw, (min-width: 640px) 46vw, calc(100vw - 5rem)';
+
+const LazyReviewVideo: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isNearViewport, setIsNearViewport] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsNearViewport(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsNearViewport(true);
+        observer.disconnect();
+      },
+      { rootMargin: '300px 0px' },
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={isNearViewport ? src : undefined}
+      className="h-full w-full object-cover opacity-100"
+      autoPlay={isNearViewport}
+      loop
+      muted
+      playsInline
+      preload="none"
+      aria-label={alt}
+    />
+  );
+};
 
 export const GalleryReviews = () => {
   const [sectionRef, visible] = useRevealOnIntersect<HTMLElement>();
@@ -43,14 +85,7 @@ export const GalleryReviews = () => {
         {review.image && (
           <div className={`relative overflow-hidden rounded-sm bg-black/5 mb-2 w-full ${review.image.aspectRatio} z-0`}>
             {review.image.type === 'video' ? (
-              <video
-                src={review.image.url}
-                className="h-full w-full object-cover opacity-100"
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
+              <LazyReviewVideo src={review.image.url} alt={review.image.alt || 'Video karya peserta'} />
             ) : (
               <img
                 {...getResponsiveImageProps(review.image.url, galleryImageSizes, [240, 360, 480, 640])}

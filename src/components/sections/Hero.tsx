@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { Container } from '../layout/Container';
 import { getTodayScheduleWIB } from '../../data/schedule';
 import { site } from '../../data/site';
@@ -7,6 +7,12 @@ import { mediaAssets } from '../../data/assets';
 import { getYouTubeId } from '../../utils/youtube';
 
 const YOUTUBE_EMBED_ORIGIN = 'https://www.youtube-nocookie.com';
+
+const getYouTubeThumbnail = (youtubeId: string): string =>
+  `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`;
+
+const getYouTubeFallbackThumbnail = (youtubeId: string): string =>
+  `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`;
 
 export interface HeroVideo {
   id: number;
@@ -48,11 +54,17 @@ const heroVideos: HeroVideo[] = [
 interface HeroProps {
   introStarted?: boolean;
   videoEnabled?: boolean;
+  videoPlaybackEnabled?: boolean;
 }
 
-export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true }) => {
+export const Hero: React.FC<HeroProps> = ({
+  introStarted,
+  videoEnabled = true,
+  videoPlaybackEnabled = true,
+}) => {
   const [visible, setVisible] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
+  const [readyVideoKeys, setReadyVideoKeys] = useState<Set<string>>(() => new Set());
   const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([]);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const todaySchedule = getTodayScheduleWIB();
@@ -76,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
     setActiveVideo((prev) => (prev === heroVideos.length - 1 ? 0 : prev + 1));
   }, []);
 
-  // Play active video iframe and pause inactive video iframes automatically on video change
+  // Keep the player preloaded and paused until the intro has completed, then play only the active iframe.
   useEffect(() => {
     if (!videoEnabled) return;
 
@@ -85,7 +97,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
       if (!iframe || !iframe.contentWindow) return;
 
       try {
-        const message = idx === activeVideo ? 'playVideo' : 'pauseVideo';
+        const message = idx === activeVideo && videoPlaybackEnabled ? 'playVideo' : 'pauseVideo';
         iframe.contentWindow.postMessage(
           JSON.stringify({ event: 'command', func: message, args: [] }),
           YOUTUBE_EMBED_ORIGIN,
@@ -94,7 +106,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
         // Ignore cross-origin issues
       }
     });
-  }, [activeVideo, videoEnabled]);
+  }, [activeVideo, readyVideoKeys, videoEnabled, videoPlaybackEnabled]);
 
   // Listen for YouTube embed ENDED state or time end to auto-advance
   useEffect(() => {
@@ -105,6 +117,16 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
       try {
         const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
         if (!data) return;
+
+        if (data?.event === 'onReady') {
+          setReadyVideoKeys((previous) => {
+            const videoKey = `${heroVideos[activeVideo].id}-${videoPlaybackEnabled ? 'play' : 'preload'}`;
+            if (previous.has(videoKey)) return previous;
+            const next = new Set(previous);
+            next.add(videoKey);
+            return next;
+          });
+        }
 
         const isEndedState =
           (data?.event === 'infoDelivery' && data?.info?.playerState === 0) ||
@@ -128,7 +150,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
 
     window.addEventListener('message', handleYouTubeMessage);
     return () => window.removeEventListener('message', handleYouTubeMessage);
-  }, [activeVideo, handleNextVideo]);
+  }, [activeVideo, handleNextVideo, videoPlaybackEnabled]);
 
   return (
     <section id="about" className="relative pt-20 md:pt-24 pb-6 md:pb-12 border-b border-foreground/20 bg-background">
@@ -201,6 +223,7 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
               const ytId = vid.type === 'youtube'
                 ? getYouTubeId(vid.youtubeUrl)
                 : null;
+              const videoKey = `${vid.id}-${videoPlaybackEnabled ? 'play' : 'preload'}`;
 
               return (
                 <div
@@ -209,24 +232,38 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
                   className="relative h-full flex-shrink-0 bg-[#0d0d0d] overflow-hidden"
                 >
                   <img
-                    src={vid.poster || mediaAssets.hero.poster}
+                    src={ytId ? getYouTubeThumbnail(ytId) : vid.poster || mediaAssets.hero.poster}
                     alt={vid.title}
                     width="1280"
                     height="720"
                     className="absolute inset-0 h-full w-full object-cover"
+                    onError={(event) => {
+                      if (!ytId || event.currentTarget.dataset.fallbackThumbnail === 'true') return;
+                      event.currentTarget.dataset.fallbackThumbnail = 'true';
+                      event.currentTarget.src = getYouTubeFallbackThumbnail(ytId);
+                    }}
                   />
-                  {videoEnabled && (
+                  {videoEnabled && isSelected && (
                     ytId ? (
                       <div className="absolute inset-0 z-10">
                         <iframe
+                          key={videoKey}
                           ref={(el) => {
                             iframeRefs.current[idx] = el;
                           }}
-                          src={`${YOUTUBE_EMBED_ORIGIN}/embed/${ytId}?autoplay=${isSelected ? 1 : 0}&mute=1&loop=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
+                          src={`${YOUTUBE_EMBED_ORIGIN}/embed/${ytId}?autoplay=${videoPlaybackEnabled ? 1 : 0}&mute=1&loop=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
                           title={vid.title}
+                          onLoad={() => {
+                            setReadyVideoKeys((previous) => {
+                              if (previous.has(videoKey)) return previous;
+                              const next = new Set(previous);
+                              next.add(videoKey);
+                              return next;
+                            });
+                          }}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
-                          className="pointer-events-none w-full h-full border-0"
+                          className={`pointer-events-none w-full h-full border-0 transition-opacity duration-200 ${readyVideoKeys.has(videoKey) ? 'opacity-100' : 'opacity-0'}`}
                         />
                       </div>
                     ) : (
@@ -258,9 +295,24 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
           className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} flex justify-between items-center px-1`}
           style={{ '--reveal-delay': '720ms' } as React.CSSProperties}
         >
-          <div className="font-accent italic text-base md:text-lg text-foreground/90 lowercase truncate min-w-0 pr-2">
-            vid. {activeVideo + 1}: {currentVideo.title}
-          </div>
+          {currentVideo.youtubeUrl ? (
+            <a
+              href={currentVideo.youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Buka ${currentVideo.title} di YouTube`}
+              className="group flex min-w-0 items-center gap-2 pr-2 font-accent text-base italic lowercase text-foreground/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground md:text-lg"
+            >
+              <span className="relative min-w-0 truncate after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-current after:transition-[width] after:duration-300 group-hover:after:w-full group-focus-visible:after:w-full">
+                vid. {activeVideo + 1}: {currentVideo.title}
+              </span>
+              <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            </a>
+          ) : (
+            <div className="min-w-0 truncate pr-2 font-accent text-base italic lowercase text-foreground/90 md:text-lg">
+              vid. {activeVideo + 1}: {currentVideo.title}
+            </div>
+          )}
           <div className="flex items-center gap-2 md:gap-3">
             <button
               type="button"
