@@ -34,7 +34,7 @@ export const SmoothScroll = () => {
     const lenis = new Lenis({
       autoRaf: false,
       smoothWheel: true,
-      lerp: 0.08,
+      lerp: 0.5,
       stopInertiaOnNavigate: true,
       autoResize: false,
     });

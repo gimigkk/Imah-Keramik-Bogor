@@ -75,9 +75,15 @@ export const GalleryReviews = () => {
         </svg>
 
         {/* Author Header */}
-        <div className="flex items-center gap-2 mb-2 relative z-0">
+        <div className="flex items-center justify-between gap-2 mb-2 relative z-0">
           <span className="font-sans font-bold text-xs text-foreground">
             {review.author}
+          </span>
+          <span className="text-[9px] font-sans px-1.5 py-0.5 rounded bg-black/5 text-[#54656f] flex items-center gap-1 font-semibold shrink-0">
+            <svg viewBox="0 0 24 24" width="9" height="9" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z" />
+            </svg>
+            Google Review
           </span>
         </div>
 
