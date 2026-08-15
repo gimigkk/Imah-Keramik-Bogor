@@ -15,6 +15,12 @@ const isOptimizableUnsplashUrl = (source: string) => {
   }
 };
 
+const isLocalActivityImage = (source: string) =>
+  /^\/assets\/images\/activities\/[^/]+\.webp$/.test(source);
+
+const getLocalActivityVariant = (source: string, width: 480 | 720) =>
+  source.replace('/assets/images/activities/', `/assets/images/activities/${width}/`);
+
 const optimizeUnsplashUrl = (source: string, width: number) => {
   const url = new URL(source);
   url.searchParams.set('fit', 'max');
@@ -29,6 +35,18 @@ export const getResponsiveImageProps = (
   sizes: string,
   widths: number[] = DEFAULT_WIDTHS,
 ): ResponsiveImageProps => {
+  // Catalogue originals are 1,086–1,600px wide, while their largest slot is
+  // about 560px. Serve the pre-generated WebP variants instead.
+  if (isLocalActivityImage(source)) {
+    return {
+      src: getLocalActivityVariant(source, 720),
+      srcSet: [480, 720]
+        .map((width) => `${getLocalActivityVariant(source, width as 480 | 720)} ${width}w`)
+        .join(', '),
+      sizes,
+    };
+  }
+
   if (!isOptimizableUnsplashUrl(source)) return { src: source };
 
   const fallbackWidth = widths.find((width) => width >= 720) ?? widths.at(-1) ?? 720;

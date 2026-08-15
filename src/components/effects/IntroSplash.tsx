@@ -6,6 +6,8 @@ interface IntroSplashProps {
   onMorphStart?: () => void;
 }
 
+type IntroTargetRect = Pick<DOMRectReadOnly, 'top' | 'left' | 'width' | 'height'>;
+
 const INTRO_TIMING = {
   holdDuration: 100,
   morphDuration: 800,
@@ -21,10 +23,13 @@ const INTRO_TIMING = {
 export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashProps) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const [phase, setPhase] = useState<'hold' | 'morph' | 'docked' | 'done'>('hold');
-  const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
+  const [targetRect, setTargetRect] = useState<IntroTargetRect | null>(null);
   const onCompleteRef = useRef(onComplete);
   const onMorphStartRef = useRef(onMorphStart);
   const hasCompletedRef = useRef(false);
+  const hasStartedMorphRef = useRef(false);
+  const targetRectRef = useRef<IntroTargetRect | null>(null);
+  const holdFinishedRef = useRef(false);
 
   const finishIntro = useCallback(() => {
     if (hasCompletedRef.current) return;
@@ -45,6 +50,14 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
     }
   }, [reduceMotion, finishIntro]);
 
+  const startMorph = useCallback((rect: IntroTargetRect) => {
+    if (hasStartedMorphRef.current) return;
+    hasStartedMorphRef.current = true;
+    setTargetRect(rect);
+    setPhase('morph');
+    onMorphStartRef.current?.();
+  }, []);
+
   // Disable scrolling during intro and force scroll position to top
   useEffect(() => {
     if ('scrollRestoration' in history) {
@@ -59,19 +72,44 @@ export default function IntroSplash({ onComplete, onMorphStart }: IntroSplashPro
     };
   }, []);
 
-  // Measure target rect and trigger morph after brief initial load hold
+  // IntersectionObserver supplies a post-layout bounding rect. Reading it here
+  // avoids forcing a synchronous reflow while preserving the exact morph target.
+  useEffect(() => {
+    const target = document.getElementById('hero-video-container');
+    if (!target) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      const frameId = window.requestAnimationFrame(() => {
+        const rect = target.getBoundingClientRect();
+        targetRectRef.current = rect;
+        if (holdFinishedRef.current) startMorph(rect);
+      });
+      return () => window.cancelAnimationFrame(frameId);
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry) return;
+      const { top, left, width, height } = entry.boundingClientRect;
+      const rect = { top, left, width, height };
+      targetRectRef.current = rect;
+      observer.disconnect();
+
+      if (holdFinishedRef.current) startMorph(rect);
+    });
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [startMorph]);
+
+  // Trigger the morph after the original brief initial hold.
   useEffect(() => {
     const tMorph = setTimeout(() => {
-      const target = document.getElementById('hero-video-container');
-      if (target) {
-        setTargetRect(target.getBoundingClientRect());
-      }
-      setPhase('morph');
-      onMorphStartRef.current?.();
+      holdFinishedRef.current = true;
+      if (targetRectRef.current) startMorph(targetRectRef.current);
     }, INTRO_TIMING.holdDuration);
 
     return () => clearTimeout(tMorph);
-  }, []);
+  }, [startMorph]);
 
   // Wait for morph to finish, then set phase to 'docked'
   useEffect(() => {
