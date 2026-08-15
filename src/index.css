@@ -134,6 +134,16 @@
     --ticket-body-bg: #5c3a28;
   }
 
+  @media (hover: hover) and (pointer: fine) {
+    .ticket-shell[data-ticket-surface='grid'][role='button'] {
+      transition: translate 180ms ease-out;
+    }
+
+    .ticket-shell[data-ticket-surface='grid'][role='button']:is(:hover, :focus-visible) {
+      translate: 0 -4px;
+    }
+  }
+
   /* ==========================================================================
      WARNING: TICKET PERFORATION & NOTCH MASKS
      Do NOT touch this masking and composite logic unless absolutely necessary.
@@ -327,6 +337,11 @@
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .ticket-shell[data-ticket-surface='grid'][role='button'] {
+    transition: none !important;
+    translate: none !important;
   }
 }
 

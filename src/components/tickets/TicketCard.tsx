@@ -79,7 +79,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   const colStartClass = ticket.gridPosition?.colStart ? colStartClasses[ticket.gridPosition.colStart] || '' : '';
   const rowStartClass = ticket.gridPosition?.rowStart ? rowStartClasses[ticket.gridPosition.rowStart] || '' : '';
 
-  // Card container class (no hover shadow or scale transitions)
+  // Card container class
   const gridPlacementClass = standalone
     ? ''
     : `${colSpanClass} ${rowSpanClass} ${colStartClass} ${rowStartClass}`;
