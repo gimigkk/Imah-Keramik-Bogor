@@ -3,7 +3,7 @@ import type { Ticket } from '../../types/ticket';
 import { TicketBadge } from './TicketBadge';
 import { TicketMedia } from './TicketMedia';
 import { TicketPerforation } from './TicketPerforation';
-import { TicketPriceFooter } from './TicketPriceFooter';
+import { TicketDetailIndicator, TicketPriceFooter } from './TicketPriceFooter';
 import { TicketPrice } from './TicketPrice';
 
 interface TicketCardProps {
@@ -126,7 +126,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         <TicketPerforation />
 
         {/* Shared Bottom Price Footer */}
-        <TicketPriceFooter ticket={ticket} isAccent={isAccent} />
+        <TicketPriceFooter ticket={ticket} isAccent={isAccent} showDetailIndicator={Boolean(onClick)} />
       </div>
     );
   }
@@ -183,7 +183,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
         {/* Right Side Price Stub */}
         <div
-          className={`ticket-notch-stub w-full md:w-56 shrink-0 py-7 px-6 md:p-6 min-h-24 flex flex-row md:flex-col items-center justify-center text-center ${isAccent ? 'bg-[#644431]' : 'bg-[#215336]'
+          className={`ticket-notch-stub w-full md:w-56 shrink-0 ${onClick ? 'py-4 md:py-4' : 'py-7 md:p-6'} px-6 min-h-24 flex flex-row md:flex-col items-center justify-center text-center ${isAccent ? 'bg-[#644431]' : 'bg-[#215336]'
             }`}
         >
           <div className="flex flex-col md:items-center">
@@ -198,10 +198,11 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               priceClassName="font-brand font-bold text-xl md:text-2xl text-background tracking-tight md:mb-1"
             />
             {ticket.unitLabel && (
-              <span className="font-sans text-xs md:text-[10px] block mt-1 md:mt-0 md:mb-3 text-background/60">
+              <span className={`font-sans text-xs md:text-[10px] block mt-1 md:mt-0 ${onClick ? '' : 'md:mb-3'} text-background/60`}>
                 {ticket.unitLabel}
               </span>
             )}
+            {onClick && <TicketDetailIndicator />}
           </div>
         </div>
       </div>
@@ -253,7 +254,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         </div>
 
         <TicketPerforation />
-        <TicketPriceFooter ticket={ticket} isAccent={isAccent} />
+        <TicketPriceFooter ticket={ticket} isAccent={isAccent} showDetailIndicator={Boolean(onClick)} />
       </div>
     );
   }
@@ -300,7 +301,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       </div>
 
       <TicketPerforation />
-      <TicketPriceFooter ticket={ticket} isAccent={isAccent} />
+      <TicketPriceFooter ticket={ticket} isAccent={isAccent} showDetailIndicator={Boolean(onClick)} />
     </div>
   );
 };
