@@ -217,17 +217,18 @@ export const Hero: React.FC<HeroProps> = ({ introStarted, videoEnabled = true })
                   />
                   {videoEnabled && (
                     ytId ? (
-                      <iframe
-                        ref={(el) => {
-                          iframeRefs.current[idx] = el;
-                        }}
-                        src={`${YOUTUBE_EMBED_ORIGIN}/embed/${ytId}?autoplay=${isSelected ? 1 : 0}&mute=1&loop=0&controls=1&rel=0&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
-                        title={vid.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                        style={{ pointerEvents: isSelected ? 'auto' : 'none' }}
-                        className="absolute inset-0 w-full h-full border-0 z-10"
-                      />
+                      <div className="absolute inset-0 z-10">
+                        <iframe
+                          ref={(el) => {
+                            iframeRefs.current[idx] = el;
+                          }}
+                          src={`${YOUTUBE_EMBED_ORIGIN}/embed/${ytId}?autoplay=${isSelected ? 1 : 0}&mute=1&loop=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
+                          title={vid.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                          className="pointer-events-none w-full h-full border-0"
+                        />
+                      </div>
                     ) : (
                       <video
                         autoPlay={isSelected && !reduceMotion}
