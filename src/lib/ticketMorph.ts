@@ -21,6 +21,18 @@ export const morphTicket = (
   trackDocumentScroll = true,
 ): MorphController => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (fromLayout.dataset.ticketSurface === 'grid' && toLayout.dataset.ticketSurface === 'modal') {
+      const detailIndicatorContainer = element.querySelector<HTMLElement>('[data-ticket-detail-indicator-container]');
+      const detailIndicator = element.querySelector<HTMLElement>('[data-ticket-detail-indicator]');
+      if (detailIndicatorContainer) {
+        detailIndicatorContainer.style.height = '0px';
+        detailIndicatorContainer.style.marginTop = '0px';
+      }
+      if (detailIndicator) {
+        detailIndicator.style.opacity = '0';
+        detailIndicator.style.transform = 'translateY(10px) scale(0.82)';
+      }
+    }
     return { cancel: () => undefined, finished: Promise.resolve() };
   }
 
@@ -30,8 +42,12 @@ export const morphTicket = (
   const placeholderMinHeight = placeholder?.style.minHeight ?? '';
   const body = element.querySelector<HTMLElement>(':scope > .ticket-notch-body');
   const animatedImage = element.querySelector<HTMLElement>('[data-ticket-image]');
+  const detailIndicatorContainer = element.querySelector<HTMLElement>('[data-ticket-detail-indicator-container]');
+  const detailIndicator = element.querySelector<HTMLElement>('[data-ticket-detail-indicator]');
   const fromImage = fromLayout.querySelector<HTMLElement>('[data-ticket-image]');
+  const fromDetailIndicatorContainer = fromLayout.querySelector<HTMLElement>('[data-ticket-detail-indicator-container]');
   const toImage = toLayout.querySelector<HTMLElement>('[data-ticket-image]');
+  const toDetailIndicatorContainer = toLayout.querySelector<HTMLElement>('[data-ticket-detail-indicator-container]');
   const fromImageHeight = currentImageHeight ?? fromImage?.getBoundingClientRect().height;
   const toImageHeight = toImage?.getBoundingClientRect().height;
   const originalBodyMinHeight = body?.style.minHeight ?? '';
@@ -39,6 +55,10 @@ export const morphTicket = (
   const originalImageHeight = animatedImage?.style.height ?? '';
   const originalImageMinHeight = animatedImage?.style.minHeight ?? '';
   const originalImageFlex = animatedImage?.style.flex ?? '';
+  const originalIndicatorOpacity = detailIndicator?.style.opacity ?? '';
+  const originalIndicatorTransform = detailIndicator?.style.transform ?? '';
+  const originalIndicatorContainerHeight = detailIndicatorContainer?.style.height ?? '';
+  const originalIndicatorContainerMarginTop = detailIndicatorContainer?.style.marginTop ?? '';
   const originalTransform = element.style.transform;
   const computedFilter = window.getComputedStyle(element).filter;
   const baseFilter = computedFilter === 'none' ? '' : `${computedFilter} `;
@@ -110,6 +130,51 @@ export const morphTicket = (
   imageAnimation?.pause();
   if (imageAnimation) imageAnimation.currentTime = 0;
 
+  const isOpeningTicket = fromLayout.dataset.ticketSurface === 'grid' && toLayout.dataset.ticketSurface === 'modal';
+  const fromIndicatorHeight = fromDetailIndicatorContainer?.getBoundingClientRect().height ?? 0;
+  const toIndicatorHeight = toDetailIndicatorContainer?.getBoundingClientRect().height ?? 0;
+  const fromIndicatorMarginTop = fromDetailIndicatorContainer
+    ? window.getComputedStyle(fromDetailIndicatorContainer).marginTop
+    : '0px';
+  const toIndicatorMarginTop = toDetailIndicatorContainer
+    ? window.getComputedStyle(toDetailIndicatorContainer).marginTop
+    : '0px';
+  const indicatorContainerAnimation = detailIndicatorContainer
+    ? detailIndicatorContainer.animate(
+      [
+        {
+          height: `${fromIndicatorHeight}px`,
+          marginTop: fromIndicatorMarginTop,
+        },
+        {
+          height: `${isOpeningTicket ? 0 : toIndicatorHeight}px`,
+          marginTop: isOpeningTicket ? '0px' : toIndicatorMarginTop,
+        },
+      ],
+      { duration, easing: 'cubic-bezier(.29, .25, .07, .99)', fill: 'both' },
+    )
+    : null;
+  indicatorContainerAnimation?.pause();
+  if (indicatorContainerAnimation) indicatorContainerAnimation.currentTime = 0;
+  const indicatorAnimation = detailIndicator
+    ? detailIndicator.animate(
+      isOpeningTicket
+        ? [
+            { opacity: 1, transform: 'translateY(0) scale(1)', offset: 0 },
+            { opacity: 1, transform: 'translateY(2px) scale(1.08)', offset: 0.25 },
+            { opacity: 0, transform: 'translateY(10px) scale(0.82)', offset: 1 },
+          ]
+        : [
+            { opacity: 0, transform: 'translateY(10px) scale(0.82)', offset: 0 },
+            { opacity: 1, transform: 'translateY(2px) scale(1.08)', offset: 0.75 },
+            { opacity: 1, transform: 'translateY(0) scale(1)', offset: 1 },
+          ],
+      { duration, easing: 'cubic-bezier(.29, .25, .07, .99)', fill: 'both' },
+    )
+    : null;
+  indicatorAnimation?.pause();
+  if (indicatorAnimation) indicatorAnimation.currentTime = 0;
+
   Object.assign(element.style, {
     left: `${to.left}px`,
     top: `${to.top}px`,
@@ -120,6 +185,8 @@ export const morphTicket = (
   animation.play();
   blurAnimation.play();
   imageAnimation?.play();
+  indicatorContainerAnimation?.play();
+  indicatorAnimation?.play();
 
   let hasSettled = false;
   let resolveFinished: () => void = () => undefined;
@@ -131,6 +198,8 @@ export const morphTicket = (
     animation.cancel();
     blurAnimation.cancel();
     imageAnimation?.cancel();
+    indicatorContainerAnimation?.cancel();
+    indicatorAnimation?.cancel();
     if (trackDocumentScroll) window.removeEventListener('scroll', syncWithDocumentScroll);
     element.style.transform = originalTransform;
     if (placeholder) placeholder.style.minHeight = placeholderMinHeight;
@@ -143,10 +212,24 @@ export const morphTicket = (
       animatedImage.style.minHeight = originalImageMinHeight;
       animatedImage.style.flex = originalImageFlex;
     }
+    if (detailIndicator) {
+      detailIndicator.style.opacity = isOpeningTicket ? '0' : originalIndicatorOpacity;
+      detailIndicator.style.transform = isOpeningTicket ? 'translateY(10px) scale(0.82)' : originalIndicatorTransform;
+    }
+    if (detailIndicatorContainer) {
+      detailIndicatorContainer.style.height = isOpeningTicket ? '0px' : originalIndicatorContainerHeight;
+      detailIndicatorContainer.style.marginTop = isOpeningTicket ? '0px' : originalIndicatorContainerMarginTop;
+    }
     resolveFinished();
   };
 
-  void Promise.all([animation.finished, blurAnimation.finished, imageAnimation?.finished]).then(settle, settle);
+  void Promise.all([
+    animation.finished,
+    blurAnimation.finished,
+    imageAnimation?.finished,
+    indicatorContainerAnimation?.finished,
+    indicatorAnimation?.finished,
+  ]).then(settle, settle);
   return { cancel: settle, finished };
 };
 
