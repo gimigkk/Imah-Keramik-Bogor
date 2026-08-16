@@ -234,7 +234,7 @@ export const Hero: React.FC = () => {
         {/* Massive Cinematic Video Slider */}
         <div
           id="hero-video-container"
-          className="w-full aspect-video md:aspect-[377/180] overflow-hidden rounded-sm bg-[#0d0d0d] relative border border-foreground/10 mb-4"
+          className="w-full aspect-video md:aspect-[377/180] overflow-hidden rounded-sm bg-background relative border border-foreground/10 mb-4"
           onPointerEnter={requestVideo}
           onFocusCapture={requestVideo}
           onClick={requestVideo}
@@ -254,15 +254,18 @@ export const Hero: React.FC = () => {
                 : null;
               const videoKey = String(vid.id);
               const shouldRenderPlayer = videoEnabled && (isSelected || idx === transitioningFrom);
+              const thumbnail = ytId
+                ? getYouTubeThumbnail(ytId)
+                : vid.poster || mediaAssets.hero.poster;
 
               return (
                 <div
                   key={vid.id}
                   style={{ width: `${100 / heroVideos.length}%` }}
-                  className="relative h-full flex-shrink-0 bg-[#0d0d0d] overflow-hidden"
+                  className="relative h-full flex-shrink-0 bg-background overflow-hidden"
                 >
                   <img
-                    src={isSelected && ytId ? getYouTubeThumbnail(ytId) : isSelected ? vid.poster || mediaAssets.hero.poster : undefined}
+                    src={isSelected ? thumbnail : undefined}
                     alt=""
                     aria-hidden="true"
                     width="1280"
