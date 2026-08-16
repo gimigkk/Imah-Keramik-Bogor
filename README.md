@@ -62,7 +62,6 @@ Bundling Packages --------------> Full-Width Banner Cards -------> Drive higher 
 src/
 ├── components/
 │   ├── effects/               # Decorative and entrance animations
-│   │   ├── IntroSplash.tsx
 │   │   └── TileBackground.tsx
 │   ├── layout/                # Global chrome and layout primitives
 │   │   ├── Container.tsx

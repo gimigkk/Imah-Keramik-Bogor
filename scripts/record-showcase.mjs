@@ -669,16 +669,15 @@ async function runShowcase() {
   // Capture the headed browser window with FFmpeg. The desktop cursor is
   // intentionally excluded; the page renders the KDE cursor asset above.
   startScreenCapture(windowId, rawCapturePath);
-  // Reload after capture has started so the intro splash and its morph into
-  // the hero are visible from the beginning of the exported recording.
+  // Reload after capture has started so the recording begins with the hero.
   await sleep(650);
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.locator('#hero-video-container').waitFor({ state: 'visible' });
   await page.mouse.move(cursorPosition.x, cursorPosition.y);
   await sleep(650);
 
-  await showcaseStep('Let the intro morph settle', async () => {
-    await sleep(2_900);
+  await showcaseStep('Show the hero', async () => {
+    await sleep(400);
   });
 
   await showcaseStep('Cycle through the hero media carousel', async () => {

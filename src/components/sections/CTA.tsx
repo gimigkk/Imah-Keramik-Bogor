@@ -27,14 +27,14 @@ export const CTA = () => {
           {/* Left Column: CTA & Booking */}
           <div className="lg:col-span-5 flex flex-col">
             <h2
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} font-serif font-bold text-6xl md:text-8xl mb-6 leading-[0.85] tracking-tighter uppercase text-foreground`}
+              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} font-serif font-bold text-6xl md:text-8xl mb-6 leading-[0.85] tracking-tighter uppercase text-foreground`}
               style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
             >
               Booking <br />
               <span className="font-accent italic font-normal text-[0.85em] tracking-normal text-foreground/80 lowercase">sekarang juga</span>
             </h2>
             <p
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} text-foreground/80 text-base mb-10 font-sans max-w-md`}
+              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} text-foreground/80 text-base mb-10 font-sans max-w-md`}
               style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
             >
               Kapasitas di studio kami sangat terbatas. Segera hubungi kami untuk mengamankan sesi Anda pada pekan ini.
@@ -43,7 +43,7 @@ export const CTA = () => {
               href={getWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} inline-flex items-center justify-center gap-2 border border-primary bg-primary text-primary-foreground px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-foreground hover:text-background hover:border-foreground transition-colors duration-300 w-fit`}
+              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} inline-flex items-center justify-center gap-2 border border-primary bg-primary text-primary-foreground px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-foreground hover:text-background hover:border-foreground transition-colors duration-300 w-fit`}
               style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
             >
               <FaWhatsapp size={16} aria-hidden="true" />
@@ -53,7 +53,7 @@ export const CTA = () => {
 
           {/* Right Column: Location & Map Container */}
           <div
-            className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} lg:col-span-7 flex flex-col h-full bg-card border border-foreground/10 p-4 md:p-5 shadow-sm`}
+            className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} lg:col-span-7 flex flex-col h-full bg-card border border-foreground/10 p-4 md:p-5 shadow-sm`}
             style={{ '--reveal-delay': '480ms' } as React.CSSProperties}
           >
             <div className="flex flex-row justify-between items-end gap-4 pb-5 pt-1 md:pt-2">

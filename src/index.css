@@ -388,7 +388,7 @@
   .modal-reveal-panel,
   .modal-scrim-blur,
   .modal-scrim-dim,
-  .intro-float-panel {
+  .reveal-panel {
     transition: none !important;
     will-change: auto;
     opacity: 1 !important;
@@ -407,26 +407,14 @@
     transition: none !important;
     translate: none !important;
   }
+
+  .hero-video-blinds {
+    display: none !important;
+  }
 }
 
-/* ─── Intro Clone ─── */
-
-.intro-clone {
-  position: fixed;
-  z-index: 9999;
-  overflow: hidden;
-  background: #0d0d0d;
-  animation: intro-clone-fade-in 700ms ease-out both;
-  will-change: top, left, width, height, opacity;
-}
-
-.intro-clone--docked {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Staggered float-up blur for intro brand elements */
-.intro-float-panel {
+/* Viewport-triggered content reveal */
+.reveal-panel {
   opacity: 0;
   filter: blur(20px);
   transform: translateY(60px) scale(0.75);
@@ -437,11 +425,51 @@
   will-change: filter, opacity, transform;
 }
 
-.intro-float-panel-visible {
+.reveal-panel-visible {
   opacity: 1;
   filter: blur(0);
   transform: translateY(0) scale(1);
   transition-delay: var(--reveal-delay, 0ms);
+}
+
+.hero-video-blinds {
+  perspective: 100000px;
+  transform-style: preserve-3d;
+  animation: hero-video-blinds-fade 220ms ease-out 1.4s forwards;
+}
+
+.hero-video-blind {
+  min-width: 0;
+  background:
+    linear-gradient(90deg, rgba(13, 13, 13, 0.98), rgba(13, 13, 13, 0.92)),
+    #0d0d0d;
+  border-right: 1px solid rgba(253, 250, 246, 0.08);
+  transform: rotateY(0deg);
+  transform-origin: center center;
+  backface-visibility: hidden;
+  will-change: transform;
+  animation: hero-video-blind-open 720ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  animation-delay: calc(var(--blind-index) * 70ms);
+}
+
+@keyframes hero-video-blind-open {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(90deg);
+  }
+}
+
+@keyframes hero-video-blinds-fade {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
 @layer base {

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import { SmoothScroll } from './components/providers/SmoothScroll';
@@ -6,21 +5,11 @@ import BentoTickets from './components/sections/BentoTickets';
 import { CTA } from './components/sections/CTA';
 import { GalleryReviews } from './components/sections/GalleryReviews';
 import { Hero } from './components/sections/Hero';
-import IntroSplash from './components/effects/IntroSplash';
 
 export default function App() {
-  const [introDone, setIntroDone] = useState(false);
-  const [introMorphing, setIntroMorphing] = useState(false);
-
   return (
     <>
       <SmoothScroll />
-      {!introDone && (
-        <IntroSplash
-          onMorphStart={() => setIntroMorphing(true)}
-          onComplete={() => setIntroDone(true)}
-        />
-      )}
       <div id="top" className="min-h-screen font-sans bg-background text-foreground selection:bg-foreground selection:text-background">
         <a
           href="#main-content"
@@ -30,11 +19,7 @@ export default function App() {
         </a>
         <Navbar />
         <main id="main-content" tabIndex={-1}>
-          <Hero
-            introStarted={introMorphing || introDone}
-            videoEnabled={introMorphing || introDone}
-            videoPlaybackEnabled={introDone}
-          />
+          <Hero />
           <BentoTickets />
           <GalleryReviews />
           <CTA />

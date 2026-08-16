@@ -15,12 +15,8 @@ try {
 
   await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-  assert.equal(await page.locator('[aria-label="Loading screen"]').count(), 1,
-    'The intro screen must be visible when the page first opens');
-
-  await page.waitForTimeout(2000);
   assert.equal(await page.locator('[aria-label="Loading screen"]').count(), 0,
-    'The intro screen must complete and reveal the hero');
+    'No blocking intro screen should be rendered');
 
   const initial = await page.evaluate(() => ({
     iframes: document.querySelectorAll('iframe').length,
@@ -37,8 +33,8 @@ try {
     ],
   }));
 
-  assert(initial.iframes > 0, 'The autoplaying hero player must load after the intro');
-  assert.match(initial.heroIframeSource ?? '', /autoplay=1/, 'The hero player must autoplay after the intro');
+  assert(initial.iframes > 0, 'The autoplaying hero player must load immediately');
+  assert.match(initial.heroIframeSource ?? '', /autoplay=1/, 'The hero player must autoplay immediately');
   assert(!initial.preconnects.some((href) => /fonts\.googleapis|fonts\.gstatic/.test(href)),
     'Google Fonts preconnects must be removed');
   assert(!initial.externalStylesheets.some((href) => href.includes('fonts.googleapis.com')),

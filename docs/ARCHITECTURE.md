@@ -9,7 +9,6 @@ index.html
   └─ src/main.tsx
       └─ src/App.tsx
           ├─ SmoothScroll          global Lenis lifecycle
-          ├─ IntroSplash           optional opening animation
           ├─ Navbar + Hero          page introduction
           ├─ BentoTickets           catalogue tabs and ticket modal state
           ├─ GalleryReviews         review wall
@@ -57,7 +56,6 @@ Keep catalog data in `src/data`, reusable browser logic in `src/lib` or `src/hoo
 - `lib/ticketMorph.ts` owns the low-level ticket DOM animation. Keep catalog state, browser history, and animation mechanics separate when extending ticket interactions.
 - `tickets/TicketModal.tsx` owns modal focus, Escape handling, background-scroll locking, and focus restoration. Keep these together when changing the modal.
 - `providers/SmoothScroll.tsx` owns the only Lenis instance. Other components subscribe through `subscribeToLenis`; do not instantiate Lenis elsewhere.
-- `effects/IntroSplash.tsx` synchronizes the opening video with the hero. Timings are grouped in `INTRO_TIMING` and should be adjusted there.
 
 ## Styling
 
@@ -75,7 +73,7 @@ git diff --check
 
 Then manually verify the current desktop and mobile layouts:
 
-1. Opening animation transitions into the hero.
+1. The hero and its video are available immediately on load.
 2. Every ticket opens, closes with the close button/backdrop/Escape, and returns focus to its originating ticket.
 3. Ticket tabs work with mouse, Enter/Space, Arrow keys, Home, and End.
 4. WhatsApp links and the embedded map open the correct destinations.

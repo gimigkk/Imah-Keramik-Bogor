@@ -51,17 +51,7 @@ const heroVideos: HeroVideo[] = [
 
 // TODO(company): Hero copy, location claim, image alt text, video assets, and activity labels are concept content pending company approval. See CONCEPT_HANDOFF.md.
 
-interface HeroProps {
-  introStarted?: boolean;
-  videoEnabled?: boolean;
-  videoPlaybackEnabled?: boolean;
-}
-
-export const Hero: React.FC<HeroProps> = ({
-  introStarted,
-  videoEnabled = true,
-  videoPlaybackEnabled = true,
-}) => {
+export const Hero: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
   const [readyVideoKeys, setReadyVideoKeys] = useState<Set<string>>(() => new Set());
@@ -71,14 +61,8 @@ export const Hero: React.FC<HeroProps> = ({
   const currentVideo = heroVideos[activeVideo];
 
   useEffect(() => {
-    if (introStarted === undefined) {
-      // Fallback for standalone usage
-      const timer = setTimeout(() => setVisible(true), 300);
-      return () => clearTimeout(timer);
-    } else if (introStarted) {
-      setVisible(true);
-    }
-  }, [introStarted]);
+    setVisible(true);
+  }, []);
 
   const handlePrevVideo = useCallback(() => {
     setActiveVideo((prev) => (prev === 0 ? heroVideos.length - 1 : prev - 1));
@@ -88,16 +72,14 @@ export const Hero: React.FC<HeroProps> = ({
     setActiveVideo((prev) => (prev === heroVideos.length - 1 ? 0 : prev + 1));
   }, []);
 
-  // Keep the player preloaded and paused until the intro has completed, then play only the active iframe.
+  // Play only the selected embed and pause any previously mounted player.
   useEffect(() => {
-    if (!videoEnabled) return;
-
     heroVideos.forEach((_, idx) => {
       const iframe = iframeRefs.current[idx];
       if (!iframe || !iframe.contentWindow) return;
 
       try {
-        const message = idx === activeVideo && videoPlaybackEnabled ? 'playVideo' : 'pauseVideo';
+        const message = idx === activeVideo ? 'playVideo' : 'pauseVideo';
         iframe.contentWindow.postMessage(
           JSON.stringify({ event: 'command', func: message, args: [] }),
           YOUTUBE_EMBED_ORIGIN,
@@ -106,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({
         // Ignore cross-origin issues
       }
     });
-  }, [activeVideo, readyVideoKeys, videoEnabled, videoPlaybackEnabled]);
+  }, [activeVideo, readyVideoKeys]);
 
   // Listen for YouTube embed ENDED state or time end to auto-advance
   useEffect(() => {
@@ -120,7 +102,7 @@ export const Hero: React.FC<HeroProps> = ({
 
         if (data?.event === 'onReady') {
           setReadyVideoKeys((previous) => {
-            const videoKey = `${heroVideos[activeVideo].id}-${videoPlaybackEnabled ? 'play' : 'preload'}`;
+            const videoKey = String(heroVideos[activeVideo].id);
             if (previous.has(videoKey)) return previous;
             const next = new Set(previous);
             next.add(videoKey);
@@ -150,7 +132,7 @@ export const Hero: React.FC<HeroProps> = ({
 
     window.addEventListener('message', handleYouTubeMessage);
     return () => window.removeEventListener('message', handleYouTubeMessage);
-  }, [activeVideo, handleNextVideo, videoPlaybackEnabled]);
+  }, [activeVideo, handleNextVideo]);
 
   return (
     <section id="about" className="relative pt-20 md:pt-24 pb-6 md:pb-12 border-b border-foreground/20 bg-background">
@@ -158,7 +140,7 @@ export const Hero: React.FC<HeroProps> = ({
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 gap-6 md:gap-10">
           <div className="w-full max-w-4xl flex flex-col items-start text-left">
             <div
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} flex items-center justify-start gap-3 md:gap-4 mb-4 md:mb-6`}
+              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} flex items-center justify-start gap-3 md:gap-4 mb-4 md:mb-6`}
               style={{ '--reveal-delay': '0ms' } as React.CSSProperties}
             >
               <span className={`inline-flex items-center justify-center border ${!todaySchedule.isOpenNow ? 'border-foreground/50 text-foreground/50' : 'border-foreground'} px-2.5 h-5 md:h-6 text-[10px] md:text-xs font-mono uppercase tracking-wider rounded-full`}>
@@ -170,13 +152,13 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
             <h1 className="font-serif font-bold text-[11.2vw] sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase flex flex-col">
               <span
-                className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} block whitespace-nowrap`}
+                className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} block whitespace-nowrap`}
                 style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
               >
                 Wisata edukasi
               </span>
               <span
-                className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} block`}
+                className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} block`}
                 style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
               >
                 <span className="font-accent italic font-normal text-[0.85em] tracking-normal text-foreground/90 lowercase">tanah liat & Keramik</span>
@@ -188,20 +170,20 @@ export const Hero: React.FC<HeroProps> = ({
             className="hidden lg:flex text-right font-sans max-w-xs flex-col justify-end border-r border-foreground/20 pr-6 py-1"
           >
             <p
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground mb-1 font-mono`}
+              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground mb-1 font-mono`}
               style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
             >
               Lokasi
             </p>
             <p
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} text-xs md:text-sm lg:text-base text-foreground mb-4 md:mb-6 font-medium`}
+              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} text-xs md:text-sm lg:text-base text-foreground mb-4 md:mb-6 font-medium`}
               style={{ '--reveal-delay': '480ms' } as React.CSSProperties}
             >
               {site.name}<br />Studio Terbuka Jawa Barat
             </p>
             <a
               href="#activities"
-              className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} border-b-2 border-foreground pb-1 text-xs font-bold uppercase tracking-widest hover:text-primary hover:border-primary transition-colors inline-block w-fit ml-auto`}
+              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} border-b-2 border-foreground pb-1 text-xs font-bold uppercase tracking-widest hover:text-primary hover:border-primary transition-colors inline-block w-fit ml-auto`}
               style={{ '--reveal-delay': '600ms' } as React.CSSProperties}
             >
               Lihat paket!
@@ -223,7 +205,7 @@ export const Hero: React.FC<HeroProps> = ({
               const ytId = vid.type === 'youtube'
                 ? getYouTubeId(vid.youtubeUrl)
                 : null;
-              const videoKey = `${vid.id}-${videoPlaybackEnabled ? 'play' : 'preload'}`;
+              const videoKey = String(vid.id);
 
               return (
                 <div
@@ -243,7 +225,7 @@ export const Hero: React.FC<HeroProps> = ({
                       event.currentTarget.src = getYouTubeFallbackThumbnail(ytId);
                     }}
                   />
-                  {videoEnabled && isSelected && (
+                  {isSelected && (
                     ytId ? (
                       <div className="absolute inset-0 z-10">
                         <iframe
@@ -251,7 +233,7 @@ export const Hero: React.FC<HeroProps> = ({
                           ref={(el) => {
                             iframeRefs.current[idx] = el;
                           }}
-                          src={`${YOUTUBE_EMBED_ORIGIN}/embed/${ytId}?autoplay=${videoPlaybackEnabled ? 1 : 0}&mute=1&loop=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
+                          src={`${YOUTUBE_EMBED_ORIGIN}/embed/${ytId}?autoplay=1&mute=1&loop=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
                           title={vid.title}
                           onLoad={() => {
                             setReadyVideoKeys((previous) => {
@@ -288,11 +270,24 @@ export const Hero: React.FC<HeroProps> = ({
               );
             })}
           </div>
+          <div
+            key={activeVideo}
+            className="hero-video-blinds absolute inset-0 z-20 grid grid-cols-10 pointer-events-none"
+            aria-hidden="true"
+          >
+            {Array.from({ length: 10 }, (_, index) => (
+              <span
+                key={index}
+                className="hero-video-blind"
+                style={{ '--blind-index': index } as React.CSSProperties}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Video Controls */}
         <div
-          className={`intro-float-panel ${visible ? 'intro-float-panel-visible' : ''} flex justify-between items-center px-1`}
+          className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} flex justify-between items-center px-1`}
           style={{ '--reveal-delay': '720ms' } as React.CSSProperties}
         >
           {currentVideo.youtubeUrl ? (
