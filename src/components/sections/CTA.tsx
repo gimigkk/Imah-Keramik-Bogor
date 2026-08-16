@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { Container } from '../layout/Container';
 import { getWhatsAppUrl, site } from '../../data/site';
@@ -8,7 +8,30 @@ export const CTA = () => {
   const [copied, setCopied] = useState(false);
   const [mapInteractive, setMapInteractive] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
   const [sectionRef, visible] = useRevealOnIntersect<HTMLElement>();
+
+  useEffect(() => {
+    const mapContainer = mapContainerRef.current;
+    if (!mapContainer) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setMapLoaded(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setMapLoaded(true);
+        observer.disconnect();
+      },
+      { rootMargin: '300px 0px' },
+    );
+
+    observer.observe(mapContainer);
+    return () => observer.disconnect();
+  }, []);
 
   const handleCopy = async () => {
     try {
@@ -89,6 +112,7 @@ export const CTA = () => {
             </div>
 
             <div
+              ref={mapContainerRef}
               className={`relative w-full flex-1 min-h-62.5 lg:min-h-0 aspect-4/3 lg:aspect-auto bg-muted overflow-hidden border border-foreground ${mapInteractive ? '' : 'group'}`}
               onMouseLeave={() => setMapInteractive(false)}
             >

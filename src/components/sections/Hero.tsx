@@ -274,7 +274,6 @@ export const Hero: React.FC = () => {
             })}
           </div>
           <div
-            key={activeVideo}
             className="hero-video-blinds absolute inset-0 z-20 grid grid-cols-10 pointer-events-none"
             aria-hidden="true"
           >
