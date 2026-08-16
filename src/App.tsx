@@ -1,6 +1,5 @@
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import { SmoothScroll } from './components/providers/SmoothScroll';
 import BentoTickets from './components/sections/BentoTickets';
 import { CTA } from './components/sections/CTA';
 import { GalleryReviews } from './components/sections/GalleryReviews';
@@ -9,7 +8,6 @@ import { Hero } from './components/sections/Hero';
 export default function App() {
   return (
     <>
-      <SmoothScroll />
       <div id="top" className="min-h-screen font-sans bg-background text-foreground selection:bg-foreground selection:text-background">
         <a
           href="#main-content"

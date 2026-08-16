@@ -6,7 +6,6 @@ import { getTicketWhatsappMessage } from '../../data/tickets';
 import { ActivityDetails } from './ActivityDetails';
 import { PackageCards } from './PackageCards';
 import { TicketCard } from './TicketCard';
-import { pauseSmoothScroll, resumeSmoothScroll } from '../providers/SmoothScroll';
 import { getWhatsAppUrl } from '../../data/site';
 
 interface TicketModalProps {
@@ -61,12 +60,10 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
     if (!ticket || isClosing) return;
 
     const previousBodyOverflow = document.body.style.overflow;
-    pauseSmoothScroll();
     document.body.style.overflow = 'hidden';
 
     return () => {
       document.body.style.overflow = previousBodyOverflow;
-      resumeSmoothScroll();
     };
   }, [ticket, isClosing]);
 
@@ -145,7 +142,7 @@ export const TicketModal: React.FC<TicketModalProps> = ({ ticket, onClose, isClo
     }`;
 
   return (
-    <div ref={rootRef} data-ticket-modal-root data-lenis-prevent className={`fixed inset-0 z-50 overflow-y-auto overscroll-contain px-3 pb-16 pt-14 md:px-6 md:pb-6 md:pt-20 ${isClosing ? 'pointer-events-none' : ''
+    <div ref={rootRef} data-ticket-modal-root className={`fixed inset-0 z-50 overflow-y-auto overscroll-contain px-3 pb-16 pt-14 md:px-6 md:pb-6 md:pt-20 ${isClosing ? 'pointer-events-none' : ''
       }`}>
       <div
         aria-hidden="true"

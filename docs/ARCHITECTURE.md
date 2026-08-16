@@ -8,7 +8,6 @@ This guide is for maintainers who are new to the project. It describes how the c
 index.html
   └─ src/main.tsx
       └─ src/App.tsx
-          ├─ SmoothScroll          global Lenis lifecycle
           ├─ Navbar + Hero          page introduction
           ├─ BentoTickets           catalogue tabs and ticket modal state
           ├─ GalleryReviews         review wall
@@ -25,10 +24,9 @@ The component tree is organized by responsibility rather than by file type:
 | Folder | Owns | May depend on |
 | --- | --- | --- |
 | `components/layout` | Site-wide chrome and layout primitives | Shared data and styling |
-| `components/providers` | Global browser lifecycles such as Lenis | Browser APIs and shared utilities |
 | `components/sections` | Page-level composition and section state | Layout, tickets, effects, hooks, and data |
-| `components/tickets` | Catalog presentation, ticket details, and modal behavior | Ticket data, shared libraries, and the scroll provider |
-| `components/effects` | Decorative and entrance animations | Shared assets and providers |
+| `components/tickets` | Catalog presentation, ticket details, and modal behavior | Ticket data, shared libraries, and browser APIs |
+| `components/effects` | Decorative and entrance animations | Shared assets and browser APIs |
 
 Keep catalog data in `src/data`, reusable browser logic in `src/lib` or `src/hooks`, and avoid importing page sections into ticket or effect components. New components should be placed in the narrowest folder that matches their responsibility.
 
@@ -55,7 +53,6 @@ Keep catalog data in `src/data`, reusable browser logic in `src/lib` or `src/hoo
 - `sections/BentoTickets.tsx` owns catalog tabs and section composition. `hooks/useTicketModal.ts` owns ticket opening/closing and browser-history state. Its `data-ticket-*` attributes are part of the animation contract with `tickets/TicketCard.tsx` and `tickets/TicketModal.tsx`.
 - `lib/ticketMorph.ts` owns the low-level ticket DOM animation. Keep catalog state, browser history, and animation mechanics separate when extending ticket interactions.
 - `tickets/TicketModal.tsx` owns modal focus, Escape handling, background-scroll locking, and focus restoration. Keep these together when changing the modal.
-- `providers/SmoothScroll.tsx` owns the only Lenis instance. Other components subscribe through `subscribeToLenis`; do not instantiate Lenis elsewhere.
 
 ## Styling
 

@@ -53,6 +53,7 @@ const heroVideos: HeroVideo[] = [
 
 export const Hero: React.FC = () => {
   const [visible, setVisible] = useState(false);
+  const [videoEnabled, setVideoEnabled] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
   const [readyVideoKeys, setReadyVideoKeys] = useState<Set<string>>(() => new Set());
   const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([]);
@@ -62,6 +63,11 @@ export const Hero: React.FC = () => {
 
   useEffect(() => {
     setVisible(true);
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setVideoEnabled(true), 1200);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const handlePrevVideo = useCallback(() => {
@@ -74,6 +80,8 @@ export const Hero: React.FC = () => {
 
   // Play only the selected embed and pause any previously mounted player.
   useEffect(() => {
+    if (!videoEnabled) return;
+
     heroVideos.forEach((_, idx) => {
       const iframe = iframeRefs.current[idx];
       if (!iframe || !iframe.contentWindow) return;
@@ -88,7 +96,7 @@ export const Hero: React.FC = () => {
         // Ignore cross-origin issues
       }
     });
-  }, [activeVideo, readyVideoKeys]);
+  }, [activeVideo, readyVideoKeys, videoEnabled]);
 
   // Listen for YouTube embed ENDED state or time end to auto-advance
   useEffect(() => {
@@ -214,18 +222,20 @@ export const Hero: React.FC = () => {
                   className="relative h-full flex-shrink-0 bg-[#0d0d0d] overflow-hidden"
                 >
                   <img
-                    src={ytId ? getYouTubeThumbnail(ytId) : vid.poster || mediaAssets.hero.poster}
+                    src={isSelected && ytId ? getYouTubeThumbnail(ytId) : isSelected ? vid.poster || mediaAssets.hero.poster : undefined}
                     alt={vid.title}
                     width="1280"
                     height="720"
                     className="absolute inset-0 h-full w-full object-cover"
+                    loading={isSelected ? 'eager' : 'lazy'}
+                    fetchPriority={isSelected ? 'high' : 'low'}
                     onError={(event) => {
                       if (!ytId || event.currentTarget.dataset.fallbackThumbnail === 'true') return;
                       event.currentTarget.dataset.fallbackThumbnail = 'true';
                       event.currentTarget.src = getYouTubeFallbackThumbnail(ytId);
                     }}
                   />
-                  {isSelected && (
+                  {videoEnabled && isSelected && (
                     ytId ? (
                       <div className="absolute inset-0 z-10">
                         <iframe
@@ -245,6 +255,7 @@ export const Hero: React.FC = () => {
                           }}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
+                          loading="lazy"
                           className={`pointer-events-none w-full h-full border-0 transition-opacity duration-200 ${readyVideoKeys.has(videoKey) ? 'opacity-100' : 'opacity-0'}`}
                         />
                       </div>

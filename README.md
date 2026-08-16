@@ -4,7 +4,7 @@
 
 New maintainers should start with [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md). It maps each feature to its owner, identifies the deliberately coupled animation code, and lists the required validation steps.
 
-The repository is organized by responsibility. Page sections live under `src/components/sections`, site chrome under `src/components/layout`, global lifecycles under `src/components/providers`, ticket UI under `src/components/tickets`, and decorative motion under `src/components/effects`. Keep business/catalog data in `src/data` and reusable browser logic in `src/lib` or `src/hooks`.
+The repository is organized by responsibility. Page sections live under `src/components/sections`, site chrome under `src/components/layout`, ticket UI under `src/components/tickets`, and decorative motion under `src/components/effects`. Keep business/catalog data in `src/data` and reusable browser logic in `src/lib` or `src/hooks`.
 
 A web design and digital product concept built for **Imah Keramik Bogor**, an educational ceramic studio and cultural tourism venue in Bogor, Indonesia.
 
@@ -37,7 +37,7 @@ This creates critical friction for prospective visitors:
 - Clicking "Pesan via WhatsApp" launches WhatsApp directly with a complete, structured inquiry ready to send.
 
 ### 4. Custom Parallax Tile Engine
-- Built a scroll-velocity-matched SVG tile pattern (`TileBackground.tsx`) running on a `requestAnimationFrame` loop to add subtle depth reminiscent of ceramic crafting without causing layout shifts or performance lag.
+- Built a lightweight SVG tile pattern (`TileBackground.tsx`) with native scroll parallax to add subtle depth reminiscent of ceramic crafting without causing layout shifts.
 
 ---
 
@@ -67,8 +67,6 @@ src/
 │   │   ├── Container.tsx
 │   │   ├── Footer.tsx
 │   │   └── Navbar.tsx
-│   ├── providers/             # Global browser/scroll lifecycles
-│   │   └── SmoothScroll.tsx
 │   ├── sections/              # Page-level composition sections
 │   │   ├── BentoTickets.tsx
 │   │   ├── CTA.tsx

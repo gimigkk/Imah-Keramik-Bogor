@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import { subscribeToLenis } from '../providers/SmoothScroll';
 import { tileAssets } from '../../data/assets';
 
 interface TileBackgroundProps {
@@ -49,12 +48,11 @@ export const TileBackground: React.FC<TileBackgroundProps> = ({
     // Initial call to set position before first scroll
     updatePosition();
 
-    // Subscribe to Lenis directly to guarantee perfect sync with the virtual scroll engine
-    const unsubscribe = subscribeToLenis(updatePosition);
+    window.addEventListener('scroll', updatePosition, { passive: true });
 
     return () => {
       observer.disconnect();
-      unsubscribe();
+      window.removeEventListener('scroll', updatePosition);
     };
   }, []);
 

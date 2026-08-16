@@ -1,10 +1,9 @@
-import { type CSSProperties, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { faqItems, FAQItem } from '../../data/faq';
 import { getWhatsAppUrl } from '../../data/site';
 import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
-import { resizeSmoothScroll } from '../providers/SmoothScroll';
 
 interface FAQColumnProps {
   items: FAQItem[];
@@ -60,28 +59,13 @@ const FAQColumn = ({ items, startIndex, openRow, onToggle, visible }: FAQColumnP
 
 export const FAQ = () => {
   const [openRow, setOpenRow] = useState<number | null>(null);
-  const resizeTimerRef = useRef<number | null>(null);
   const [sectionRef, visible] = useRevealOnIntersect<HTMLDivElement>();
   const midpoint = Math.ceil(faqItems.length / 2);
 
   const handleToggle = (rowIndex: number) => {
     setOpenRow((currentRow) => (currentRow === rowIndex ? null : rowIndex));
 
-    if (resizeTimerRef.current !== null) {
-      window.clearTimeout(resizeTimerRef.current);
-    }
-
-    resizeTimerRef.current = window.setTimeout(() => {
-      resizeSmoothScroll();
-      resizeTimerRef.current = null;
-    }, 360);
   };
-
-  useEffect(() => () => {
-    if (resizeTimerRef.current !== null) {
-      window.clearTimeout(resizeTimerRef.current);
-    }
-  }, []);
 
   return (
     <div ref={sectionRef} id="faq" className="mt-16 border-t-2 border-dashed border-foreground/20 pt-[62px]">

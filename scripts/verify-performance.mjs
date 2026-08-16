@@ -33,8 +33,13 @@ try {
     ],
   }));
 
-  assert(initial.iframes > 0, 'The autoplaying hero player must load immediately');
-  assert.match(initial.heroIframeSource ?? '', /autoplay=1/, 'The hero player must autoplay immediately');
+  assert(initial.iframes > 0, 'The page should render its lazy iframe containers');
+
+  await page.waitForTimeout(1500);
+  const deferredHero = await page.evaluate(() => ({
+    heroIframeSource: document.querySelector('#hero-video-container iframe')?.getAttribute('src') ?? null,
+  }));
+  assert.match(deferredHero.heroIframeSource ?? '', /autoplay=1/, 'The hero player must autoplay after deferred loading');
   assert(!initial.preconnects.some((href) => /fonts\.googleapis|fonts\.gstatic/.test(href)),
     'Google Fonts preconnects must be removed');
   assert(!initial.externalStylesheets.some((href) => href.includes('fonts.googleapis.com')),
@@ -56,6 +61,7 @@ try {
   console.log(JSON.stringify({
     status: 'passed',
     initial,
+    deferredHero,
     requests: [...new Set(requests.filter((request) => /youtube|ytimg|googleapis|gstatic/.test(request)))],
     catalogueSources,
   }, null, 2));

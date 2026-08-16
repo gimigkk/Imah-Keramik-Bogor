@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Container } from '../layout/Container';
 import { bundlingTickets, keramikTickets, membatikTickets, infoUmumTickets } from '../../data/tickets';
 import type { Ticket } from '../../types/ticket';
@@ -7,7 +7,6 @@ import { TileBackground } from '../effects/TileBackground';
 import { TicketModal } from '../tickets/TicketModal';
 import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
 import { useTicketModal } from '../../hooks/useTicketModal';
-import { resizeSmoothScroll } from '../providers/SmoothScroll';
 import FAQ from './FAQ';
 
 const TICKET_TABS = [
@@ -66,11 +65,6 @@ export const BentoTickets: React.FC = () => {
   )), [openTicket, infoVisible, hiddenGridTicketId]);
 
   const activeTabSummary = TICKET_TABS.find((tab) => tab.id === activeTab)?.summary;
-
-  useEffect(() => {
-    const frameId = window.requestAnimationFrame(() => resizeSmoothScroll());
-    return () => window.cancelAnimationFrame(frameId);
-  }, [activeTab]);
 
   return (
     <section ref={sectionRef} id="activities" className="pt-12 pb-20 md:pt-16 md:pb-24 bg-card border-b border-foreground/10 relative">
