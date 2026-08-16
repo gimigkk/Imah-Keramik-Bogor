@@ -385,6 +385,11 @@
 
 @media (prefers-reduced-motion: reduce) {
 
+  html,
+  * {
+    scroll-behavior: auto !important;
+  }
+
   .modal-reveal-panel,
   .modal-scrim-blur,
   .modal-scrim-dim,
@@ -474,10 +479,12 @@
 
 @layer base {
   html {
+    scroll-behavior: smooth;
     scroll-padding-top: 4.5rem;
   }
 
   * {
+    scroll-behavior: smooth;
     border-color: var(--color-border);
   }
 
