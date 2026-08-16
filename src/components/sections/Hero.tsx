@@ -8,6 +8,12 @@ import { getYouTubeId } from '../../utils/youtube';
 
 const YOUTUBE_EMBED_ORIGIN = 'https://www.youtube-nocookie.com';
 
+const getYouTubeThumbnail = (youtubeId: string): string =>
+  `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`;
+
+const getYouTubeFallbackThumbnail = (youtubeId: string): string =>
+  `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`;
+
 export interface HeroVideo {
   id: number;
   title: string;
@@ -49,8 +55,11 @@ export const Hero: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [videoEnabled, setVideoEnabled] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
+  const [transitioningFrom, setTransitioningFrom] = useState<number | null>(null);
   const [readyVideoKeys, setReadyVideoKeys] = useState<Set<string>>(() => new Set());
   const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([]);
+  const activeVideoRef = useRef(0);
+  const transitionTimerRef = useRef<number | null>(null);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const todaySchedule = getTodayScheduleWIB();
   const currentVideo = heroVideos[activeVideo];
@@ -61,12 +70,44 @@ export const Hero: React.FC = () => {
 
   const requestVideo = useCallback(() => setVideoEnabled(true), []);
 
-  const handlePrevVideo = useCallback(() => {
-    setActiveVideo((prev) => (prev === 0 ? heroVideos.length - 1 : prev - 1));
+  const transitionToVideo = useCallback((nextVideo: number) => {
+    const previousVideo = activeVideoRef.current;
+    if (previousVideo === nextVideo) return;
+
+    activeVideoRef.current = nextVideo;
+    setTransitioningFrom(previousVideo);
+    setActiveVideo(nextVideo);
+
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+    }
+    transitionTimerRef.current = window.setTimeout(() => {
+      setTransitioningFrom(null);
+      transitionTimerRef.current = null;
+    }, 1000);
   }, []);
 
+  const handleSliderTransitionEnd = useCallback((event: React.TransitionEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget || event.propertyName !== 'transform') return;
+    setTransitioningFrom(null);
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+      transitionTimerRef.current = null;
+    }
+  }, []);
+
+  const handlePrevVideo = useCallback(() => {
+    transitionToVideo((activeVideoRef.current - 1 + heroVideos.length) % heroVideos.length);
+  }, [transitionToVideo]);
+
   const handleNextVideo = useCallback(() => {
-    setActiveVideo((prev) => (prev === heroVideos.length - 1 ? 0 : prev + 1));
+    transitionToVideo((activeVideoRef.current + 1) % heroVideos.length);
+  }, [transitionToVideo]);
+
+  useEffect(() => () => {
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+    }
   }, []);
 
   // Play only the selected embed and pause any previously mounted player.
@@ -200,6 +241,7 @@ export const Hero: React.FC = () => {
         >
           <div
             className="absolute inset-0 flex h-full transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
+            onTransitionEnd={handleSliderTransitionEnd}
             style={{
               width: `${heroVideos.length * 100}%`,
               transform: `translateX(-${(activeVideo * 100) / heroVideos.length}%)`,
@@ -211,6 +253,7 @@ export const Hero: React.FC = () => {
                 ? getYouTubeId(vid.youtubeUrl)
                 : null;
               const videoKey = String(vid.id);
+              const shouldRenderPlayer = videoEnabled && (isSelected || idx === transitioningFrom);
 
               return (
                 <div
@@ -219,15 +262,28 @@ export const Hero: React.FC = () => {
                   className="relative h-full flex-shrink-0 bg-[#0d0d0d] overflow-hidden"
                 >
                   <img
-                    src={isSelected ? vid.poster || mediaAssets.hero.poster : undefined}
-                    alt={vid.title}
+                    src={isSelected && ytId ? getYouTubeThumbnail(ytId) : isSelected ? vid.poster || mediaAssets.hero.poster : undefined}
+                    alt=""
+                    aria-hidden="true"
                     width="1280"
                     height="720"
                     className="absolute inset-0 h-full w-full object-cover"
                     loading={isSelected ? 'eager' : 'lazy'}
                     fetchPriority={isSelected ? 'high' : 'low'}
+                    onError={(event) => {
+                      if (!ytId) {
+                        event.currentTarget.style.display = 'none';
+                        return;
+                      }
+                      if (event.currentTarget.dataset.fallbackThumbnail === 'true') {
+                        event.currentTarget.style.display = 'none';
+                        return;
+                      }
+                      event.currentTarget.dataset.fallbackThumbnail = 'true';
+                      event.currentTarget.src = getYouTubeFallbackThumbnail(ytId);
+                    }}
                   />
-                  {videoEnabled && isSelected && (
+                  {shouldRenderPlayer && (
                     ytId ? (
                       <div className="absolute inset-0 z-10">
                         <iframe
@@ -235,7 +291,7 @@ export const Hero: React.FC = () => {
                           ref={(el) => {
                             iframeRefs.current[idx] = el;
                           }}
-                          src={`${YOUTUBE_EMBED_ORIGIN}/embed/${ytId}?autoplay=1&mute=1&loop=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
+                          src={`${YOUTUBE_EMBED_ORIGIN}/embed/${ytId}?autoplay=${isSelected ? 1 : 0}&mute=1&loop=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
                           title={vid.title}
                           onLoad={() => {
                             setReadyVideoKeys((previous) => {
