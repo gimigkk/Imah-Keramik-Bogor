@@ -1,23 +1,25 @@
 import { type CSSProperties, useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa6';
 import { faqItems, FAQItem } from '../../data/faq';
+import { getWhatsAppUrl } from '../../data/site';
 import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
 import { resizeSmoothScroll } from '../providers/SmoothScroll';
 
 interface FAQColumnProps {
   items: FAQItem[];
   startIndex: number;
-  openIndex: number | null;
-  onToggle: (index: number) => void;
+  openRow: number | null;
+  onToggle: (rowIndex: number) => void;
   visible: boolean;
 }
 
-const FAQColumn = ({ items, startIndex, openIndex, onToggle, visible }: FAQColumnProps) => (
+const FAQColumn = ({ items, startIndex, openRow, onToggle, visible }: FAQColumnProps) => (
   <div className="grid grid-cols-1 content-start gap-2">
     {items.map((item, index) => (
       (() => {
         const itemIndex = startIndex + index;
-        const isOpen = openIndex === itemIndex;
+        const isOpen = openRow === index;
 
         return (
           <div
@@ -28,7 +30,7 @@ const FAQColumn = ({ items, startIndex, openIndex, onToggle, visible }: FAQColum
             <div className="group overflow-hidden rounded-sm transition-colors duration-300 hover:bg-card/60">
               <button
                 type="button"
-                onClick={() => onToggle(itemIndex)}
+                onClick={() => onToggle(index)}
                 aria-expanded={isOpen}
                 aria-controls={`faq-answer-${itemIndex}`}
                 className="flex w-full cursor-pointer items-center justify-start gap-3 bg-background px-4 py-4 text-left shadow-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
@@ -43,7 +45,7 @@ const FAQColumn = ({ items, startIndex, openIndex, onToggle, visible }: FAQColum
                 className={`grid transition-[grid-template-rows] duration-300 ease-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <p onClick={() => onToggle(itemIndex)} className="max-w-2xl cursor-pointer bg-background px-11 pb-4 pr-8 font-sans text-sm leading-relaxed text-muted-foreground">
+                  <p onClick={() => onToggle(index)} className="max-w-2xl cursor-pointer bg-background px-11 pb-4 pr-8 font-sans text-sm leading-relaxed text-muted-foreground">
                     {item.answer}
                   </p>
                 </div>
@@ -57,13 +59,13 @@ const FAQColumn = ({ items, startIndex, openIndex, onToggle, visible }: FAQColum
 );
 
 export const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openRow, setOpenRow] = useState<number | null>(null);
   const resizeTimerRef = useRef<number | null>(null);
   const [sectionRef, visible] = useRevealOnIntersect<HTMLDivElement>();
   const midpoint = Math.ceil(faqItems.length / 2);
 
-  const handleToggle = (index: number) => {
-    setOpenIndex((currentIndex) => (currentIndex === index ? null : index));
+  const handleToggle = (rowIndex: number) => {
+    setOpenRow((currentRow) => (currentRow === rowIndex ? null : rowIndex));
 
     if (resizeTimerRef.current !== null) {
       window.clearTimeout(resizeTimerRef.current);
@@ -93,8 +95,21 @@ export const FAQ = () => {
       </div>
 
       <div className="grid grid-cols-1 items-start gap-2 lg:grid-cols-2 lg:gap-x-3">
-        <FAQColumn items={faqItems.slice(0, midpoint)} startIndex={0} openIndex={openIndex} onToggle={handleToggle} visible={visible} />
-        <FAQColumn items={faqItems.slice(midpoint)} startIndex={midpoint} openIndex={openIndex} onToggle={handleToggle} visible={visible} />
+        <FAQColumn items={faqItems.slice(0, midpoint)} startIndex={0} openRow={openRow} onToggle={handleToggle} visible={visible} />
+        <FAQColumn items={faqItems.slice(midpoint)} startIndex={midpoint} openRow={openRow} onToggle={handleToggle} visible={visible} />
+      </div>
+
+      <div className={`modal-reveal-panel ${visible ? 'modal-reveal-panel-visible' : ''} mt-6 flex justify-center`}>
+        <a
+          href={getWhatsAppUrl('Halo, saya ingin bertanya tentang aktivitas di Imah Keramik Bogor.')}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Tanya lebih lanjut melalui WhatsApp"
+          className="group flex w-fit items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-foreground transition-colors duration-300 hover:text-foreground/60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
+        >
+          <span>Tanya Lebih Lanjut</span>
+          <FaWhatsapp aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+        </a>
       </div>
     </div>
   );
