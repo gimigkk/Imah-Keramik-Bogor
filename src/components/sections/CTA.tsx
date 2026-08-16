@@ -7,6 +7,7 @@ import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
 export const CTA = () => {
   const [copied, setCopied] = useState(false);
   const [mapInteractive, setMapInteractive] = useState(false);
+  const [mapLoaded, setMapLoaded] = useState(false);
   const [sectionRef, visible] = useRevealOnIntersect<HTMLElement>();
 
   const handleCopy = async () => {
@@ -91,23 +92,28 @@ export const CTA = () => {
               className={`relative w-full flex-1 min-h-62.5 lg:min-h-0 aspect-4/3 lg:aspect-auto bg-muted overflow-hidden border border-foreground ${mapInteractive ? '' : 'group'}`}
               onMouseLeave={() => setMapInteractive(false)}
             >
-              <iframe
-                src={site.address.mapEmbedUrl}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                className={`transition-[filter] duration-300 ${mapInteractive ? 'pointer-events-auto' : 'pointer-events-none group-hover:blur-[3px]'}`}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                tabIndex={mapInteractive ? 0 : -1}
-                aria-hidden={!mapInteractive}
-                title={`Peta lokasi ${site.name}`}
-              />
+              {mapLoaded && (
+                <iframe
+                  src={site.address.mapEmbedUrl}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  className={`transition-[filter] duration-300 ${mapInteractive ? 'pointer-events-auto' : 'pointer-events-none group-hover:blur-[3px]'}`}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  tabIndex={mapInteractive ? 0 : -1}
+                  aria-hidden={!mapInteractive}
+                  title={`Peta lokasi ${site.name}`}
+                />
+              )}
               {!mapInteractive ? (
                 <button
                   type="button"
-                  onClick={() => setMapInteractive(true)}
+                  onClick={() => {
+                    setMapLoaded(true);
+                    setMapInteractive(true);
+                  }}
                   aria-label={`Aktifkan peta interaktif ${site.name}`}
                   className="absolute inset-0 flex cursor-pointer items-center justify-center bg-transparent focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-foreground"
                 >

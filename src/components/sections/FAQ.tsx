@@ -83,7 +83,10 @@ export const FAQ = () => {
         <FAQColumn items={faqItems.slice(midpoint)} startIndex={midpoint} openRow={openRow} onToggle={handleToggle} visible={visible} />
       </div>
 
-      <div className={`modal-reveal-panel ${visible ? 'modal-reveal-panel-visible' : ''} mt-6 flex justify-center`}>
+      <div
+        className={`modal-reveal-panel ${visible ? 'modal-reveal-panel-visible' : ''} mt-6 flex justify-center`}
+        style={{ '--reveal-delay': `${faqItems.length * 80 + 80}ms` } as CSSProperties}
+      >
         <a
           href={getWhatsAppUrl('Halo, saya ingin bertanya tentang aktivitas di Imah Keramik Bogor.')}
           target="_blank"

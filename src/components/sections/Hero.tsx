@@ -8,12 +8,6 @@ import { getYouTubeId } from '../../utils/youtube';
 
 const YOUTUBE_EMBED_ORIGIN = 'https://www.youtube-nocookie.com';
 
-const getYouTubeThumbnail = (youtubeId: string): string =>
-  `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`;
-
-const getYouTubeFallbackThumbnail = (youtubeId: string): string =>
-  `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`;
-
 export interface HeroVideo {
   id: number;
   title: string;
@@ -65,10 +59,7 @@ export const Hero: React.FC = () => {
     setVisible(true);
   }, []);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => setVideoEnabled(true), 1200);
-    return () => window.clearTimeout(timer);
-  }, []);
+  const requestVideo = useCallback(() => setVideoEnabled(true), []);
 
   const handlePrevVideo = useCallback(() => {
     setActiveVideo((prev) => (prev === 0 ? heroVideos.length - 1 : prev - 1));
@@ -200,7 +191,13 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Massive Cinematic Video Slider */}
-        <div id="hero-video-container" className="w-full aspect-video md:aspect-[377/180] overflow-hidden rounded-sm bg-[#0d0d0d] relative border border-foreground/10 mb-4">
+        <div
+          id="hero-video-container"
+          className="w-full aspect-video md:aspect-[377/180] overflow-hidden rounded-sm bg-[#0d0d0d] relative border border-foreground/10 mb-4"
+          onPointerEnter={requestVideo}
+          onFocusCapture={requestVideo}
+          onClick={requestVideo}
+        >
           <div
             className="absolute inset-0 flex h-full transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
             style={{
@@ -222,18 +219,13 @@ export const Hero: React.FC = () => {
                   className="relative h-full flex-shrink-0 bg-[#0d0d0d] overflow-hidden"
                 >
                   <img
-                    src={isSelected && ytId ? getYouTubeThumbnail(ytId) : isSelected ? vid.poster || mediaAssets.hero.poster : undefined}
+                    src={isSelected ? vid.poster || mediaAssets.hero.poster : undefined}
                     alt={vid.title}
                     width="1280"
                     height="720"
                     className="absolute inset-0 h-full w-full object-cover"
                     loading={isSelected ? 'eager' : 'lazy'}
                     fetchPriority={isSelected ? 'high' : 'low'}
-                    onError={(event) => {
-                      if (!ytId || event.currentTarget.dataset.fallbackThumbnail === 'true') return;
-                      event.currentTarget.dataset.fallbackThumbnail = 'true';
-                      event.currentTarget.src = getYouTubeFallbackThumbnail(ytId);
-                    }}
                   />
                   {videoEnabled && isSelected && (
                     ytId ? (

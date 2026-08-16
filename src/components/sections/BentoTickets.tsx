@@ -51,15 +51,20 @@ export const BentoTickets: React.FC = () => {
   const getGridTicketClassName = (ticket: Ticket, entranceClass: string) =>
     `${entranceClass} ${hiddenGridTicketId === ticket.id ? 'invisible' : ''}`;
 
-  const keramikElements = useMemo(() => keramikTickets.map((ticket, index) => (
-    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={getGridTicketClassName(ticket, sectionVisible ? 'ticket-enter-y' : '')} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
-  )), [openTicket, sectionVisible, hiddenGridTicketId]);
-  const membatikElements = useMemo(() => membatikTickets.map((ticket, index) => (
-    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={getGridTicketClassName(ticket, sectionVisible ? 'ticket-enter-y' : '')} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
-  )), [openTicket, sectionVisible, hiddenGridTicketId]);
-  const bundlingElements = useMemo(() => bundlingTickets.map((ticket, index) => (
-    <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={getGridTicketClassName(ticket, sectionVisible ? 'ticket-enter-x' : '')} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
-  )), [openTicket, sectionVisible, hiddenGridTicketId]);
+  const activeTabTickets = activeTab === 'keramik'
+    ? keramikTickets
+    : activeTab === 'membatik'
+      ? membatikTickets
+      : bundlingTickets;
+  const activeTabElements = useMemo(() => activeTabTickets.map((ticket, index) => (
+    <TicketCard
+      key={ticket.id}
+      ticket={ticket}
+      onClick={openTicket}
+      className={getGridTicketClassName(ticket, sectionVisible ? activeTab === 'bundling' ? 'ticket-enter-x' : 'ticket-enter-y' : '')}
+      style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties}
+    />
+  )), [activeTab, activeTabTickets, openTicket, sectionVisible, hiddenGridTicketId]);
   const infoUmumElements = useMemo(() => infoUmumTickets.map((ticket, index) => (
     <TicketCard key={ticket.id} ticket={ticket} onClick={openTicket} className={getGridTicketClassName(ticket, infoVisible ? 'ticket-enter-y' : '')} style={{ '--stagger-delay': `${index * 80}ms` } as React.CSSProperties} />
   )), [openTicket, infoVisible, hiddenGridTicketId]);
@@ -85,9 +90,7 @@ export const BentoTickets: React.FC = () => {
           </div>
           <span className="hidden md:inline-block font-mono text-xs text-muted-foreground uppercase tracking-widest">{activeTabSummary}</span>
         </div>
-        <div id="panel-keramik" role="tabpanel" aria-labelledby="tab-keramik" hidden={activeTab !== 'keramik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{keramikElements}</div>
-        <div id="panel-membatik" role="tabpanel" aria-labelledby="tab-membatik" hidden={activeTab !== 'membatik'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{membatikElements}</div>
-        <div id="panel-bundling" role="tabpanel" aria-labelledby="tab-bundling" hidden={activeTab !== 'bundling'} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{bundlingElements}</div>
+        <div id={`panel-${activeTab}`} role="tabpanel" aria-labelledby={`tab-${activeTab}`} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{activeTabElements}</div>
         <div ref={infoRef} className="pt-12">
           <div className="mb-8 text-center">
             <h3 className="font-serif font-bold text-3xl md:text-4xl uppercase tracking-tight text-foreground mb-2"><span className="md:hidden">Informasi Umum</span><span className="hidden md:inline">Informasi Umum & Sewa</span></h3>

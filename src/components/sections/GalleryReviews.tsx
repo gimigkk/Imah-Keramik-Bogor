@@ -49,6 +49,13 @@ const LazyReviewVideo: React.FC<{ src: string; alt: string }> = ({ src, alt }) =
 
 export const GalleryReviews = () => {
   const [sectionRef, visible] = useRevealOnIntersect<HTMLElement>();
+  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const renderCard = (review: ReviewData, delay: number, className = "") => (
     <div
@@ -137,35 +144,30 @@ export const GalleryReviews = () => {
           </p>
         </div>
 
-        {/* Mobile Layout (< 640px): 1 Column, Top Highlights Only */}
-        <div className="flex sm:hidden flex-col gap-4">
-          {reviewColumns.map((col, idx) => 
-            renderCard(col[0], idx * 100)
-          )}
-        </div>
-
-        {/* Tablet Layout (640px - 1024px): 2 Columns */}
-        <div className="hidden sm:flex lg:hidden gap-4">
-          <div className="flex-1 flex flex-col gap-4">
-            {reviewColumns[0].map((r, i) => renderCard(r, i * 100))}
-            {reviewColumns[2].map((r, i) => renderCard(r, (reviewColumns[0].length * 100) + (i * 100)))}
+        {viewportWidth < 640 ? (
+          <div className="flex flex-col gap-4">
+            {reviewColumns.map((col, idx) => renderCard(col[0], idx * 100))}
           </div>
-          <div className="flex-1 flex flex-col gap-4">
-            {reviewColumns[1].map((r, i) => renderCard(r, 50 + (i * 100)))}
-            {reviewColumns[3].map((r, i) => renderCard(r, 50 + (reviewColumns[1].length * 100) + (i * 100)))}
-          </div>
-        </div>
-
-        {/* Desktop Layout (> 1024px): 4 Columns */}
-        <div className="hidden lg:flex gap-4">
-          {reviewColumns.map((col, colIdx) => (
-            <div key={`desktop-col-${colIdx}`} className="flex-1 flex flex-col gap-4">
-              {col.map((review, rowIdx) => 
-                renderCard(review, (colIdx * 80) + (rowIdx * 100))
-              )}
+        ) : viewportWidth < 1024 ? (
+          <div className="flex gap-4">
+            <div className="flex-1 flex flex-col gap-4">
+              {reviewColumns[0].map((r, i) => renderCard(r, i * 100))}
+              {reviewColumns[2].map((r, i) => renderCard(r, (reviewColumns[0].length * 100) + (i * 100)))}
             </div>
-          ))}
-        </div>
+            <div className="flex-1 flex flex-col gap-4">
+              {reviewColumns[1].map((r, i) => renderCard(r, 50 + (i * 100)))}
+              {reviewColumns[3].map((r, i) => renderCard(r, 50 + (reviewColumns[1].length * 100) + (i * 100)))}
+            </div>
+          </div>
+        ) : (
+          <div className="flex gap-4">
+            {reviewColumns.map((col, colIdx) => (
+              <div key={`desktop-col-${colIdx}`} className="flex-1 flex flex-col gap-4">
+                {col.map((review, rowIdx) => renderCard(review, (colIdx * 80) + (rowIdx * 100)))}
+              </div>
+            ))}
+          </div>
+        )}
       </Container>
     </section>
   );

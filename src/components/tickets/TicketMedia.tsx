@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getResponsiveImageProps } from '../../lib/responsiveImage';
 
 interface TicketMediaProps {
@@ -9,15 +9,37 @@ interface TicketMediaProps {
 }
 
 export const TicketMedia: React.FC<TicketMediaProps> = ({ src, alt, sizes, className }) => {
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const [isNearViewport, setIsNearViewport] = useState(false);
+
+  useEffect(() => {
+    const media = mediaRef.current;
+    if (!media) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsNearViewport(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setIsNearViewport(true);
+      observer.disconnect();
+    });
+
+    observer.observe(media);
+    return () => observer.disconnect();
+  }, []);
+
   if (!src) return null;
 
   const imageProps = getResponsiveImageProps(src, sizes);
 
   return (
-    <div data-ticket-image className={className}>
+    <div ref={mediaRef} data-ticket-image className={className}>
       {src.endsWith('.mp4') ? (
         <video
-          src={src}
+          src={isNearViewport ? src : undefined}
           autoPlay
           loop
           muted
@@ -27,7 +49,7 @@ export const TicketMedia: React.FC<TicketMediaProps> = ({ src, alt, sizes, class
         />
       ) : (
         <img
-          {...imageProps}
+          {...(isNearViewport ? imageProps : {})}
           alt={alt}
           loading="lazy"
           decoding="async"
