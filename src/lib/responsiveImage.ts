@@ -59,3 +59,28 @@ export const getResponsiveImageProps = (
     sizes,
   };
 };
+
+export const preloadTicketImages = (
+  sources: string[],
+  sizes = '(min-width: 1400px) 560px, (min-width: 768px) 44vw, calc(100vw - 5rem)',
+) => {
+  if (typeof window === 'undefined') return;
+
+  sources.forEach((source) => {
+    if (!source || source.endsWith('.mp4')) return;
+    const props = getResponsiveImageProps(source, sizes);
+
+    if (props.srcSet) {
+      const urls = props.srcSet.split(',').map((item) => item.trim().split(' ')[0]);
+      urls.forEach((url) => {
+        if (!url) return;
+        const img = new Image();
+        img.src = url;
+      });
+    } else if (props.src) {
+      const img = new Image();
+      img.src = props.src;
+    }
+  });
+};
+

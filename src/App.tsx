@@ -1,11 +1,26 @@
+import { useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import BentoTickets from './components/sections/BentoTickets';
 import { CTA } from './components/sections/CTA';
 import { GalleryReviews } from './components/sections/GalleryReviews';
 import { Hero } from './components/sections/Hero';
+import { keramikTickets, membatikTickets, bundlingTickets, infoUmumTickets } from './data/tickets';
+import { preloadTicketImages } from './lib/responsiveImage';
 
 export default function App() {
+  useEffect(() => {
+    const allSources = [
+      ...keramikTickets,
+      ...membatikTickets,
+      ...bundlingTickets,
+      ...infoUmumTickets,
+    ]
+      .map((t) => t.image)
+      .filter(Boolean) as string[];
+    preloadTicketImages(allSources);
+  }, []);
+
   return (
     <>
       <div id="top" className="min-h-screen font-sans bg-background text-foreground selection:bg-foreground selection:text-background">
@@ -27,3 +42,4 @@ export default function App() {
     </>
   );
 }
+

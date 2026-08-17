@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Container } from '../layout/Container';
 import { bundlingTickets, keramikTickets, membatikTickets, infoUmumTickets } from '../../data/tickets';
 import type { Ticket } from '../../types/ticket';
@@ -7,6 +7,7 @@ import { TileBackground } from '../effects/TileBackground';
 import { TicketModal } from '../tickets/TicketModal';
 import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
 import { useTicketModal } from '../../hooks/useTicketModal';
+import { preloadTicketImages } from '../../lib/responsiveImage';
 import FAQ from './FAQ';
 
 const TICKET_TABS = [
@@ -28,6 +29,19 @@ export const BentoTickets: React.FC = () => {
     openTicket,
     closeTicket,
   } = useTicketModal();
+
+  useEffect(() => {
+    const allSources = [
+      ...keramikTickets,
+      ...membatikTickets,
+      ...bundlingTickets,
+      ...infoUmumTickets,
+    ]
+      .map((t) => t.image)
+      .filter(Boolean) as string[];
+    preloadTicketImages(allSources);
+  }, []);
+
 
   const handleTabKeyDown = (
     event: React.KeyboardEvent<HTMLButtonElement>,

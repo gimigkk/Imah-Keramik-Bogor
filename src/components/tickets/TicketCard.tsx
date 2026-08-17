@@ -120,6 +120,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             src={ticket.image}
             alt={ticket.title}
             sizes={imageSizes}
+            priority={standalone || isFeatured}
             className="w-full flex-1 min-h-36 border border-foreground/10 overflow-hidden bg-muted relative mt-1"
           />
         </div>
@@ -159,6 +160,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             src={ticket.image}
             alt={ticket.title}
             sizes={imageSizes}
+            priority={standalone}
             className={`order-2 md:order-1 w-full md:w-5/12 aspect-video md:aspect-auto h-auto md:h-full overflow-hidden border relative shrink-0 ${isDoubleTall ? 'min-h-50 md:min-h-65' : 'min-h-35'
               } ${isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
               }`}
@@ -252,6 +254,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             src={ticket.image}
             alt={ticket.title}
             sizes={imageSizes}
+            priority={standalone}
             className={`order-2 md:order-1 w-full md:w-5/12 h-32 md:h-auto md:min-h-36 shrink-0 overflow-hidden border relative mt-3 md:mt-0 ${
               isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
             }`}
@@ -303,6 +306,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           src={ticket.image}
           alt={ticket.title}
           sizes={imageSizes}
+          priority={standalone}
           className={`w-full bg-muted overflow-hidden border relative mt-2 mb-1 ${
             standalone ? 'min-h-40 flex-1' : 'h-48 md:h-64'
           } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}

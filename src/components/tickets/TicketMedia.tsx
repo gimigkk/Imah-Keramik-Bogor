@@ -6,13 +6,27 @@ interface TicketMediaProps {
   alt: string;
   sizes: string;
   className: string;
+  priority?: boolean;
 }
 
-export const TicketMedia: React.FC<TicketMediaProps> = ({ src, alt, sizes, className }) => {
+export const TicketMedia: React.FC<TicketMediaProps> = ({
+  src,
+  alt,
+  sizes,
+  className,
+  priority = false,
+}) => {
   const mediaRef = useRef<HTMLDivElement>(null);
-  const [isNearViewport, setIsNearViewport] = useState(false);
+  const [isNearViewport, setIsNearViewport] = useState(priority);
 
+  // Video lazy loading observer
   useEffect(() => {
+    if (!src || !src.endsWith('.mp4')) return;
+    if (priority) {
+      setIsNearViewport(true);
+      return;
+    }
+
     const media = mediaRef.current;
     if (!media) return;
 
@@ -21,15 +35,18 @@ export const TicketMedia: React.FC<TicketMediaProps> = ({ src, alt, sizes, class
       return;
     }
 
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      setIsNearViewport(true);
-      observer.disconnect();
-    });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsNearViewport(true);
+        observer.disconnect();
+      },
+      { rootMargin: '200px 0px' }
+    );
 
     observer.observe(media);
     return () => observer.disconnect();
-  }, []);
+  }, [src, priority]);
 
   if (!src) return null;
 
@@ -49,9 +66,9 @@ export const TicketMedia: React.FC<TicketMediaProps> = ({ src, alt, sizes, class
         />
       ) : (
         <img
-          {...(isNearViewport ? imageProps : {})}
+          {...imageProps}
           alt={alt}
-          loading="lazy"
+          loading={priority ? 'eager' : 'lazy'}
           decoding="async"
           width="720"
           height="480"
@@ -61,3 +78,5 @@ export const TicketMedia: React.FC<TicketMediaProps> = ({ src, alt, sizes, class
     </div>
   );
 };
+
+
