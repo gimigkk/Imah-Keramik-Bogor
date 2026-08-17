@@ -78,6 +78,17 @@ export const useTicketModal = (): TicketModalState => {
     const modalTicket = getTicketElement(ticket.id, 'modal');
     if (!source || !sourceRect || !modalTicket) return;
 
+    const detailIndicatorContainer = modalTicket.querySelector<HTMLElement>('[data-ticket-detail-indicator-container]');
+    const detailIndicator = modalTicket.querySelector<HTMLElement>('[data-ticket-detail-indicator]');
+    if (detailIndicatorContainer) {
+      detailIndicatorContainer.style.height = '0px';
+      detailIndicatorContainer.style.marginTop = '0px';
+    }
+    if (detailIndicator) {
+      detailIndicator.style.opacity = '0';
+      detailIndicator.style.transform = 'translateY(10px) scale(0.82)';
+    }
+
     const targetRect = modalTicket.getBoundingClientRect();
     const morph = morphTicket(
       modalTicket,

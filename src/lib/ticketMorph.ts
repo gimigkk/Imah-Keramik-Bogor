@@ -208,9 +208,20 @@ export const morphTicket = (
       body.style.overflow = originalBodyOverflow;
     }
     if (animatedImage) {
-      animatedImage.style.height = originalImageHeight;
-      animatedImage.style.minHeight = originalImageMinHeight;
-      animatedImage.style.flex = originalImageFlex;
+      if (isOpeningTicket && toImageHeight !== undefined) {
+        animatedImage.style.height = `${toImageHeight}px`;
+        requestAnimationFrame(() => {
+          if (animatedImage) {
+            animatedImage.style.height = originalImageHeight;
+            animatedImage.style.minHeight = originalImageMinHeight;
+            animatedImage.style.flex = originalImageFlex;
+          }
+        });
+      } else {
+        animatedImage.style.height = originalImageHeight;
+        animatedImage.style.minHeight = originalImageMinHeight;
+        animatedImage.style.flex = originalImageFlex;
+      }
     }
     if (detailIndicator) {
       detailIndicator.style.opacity = isOpeningTicket ? '0' : originalIndicatorOpacity;
@@ -220,6 +231,7 @@ export const morphTicket = (
       detailIndicatorContainer.style.height = isOpeningTicket ? '0px' : originalIndicatorContainerHeight;
       detailIndicatorContainer.style.marginTop = isOpeningTicket ? '0px' : originalIndicatorContainerMarginTop;
     }
+    clearMorphStyles(element);
     resolveFinished();
   };
 
