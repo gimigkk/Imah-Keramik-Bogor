@@ -1,4 +1,4 @@
-import { type CSSProperties, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { faqItems, FAQItem } from '../../data/faq';
@@ -8,17 +8,19 @@ import { useRevealOnIntersect } from '../../hooks/useRevealOnIntersect';
 interface FAQColumnProps {
   items: FAQItem[];
   startIndex: number;
-  openRow: number | null;
-  onToggle: (rowIndex: number) => void;
+  openIndex: number | null;
+  onToggle: (index: number) => void;
   visible: boolean;
+  isDesktop: boolean;
 }
 
-const FAQColumn = ({ items, startIndex, openRow, onToggle, visible }: FAQColumnProps) => (
+const FAQColumn = ({ items, startIndex, openIndex, onToggle, visible, isDesktop }: FAQColumnProps) => (
   <div className="grid grid-cols-1 content-start gap-2">
     {items.map((item, index) => (
       (() => {
         const itemIndex = startIndex + index;
-        const isOpen = openRow === index;
+        const toggleIndex = isDesktop ? index : itemIndex;
+        const isOpen = isDesktop ? openIndex === index : openIndex === itemIndex;
 
         return (
           <div
@@ -29,7 +31,7 @@ const FAQColumn = ({ items, startIndex, openRow, onToggle, visible }: FAQColumnP
             <div className="group overflow-hidden rounded-sm transition-colors duration-300 hover:bg-card/60">
               <button
                 type="button"
-                onClick={() => onToggle(index)}
+                onClick={() => onToggle(toggleIndex)}
                 aria-expanded={isOpen}
                 aria-controls={`faq-answer-${itemIndex}`}
                 className="flex w-full cursor-pointer items-center justify-start gap-3 bg-background px-4 py-4 text-left shadow-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
@@ -44,7 +46,7 @@ const FAQColumn = ({ items, startIndex, openRow, onToggle, visible }: FAQColumnP
                 className={`grid transition-[grid-template-rows] duration-300 ease-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <p onClick={() => onToggle(index)} className="max-w-2xl cursor-pointer bg-background px-11 pb-4 pr-8 font-sans text-sm leading-relaxed text-muted-foreground">
+                  <p onClick={() => onToggle(toggleIndex)} className="max-w-2xl cursor-pointer bg-background px-11 pb-4 pr-8 font-sans text-sm leading-relaxed text-muted-foreground">
                     {item.answer}
                   </p>
                 </div>
@@ -58,13 +60,22 @@ const FAQColumn = ({ items, startIndex, openRow, onToggle, visible }: FAQColumnP
 );
 
 export const FAQ = () => {
-  const [openRow, setOpenRow] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [sectionRef, visible] = useRevealOnIntersect<HTMLDivElement>();
   const midpoint = Math.ceil(faqItems.length / 2);
 
-  const handleToggle = (rowIndex: number) => {
-    setOpenRow((currentRow) => (currentRow === rowIndex ? null : rowIndex));
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 1024px)');
+    setIsDesktop(mediaQuery.matches);
 
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
+  const handleToggle = (index: number) => {
+    setOpenIndex((currentIndex) => (currentIndex === index ? null : index));
   };
 
   return (
@@ -79,8 +90,8 @@ export const FAQ = () => {
       </div>
 
       <div className="grid grid-cols-1 items-start gap-2 lg:grid-cols-2 lg:gap-x-3">
-        <FAQColumn items={faqItems.slice(0, midpoint)} startIndex={0} openRow={openRow} onToggle={handleToggle} visible={visible} />
-        <FAQColumn items={faqItems.slice(midpoint)} startIndex={midpoint} openRow={openRow} onToggle={handleToggle} visible={visible} />
+        <FAQColumn items={faqItems.slice(0, midpoint)} startIndex={0} openIndex={openIndex} onToggle={handleToggle} visible={visible} isDesktop={isDesktop} />
+        <FAQColumn items={faqItems.slice(midpoint)} startIndex={midpoint} openIndex={openIndex} onToggle={handleToggle} visible={visible} isDesktop={isDesktop} />
       </div>
 
       <div
