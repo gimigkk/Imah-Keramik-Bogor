@@ -127,11 +127,39 @@
   }
 }
 
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
 @layer components {
   .animate-dash-fill {
     transform-origin: top;
     will-change: transform;
     animation: dashFill 5000ms linear forwards;
+  }
+
+  .animate-marquee {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    contain: layout paint;
+    backface-visibility: hidden;
+    animation: marquee 35s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+      animation: none !important;
+    }
   }
 
   .modal-reveal-panel {

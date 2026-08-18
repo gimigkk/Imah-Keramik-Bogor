@@ -80,7 +80,7 @@ const trustSlots: TrustSlot[] = [
     id: 4,
     tag: 'EDUKASI PEMULA',
     line1: '100% Didampingi',
-    line2: 'Instruktur Ramah & Sabar',
+    line2: 'Mentor Ramah & Sabar',
   },
   {
     id: 5,
@@ -90,12 +90,13 @@ const trustSlots: TrustSlot[] = [
   },
 ];
 
+const marqueeSlots = [...trustSlots, ...trustSlots, ...trustSlots, ...trustSlots];
+
 export const Hero: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [videoEnabled, setVideoEnabled] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
   const [trustIndex, setTrustIndex] = useState(0);
-  const [isHoveringTrust, setIsHoveringTrust] = useState(false);
   const [transitioningFrom, setTransitioningFrom] = useState<number | null>(null);
   const [readyVideoKeys, setReadyVideoKeys] = useState<Set<string>>(() => new Set());
   const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([]);
@@ -111,12 +112,12 @@ export const Hero: React.FC = () => {
 
   // 5-second slot roll-up rotation for trust building facts
   useEffect(() => {
-    if (isHoveringTrust || reduceMotion) return;
+    if (reduceMotion) return;
     const timer = setInterval(() => {
       setTrustIndex((prev) => (prev + 1) % trustSlots.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [isHoveringTrust, reduceMotion]);
+  }, [reduceMotion]);
 
   const requestVideo = useCallback(() => setVideoEnabled(true), []);
 
@@ -253,7 +254,7 @@ export const Hero: React.FC = () => {
   }, [activeVideo, handleNextVideo]);
 
   return (
-    <section id="about" className="relative pt-20 md:pt-24 pb-6 md:pb-12 border-b border-foreground/20 bg-background">
+    <section id="about" className="relative pt-20 md:pt-24 pb-0 lg:pb-12 border-b border-foreground/20 bg-background">
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 gap-6 md:gap-10">
           <div className="w-full max-w-4xl flex flex-col items-start text-left">
@@ -286,22 +287,20 @@ export const Hero: React.FC = () => {
 
           {/* Mechanical Slot Reel Trust Ticker */}
           <div
-            className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} hidden lg:flex text-right font-sans max-w-xs flex-col justify-end relative pr-6 py-1 select-none cursor-pointer group`}
+            className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} hidden lg:flex text-right font-sans max-w-xs flex-col justify-end relative pr-6 py-0 select-none cursor-pointer group`}
             style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
-            onMouseEnter={() => setIsHoveringTrust(true)}
-            onMouseLeave={() => setIsHoveringTrust(false)}
             onClick={() => setTrustIndex((prev) => (prev + 1) % trustSlots.length)}
             title="Klik untuk memutar reel"
           >
             {/* Vertical Segmented Dash Progress Bar */}
-            <div className="absolute right-0 top-1 bottom-1 w-[2px] flex flex-col justify-between items-center py-0.5 pointer-events-none">
+            <div className="absolute right-0 top-0 bottom-0.5 w-[2px] flex flex-col justify-between items-center pointer-events-none">
               {trustSlots.map((_, idx) => {
                 const isCompleted = idx < trustIndex;
                 const isActive = idx === trustIndex;
                 return (
                   <div
                     key={idx}
-                    className="w-[2px] flex-1 my-0.5 rounded-full bg-foreground/25 relative overflow-hidden"
+                    className="w-[2px] flex-1 my-[1px] rounded-full bg-foreground/25 relative overflow-hidden"
                   >
                     {isCompleted && (
                       <div className="w-full h-full bg-foreground absolute inset-0" />
@@ -309,9 +308,7 @@ export const Hero: React.FC = () => {
                     {isActive && (
                       <div
                         key={trustIndex}
-                        className={`w-full h-full bg-foreground absolute inset-0 origin-top ${
-                          isHoveringTrust ? 'scale-y-100' : 'animate-dash-fill'
-                        }`}
+                        className="w-full h-full bg-foreground absolute inset-0 origin-top animate-dash-fill"
                       />
                     )}
                   </div>
@@ -539,6 +536,28 @@ export const Hero: React.FC = () => {
           </div>
         </div>
       </Container>
+
+      {/* Full-Bleed Mobile Trust Facts Marquee (True 100vw Offscreen Bleed & 100% Seamless Loop) */}
+      <div
+        className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} lg:hidden w-screen relative left-1/2 -translate-x-1/2 overflow-hidden my-5 select-none`}
+        style={{ '--reveal-delay': '800ms' } as React.CSSProperties}
+      >
+        <div className="animate-marquee flex gap-12 items-center">
+          {marqueeSlots.map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center text-center shrink-0">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono mb-0.5">
+                {item.tag}
+              </span>
+              <span className="text-xs sm:text-sm font-semibold text-foreground leading-tight">
+                {item.line1}
+              </span>
+              <span className="text-xs text-muted-foreground leading-tight">
+                {item.line2}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
