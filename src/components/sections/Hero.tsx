@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { Container } from '../layout/Container';
 import { getTodayScheduleWIB } from '../../data/schedule';
-import { site } from '../../data/site';
 import { mediaAssets } from '../../data/assets';
 import { getYouTubeId } from '../../utils/youtube';
 
@@ -51,10 +50,52 @@ const heroVideos: HeroVideo[] = [
 
 // TODO(company): Hero copy, location claim, image alt text, video assets, and activity labels are concept content pending company approval. See CONCEPT_HANDOFF.md.
 
+interface TrustSlot {
+  id: number;
+  tag: string;
+  line1: string;
+  line2: string;
+}
+
+const trustSlots: TrustSlot[] = [
+  {
+    id: 1,
+    tag: 'LOKASI',
+    line1: 'Imah Keramik Bogor',
+    line2: 'Studio Terbuka Jawa Barat',
+  },
+  {
+    id: 2,
+    tag: 'ULASAN GOOGLE',
+    line1: '4.9 ★★★★★ Rating',
+    line2: '500+ Ulasan Pengunjung',
+  },
+  {
+    id: 3,
+    tag: 'HASIL KARYA',
+    line1: '100% Bawa Pulang',
+    line2: 'Hasil Kreasi Studio',
+  },
+  {
+    id: 4,
+    tag: 'EDUKASI PEMULA',
+    line1: '100% Didampingi',
+    line2: 'Instruktur Ramah & Sabar',
+  },
+  {
+    id: 5,
+    tag: 'REKOR STUDIO',
+    line1: '15,000+ Karya',
+    line2: 'Wisata Keramik #1 Bogor',
+  },
+];
+
 export const Hero: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [videoEnabled, setVideoEnabled] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
+  const [trustIndex, setTrustIndex] = useState(0);
+  const [isHoveringTrust, setIsHoveringTrust] = useState(false);
   const [transitioningFrom, setTransitioningFrom] = useState<number | null>(null);
   const [readyVideoKeys, setReadyVideoKeys] = useState<Set<string>>(() => new Set());
   const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([]);
@@ -67,6 +108,15 @@ export const Hero: React.FC = () => {
   useEffect(() => {
     setVisible(true);
   }, []);
+
+  // 5-second slot roll-up rotation for trust building facts
+  useEffect(() => {
+    if (isHoveringTrust || reduceMotion) return;
+    const timer = setInterval(() => {
+      setTrustIndex((prev) => (prev + 1) % trustSlots.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isHoveringTrust, reduceMotion]);
 
   const requestVideo = useCallback(() => setVideoEnabled(true), []);
 
@@ -234,25 +284,88 @@ export const Hero: React.FC = () => {
             </h1>
           </div>
 
+          {/* Mechanical Slot Reel Trust Ticker */}
           <div
-            className="hidden lg:flex text-right font-sans max-w-xs flex-col justify-end border-r border-foreground/20 pr-6 py-1"
+            className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} hidden lg:flex text-right font-sans max-w-xs flex-col justify-end relative pr-6 py-1 select-none cursor-pointer group`}
+            style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
+            onMouseEnter={() => setIsHoveringTrust(true)}
+            onMouseLeave={() => setIsHoveringTrust(false)}
+            onClick={() => setTrustIndex((prev) => (prev + 1) % trustSlots.length)}
+            title="Klik untuk memutar reel"
           >
-            <p
-              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground mb-1 font-mono`}
-              style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
-            >
-              Lokasi
-            </p>
-            <p
-              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} text-xs md:text-sm lg:text-base text-foreground mb-4 md:mb-6 font-medium`}
-              style={{ '--reveal-delay': '480ms' } as React.CSSProperties}
-            >
-              {site.name}<br />Studio Terbuka Jawa Barat
-            </p>
+            {/* Vertical Segmented Dash Progress Bar */}
+            <div className="absolute right-0 top-1 bottom-1 w-[2px] flex flex-col justify-between items-center py-0.5 pointer-events-none">
+              {trustSlots.map((_, idx) => {
+                const isCompleted = idx < trustIndex;
+                const isActive = idx === trustIndex;
+                return (
+                  <div
+                    key={idx}
+                    className="w-[2px] flex-1 my-0.5 rounded-full bg-foreground/25 relative overflow-hidden"
+                  >
+                    {isCompleted && (
+                      <div className="w-full h-full bg-foreground absolute inset-0" />
+                    )}
+                    {isActive && (
+                      <div
+                        key={trustIndex}
+                        className={`w-full h-full bg-foreground absolute inset-0 origin-top ${
+                          isHoveringTrust ? 'scale-y-100' : 'animate-dash-fill'
+                        }`}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Reel 1: Category Tag */}
+            <div className="h-4 overflow-hidden mb-1">
+              <div
+                className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col items-end will-change-transform"
+                style={{ transform: `translateY(-${trustIndex * 16}px)` }}
+              >
+                {trustSlots.map((item) => (
+                  <span key={item.id} className="h-4 text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground font-mono leading-4 block">
+                    {item.tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Reel 2: Line 1 */}
+            <div className="h-6 overflow-hidden">
+              <div
+                className="transition-transform duration-500 delay-75 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col items-end will-change-transform"
+                style={{ transform: `translateY(-${trustIndex * 24}px)` }}
+              >
+                {trustSlots.map((item) => (
+                  <span key={item.id} className="h-6 text-xs md:text-sm lg:text-base text-foreground font-medium leading-6 block whitespace-nowrap">
+                    {item.line1}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Reel 3: Line 2 */}
+            <div className="h-6 overflow-hidden mb-4 md:mb-6">
+              <div
+                className="transition-transform duration-500 delay-150 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col items-end will-change-transform"
+                style={{ transform: `translateY(-${trustIndex * 24}px)` }}
+              >
+                {trustSlots.map((item) => (
+                  <span key={item.id} className="h-6 text-xs md:text-sm lg:text-base text-foreground font-medium leading-6 block whitespace-nowrap">
+                    {item.line2}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Original CTA Link */}
             <a
               href="#activities"
-              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} border-b-2 border-foreground pb-1 text-xs font-bold uppercase tracking-widest hover:text-primary hover:border-primary transition-colors inline-block w-fit ml-auto`}
-              style={{ '--reveal-delay': '600ms' } as React.CSSProperties}
+              onClick={(e) => e.stopPropagation()}
+              className="border-b-2 border-foreground pb-1 text-xs font-bold uppercase tracking-widest hover:text-primary hover:border-primary transition-colors inline-block w-fit ml-auto"
             >
               Lihat paket!
             </a>

@@ -118,7 +118,22 @@
   }
 }
 
+@keyframes dashFill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 @layer components {
+  .animate-dash-fill {
+    transform-origin: top;
+    will-change: transform;
+    animation: dashFill 5000ms linear forwards;
+  }
+
   .modal-reveal-panel {
     opacity: 0;
     filter: blur(20px);
