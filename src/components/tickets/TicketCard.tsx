@@ -45,20 +45,20 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       : '(min-width: 1400px) 270px, (min-width: 768px) 22vw, calc(100vw - 5rem)';
   const handleKeyDown = onClick
     ? (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          onClick(ticket);
-        }
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        onClick(ticket);
       }
+    }
     : undefined;
   const interactiveCardProps = onClick
     ? {
-        onClick: () => onClick(ticket),
-        onKeyDown: handleKeyDown,
-        role: 'button' as const,
-        tabIndex: 0,
-        'aria-label': `Lihat detail ${ticket.title}, ${ticket.price}`,
-      }
+      onClick: () => onClick(ticket),
+      onKeyDown: handleKeyDown,
+      role: 'button' as const,
+      tabIndex: 0,
+      'aria-label': `Lihat detail ${ticket.title}, ${ticket.price}`,
+    }
     : undefined;
 
   // Build grid column & row span/start classes dynamically
@@ -119,7 +119,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             alt={ticket.title}
             sizes={imageSizes}
             priority={standalone || isFeatured}
-            className="w-full flex-1 min-h-36 border border-foreground/10 overflow-hidden bg-muted relative mt-1"
+            className="w-full flex-1 min-h-36 border border-foreground/10 overflow-hidden bg-muted relative mt-1 rounded-sm"
           />
         </div>
 
@@ -159,7 +159,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             alt={ticket.title}
             sizes={imageSizes}
             priority={standalone}
-            className={`order-2 md:order-1 w-full md:w-5/12 aspect-video md:aspect-auto h-auto md:h-full overflow-hidden border relative shrink-0 ${isDoubleTall ? 'min-h-50 md:min-h-65' : 'min-h-35'
+            className={`order-2 md:order-1 w-full md:w-5/12 aspect-video md:aspect-auto h-auto md:h-full overflow-hidden border relative shrink-0 rounded-sm ${isDoubleTall ? 'min-h-50 md:min-h-65' : 'min-h-35'
               } ${isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
               }`}
           />
@@ -227,9 +227,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         data-ticket-surface={standalone ? 'modal' : 'grid'}
       >
         <div
-          className={`ticket-notch-body flex-1 p-5 flex flex-col md:flex-row md:items-stretch md:gap-5 ${
-            isAccent ? 'bg-[#5c3a28]' : 'bg-background'
-          }`}
+          className={`ticket-notch-body flex-1 p-5 flex flex-col md:flex-row md:items-stretch md:gap-5 ${isAccent ? 'bg-[#5c3a28]' : 'bg-background'
+            }`}
         >
           {/* Mobile: Text top (order-1), Desktop: Text right (order-2) */}
           <div className="order-1 md:order-2 flex-1 flex flex-col justify-start">
@@ -253,9 +252,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             alt={ticket.title}
             sizes={imageSizes}
             priority={standalone}
-            className={`order-2 md:order-1 w-full md:w-5/12 h-32 md:h-auto md:min-h-36 shrink-0 overflow-hidden border relative mt-3 md:mt-0 ${
-              isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
-            }`}
+            className={`order-2 md:order-1 w-full md:w-5/12 h-32 md:h-auto md:min-h-36 shrink-0 overflow-hidden border relative mt-3 md:mt-0 rounded-sm ${isAccent ? 'border-background/20 bg-muted' : 'border-foreground/10 bg-muted'
+              }`}
           />
         </div>
 
@@ -279,9 +277,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       data-ticket-surface={standalone ? 'modal' : 'grid'}
     >
       <div
-        className={`ticket-notch-body flex-1 p-5 flex flex-col justify-between ${
-          isAccent ? 'bg-[#5c3a28]' : 'bg-background'
-        }`}
+        className={`ticket-notch-body flex-1 p-5 flex flex-col justify-between ${isAccent ? 'bg-[#5c3a28]' : 'bg-background'
+          }`}
       >
         {/* Top Text Area (Title & Description) */}
         <div>
@@ -305,9 +302,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           alt={ticket.title}
           sizes={imageSizes}
           priority={standalone}
-          className={`w-full bg-muted overflow-hidden border relative mt-2 mb-1 ${
-            standalone ? 'min-h-40 flex-1' : 'h-48 md:h-64'
-          } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
+          className={`w-full bg-muted overflow-hidden border relative mt-2 mb-1 rounded-sm ${standalone ? 'min-h-40 flex-1' : 'h-48 md:h-64'
+            } ${isAccent ? 'border-background/20' : 'border-foreground/10'}`}
         />
       </div>
 

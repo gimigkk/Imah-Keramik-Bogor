@@ -59,7 +59,7 @@ const ActivityVideo: React.FC<{ video: TicketVideo; ticketTitle?: string }> = ({
 export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClose, className = '' }) => (
   <section
     aria-labelledby="activity-detail-heading"
-    className={`relative flex flex-col border border-foreground/20 bg-card p-5 shadow-xl md:p-7 ${className}`}
+    className={`relative flex flex-col border border-foreground/20 bg-card p-5 shadow-xl md:p-7 rounded-sm ${className}`}
   >
     {onClose && (
       <button

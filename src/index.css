@@ -299,6 +299,8 @@
   .ticket-notch-body {
     border: 1px solid var(--ticket-edge);
     border-bottom-width: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     -webkit-mask-image:
       radial-gradient(11px at 0 100%, transparent 98%, #000),
       radial-gradient(11px at 100% 100%, transparent 98%, #000),
@@ -322,6 +324,8 @@
   .ticket-notch-stub {
     border: 1px solid var(--ticket-edge);
     border-top-width: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
     -webkit-mask-image:
       radial-gradient(11px at 0 0, transparent 98%, #000),
       radial-gradient(11px at 100% 0, transparent 98%, #000),
@@ -346,6 +350,10 @@
     .ticket-horizontal .ticket-notch-body {
       border-right-width: 0;
       border-bottom-width: 1px;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
       -webkit-mask-image:
         radial-gradient(11px at 100% 0, transparent 98%, #000),
         radial-gradient(11px at 100% 100%, transparent 98%, #000),
@@ -369,6 +377,10 @@
     .ticket-horizontal .ticket-notch-stub {
       border-top: 1px solid var(--ticket-edge);
       border-left-width: 0;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
       -webkit-mask-image:
         radial-gradient(11px at 0 0, transparent 98%, #000),
         radial-gradient(11px at 0 100%, transparent 98%, #000),

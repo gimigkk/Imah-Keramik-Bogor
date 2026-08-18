@@ -30,7 +30,7 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
   return (
     <section
       aria-labelledby="package-heading"
-      className={`flex flex-col border border-foreground/20 bg-card p-5 shadow-xl md:p-7 ${className}`}
+      className={`flex flex-col border border-foreground/20 bg-card p-5 shadow-xl md:p-7 rounded-sm ${className}`}
     >
       <div className="mb-3">
         <h3 id="package-heading" className="font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-muted-foreground">
@@ -40,7 +40,7 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
 
       <div className={`grid flex-1 gap-3 ${packages.length > 1 ? 'sm:grid-cols-2' : 'grid-cols-1'}`}>
         {packages.map((item, index) => (
-          <article key={`${item.name}-${index}`} className="flex h-full flex-col border border-foreground/20 bg-background p-5">
+          <article key={`${item.name}-${index}`} className="flex h-full flex-col border border-foreground/20 bg-background p-5 rounded-sm">
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <span className="mb-2 block font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -51,7 +51,7 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
               <TicketPrice
                 price={item.price}
                 originalPrice={item.originalPrice}
-                className="shrink-0 border border-foreground/20 bg-primary px-2.5 py-1.5 text-right"
+                className="shrink-0 border border-foreground/20 bg-primary px-2.5 py-1.5 text-right rounded-sm"
                 originalPriceClassName="font-sans text-[10px] line-through decoration-foreground/70 tracking-tight"
                 priceClassName="font-brand text-xs tracking-tight"
               />
@@ -70,13 +70,13 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
       </div>
 
       {ticket.addons && ticket.addons.length > 0 && (
-        <div className="mt-3 border border-dashed border-foreground/30 bg-secondary/15 p-4">
+        <div className="mt-3 border border-dashed border-foreground/30 bg-secondary/15 p-4 rounded-sm">
           <p className="mb-3 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
             Biaya tambahan opsional
           </p>
           <div className="flex flex-wrap gap-2">
             {ticket.addons.map((addon) => (
-              <span key={addon} className="inline-flex items-center gap-1.5 border border-foreground/15 bg-background px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wide">
+              <span key={addon} className="inline-flex items-center gap-1.5 border border-foreground/15 bg-background px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wide rounded-sm">
                 <Plus size={12} aria-hidden="true" />
                 {addon.replace(/^\+/, '')}
               </span>
@@ -93,7 +93,7 @@ export const PackageCards: React.FC<PackageCardsProps> = ({ ticket, whatsappHref
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-center gap-2 bg-primary px-5 py-3.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
+          className="flex w-full items-center justify-center gap-2 bg-primary px-5 py-3.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-primary-foreground transition-colors hover:bg-foreground hover:text-background rounded-sm"
         >
           <FaWhatsapp size={16} aria-hidden="true" />
           Tanya / pesan via WhatsApp
