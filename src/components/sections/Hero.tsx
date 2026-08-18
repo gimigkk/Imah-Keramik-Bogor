@@ -68,7 +68,7 @@ const trustSlots: TrustSlot[] = [
     id: 2,
     tag: 'ULASAN GOOGLE',
     line1: '4.9 ★★★★★ Rating',
-    line2: '500+ Ulasan Pengunjung',
+    line2: '91 Ulasan Google',
   },
   {
     id: 3,
@@ -85,7 +85,7 @@ const trustSlots: TrustSlot[] = [
   {
     id: 5,
     tag: 'REKOR STUDIO',
-    line1: '15,000+ Karya',
+    line1: '+5.000 Karya',
     line2: 'Wisata Keramik #1 Bogor',
   },
 ];
