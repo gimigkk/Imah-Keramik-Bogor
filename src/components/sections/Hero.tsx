@@ -94,7 +94,7 @@ const marqueeSlots = [...trustSlots, ...trustSlots, ...trustSlots, ...trustSlots
 
 export const Hero: React.FC = () => {
   const [visible, setVisible] = useState(false);
-  const [videoEnabled, setVideoEnabled] = useState(false);
+  const [videoEnabled, setVideoEnabled] = useState(true);
   const [activeVideo, setActiveVideo] = useState(0);
   const [trustIndex, setTrustIndex] = useState(0);
   const [transitioningFrom, setTransitioningFrom] = useState<number | null>(null);
@@ -181,24 +181,24 @@ export const Hero: React.FC = () => {
     });
   }, [activeVideo, readyVideoKeys, videoEnabled]);
 
-  // Automatically pause video when Hero container scrolls out of the viewport
+  // Automatically pause video when Hero container scrolls out of the viewport, and resume when it returns
   useEffect(() => {
     const container = document.getElementById('hero-video-container');
     if (!container || typeof IntersectionObserver === 'undefined') return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting && videoEnabled) {
-          const iframe = iframeRefs.current[activeVideoRef.current];
-          if (iframe && iframe.contentWindow) {
-            try {
-              iframe.contentWindow.postMessage(
-                JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
-                YOUTUBE_EMBED_ORIGIN,
-              );
-            } catch {
-              // Ignore cross-origin issues
-            }
+        if (!videoEnabled) return;
+        const iframe = iframeRefs.current[activeVideoRef.current];
+        if (iframe && iframe.contentWindow) {
+          try {
+            const command = entry.isIntersecting ? 'playVideo' : 'pauseVideo';
+            iframe.contentWindow.postMessage(
+              JSON.stringify({ event: 'command', func: command, args: [] }),
+              YOUTUBE_EMBED_ORIGIN,
+            );
+          } catch {
+            // Ignore cross-origin issues
           }
         }
       },
