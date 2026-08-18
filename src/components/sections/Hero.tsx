@@ -269,7 +269,7 @@ export const Hero: React.FC = () => {
                 {todaySchedule.displayText}
               </span>
             </div>
-            <h1 className="font-serif font-bold text-[11.2vw] sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase flex flex-col">
+            <h1 className="font-brand font-bold text-[11.2vw] sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] md:leading-[0.9] tracking-tight uppercase flex flex-col">
               <span
                 className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} block whitespace-nowrap`}
                 style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
@@ -280,7 +280,7 @@ export const Hero: React.FC = () => {
                 className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} block`}
                 style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
               >
-                <span className="font-accent italic font-normal text-[0.85em] tracking-normal text-foreground/90 lowercase">tanah liat & Keramik</span>
+                <span className="font-nanum text-[0.75em] md:text-[0.85em] tracking-normal text-foreground/90 lowercase block mt-1">tanah liat & Keramik</span>
               </span>
             </h1>
           </div>

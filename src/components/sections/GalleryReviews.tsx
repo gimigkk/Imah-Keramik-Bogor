@@ -135,12 +135,12 @@ export const GalleryReviews = () => {
         {/* Section Header */}
         <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-0 md:border-b border-foreground/20 pb-2 md:pb-4">
           <div>
-            <h2 className="font-serif font-bold text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">
+            <h2 className="font-brand font-bold text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">
               Kata Mereka.
             </h2>
           </div>
           <p className="text-muted-foreground font-sans font-semibold text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">
-            Ulasan jujur dari peserta di Google Reviews.<br className="hidden md:inline" /> Klik bubble untuk buka langsung di Google Maps.
+            Ulasan dari peserta di Google Reviews.<br className="hidden md:inline" /> Klik bubble untuk membuka ulasan.
           </p>
         </div>
 

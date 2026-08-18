@@ -31,6 +31,7 @@ try {
       document.fonts.check('600 16px Cormorant'),
       document.fonts.check('400 italic 16px "IBM Plex Serif"'),
       document.fonts.check('700 16px "Bricolage Grotesque"'),
+      document.fonts.check('400 16px "Nanum Pen Script"'),
     ],
   }));
 

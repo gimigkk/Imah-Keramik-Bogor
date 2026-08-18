@@ -99,9 +99,9 @@ export const BentoTickets: React.FC = () => {
       <Container className="relative z-10">
         <div className="mb-4 md:mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-0 md:border-b border-foreground/20 pb-0 md:pb-4">
           <div>
-            <h2 className="font-serif font-bold text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">Katalog Aktivitas.</h2>
+            <h2 className="font-brand font-bold text-4xl md:text-6xl text-foreground uppercase tracking-tighter leading-none">Katalog Aktivitas.</h2>
           </div>
-          <p className="text-muted-foreground font-sans font-semibold text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">Berikut merupakan katalog wisata kita.<br className="hidden md:inline" /> Tempat terbatas agar perhatian individu maksimal.</p>
+          <p className="text-muted-foreground font-sans font-semibold text-xs md:text-sm text-left md:text-right max-w-md leading-relaxed pb-0.5">Pilihan workshop tanah liat & kreasi batik.<br className="hidden md:inline" /> Kuota terbatas agar mentoring lebih baik.</p>
         </div>
         <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div role="tablist" aria-label="Kategori aktivitas" className="flex flex-row w-full sm:w-auto gap-1 sm:gap-2">
@@ -118,19 +118,17 @@ export const BentoTickets: React.FC = () => {
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => handleSelectTab(tab.id)}
                     onKeyDown={(event) => handleTabKeyDown(event, tab.id)}
-                    className={`w-full inline-flex items-center justify-center px-3 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-all ${
-                      isActive
-                        ? 'bg-foreground text-background border-foreground'
-                        : 'bg-transparent text-foreground border-foreground hover:bg-foreground hover:text-background'
-                    } ${showBundlingBadge ? 'scoop-tr-corner' : ''}`}
+                    className={`w-full inline-flex items-center justify-center px-3 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-all ${isActive
+                      ? 'bg-foreground text-background border-foreground'
+                      : 'bg-transparent text-foreground border-foreground hover:bg-foreground hover:text-background'
+                      } ${showBundlingBadge ? 'scoop-tr-corner' : ''}`}
                   >
                     <span>{tab.label}</span>
                   </button>
                   {showBundlingBadge && (
                     <span
-                      className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full pointer-events-none z-20 animate-subtle-pulse ${
-                        isActive ? 'bg-background' : 'bg-foreground'
-                      }`}
+                      className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full pointer-events-none z-20 animate-subtle-pulse ${isActive ? 'bg-background' : 'bg-foreground'
+                        }`}
                       title="Promo Bundling"
                     />
                   )}
@@ -143,7 +141,7 @@ export const BentoTickets: React.FC = () => {
         <div id={`panel-${activeTab}`} role="tabpanel" aria-labelledby={`tab-${activeTab}`} className="grid grid-cols-1 gap-3 md:grid-cols-4 mb-10 md:mb-12">{activeTabElements}</div>
         <div ref={infoRef} className="pt-12">
           <div className="mb-8 text-center">
-            <h3 className="font-serif font-bold text-3xl md:text-4xl uppercase tracking-tight text-foreground mb-2"><span className="md:hidden">Informasi Umum</span><span className="hidden md:inline">Informasi Umum & Sewa</span></h3>
+            <h3 className="font-brand font-bold text-3xl md:text-4xl uppercase tracking-tight text-foreground mb-2"><span className="md:hidden">Informasi Umum</span><span className="hidden md:inline">Informasi Umum & Sewa</span></h3>
             <p className="font-sans font-semibold text-xs md:text-sm text-muted-foreground text-balance">Tiket masuk studio, workshop kustom, paket usaha expert, dan penyewaan aula.</p>
           </div>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-4">{infoUmumElements}</div>

@@ -81,7 +81,7 @@ export const FAQ = () => {
   return (
     <div ref={sectionRef} id="faq" className="mt-16 border-t-2 border-dashed border-foreground/20 pt-[62px]">
       <div className={`modal-reveal-panel ${visible ? 'modal-reveal-panel-visible' : ''} mb-8 text-center`}>
-        <h3 className="mb-2 font-serif text-3xl font-bold uppercase tracking-tight text-foreground md:text-4xl">
+        <h3 className="mb-2 font-brand text-3xl font-bold uppercase tracking-tight text-foreground md:text-4xl">
           Pertanyaan Umum.
         </h3>
         <p className="text-balance font-sans font-semibold text-xs text-muted-foreground md:text-sm">

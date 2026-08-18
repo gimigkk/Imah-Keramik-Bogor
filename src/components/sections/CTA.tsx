@@ -51,17 +51,19 @@ export const CTA = () => {
           {/* Left Column: CTA & Booking */}
           <div className="lg:col-span-5 flex flex-col">
             <h2
-              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} font-serif font-bold text-6xl md:text-8xl mb-6 leading-[0.85] tracking-tighter uppercase text-foreground`}
+              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} font-brand font-bold text-6xl sm:text-7xl md:text-8xl mb-6 leading-[0.85] tracking-tight uppercase text-foreground`}
               style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
             >
-              Booking <br />
-              <span className="font-accent italic font-normal text-[0.85em] tracking-normal text-foreground/80 lowercase">sekarang juga</span>
+              Reservasi <br />
+              <span className="font-nanum text-[0.75em] md:text-[0.9em] tracking-normal text-foreground/90 lowercase block mt-1">
+                sekarang juga!
+              </span>
             </h2>
             <p
-              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} text-foreground/80 text-base mb-10 font-sans max-w-md`}
+              className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} text-foreground/80 text-sm md:text-base leading-relaxed mb-10 mt-5 font-sans max-w-md font-medium`}
               style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
             >
-              Kapasitas di studio kami sangat terbatas. Segera hubungi kami untuk mengamankan sesi Anda pada pekan ini.
+              Kuota peserta kami batasi di setiap harinya agar suasana belajar tetap hangat dan fokus. Amankan waktu kunjungan Anda via WhatsApp!
             </p>
             <a
               href={getWhatsAppUrl()}
@@ -82,7 +84,7 @@ export const CTA = () => {
           >
             <div className="flex flex-row justify-between items-end gap-4 pb-5 pt-1 md:pt-2">
               <div>
-                <h3 className="font-brand font-extrabold text-3xl text-foreground mb-2 tracking-wide uppercase">{site.name}</h3>
+                <h3 className="font-brand font-extrabold text-3xl text-foreground mb-2 uppercase">{site.name}</h3>
                 <button
                   onClick={handleCopy}
                   className="group text-left text-muted-foreground font-sans text-sm leading-relaxed hover:text-foreground transition-colors"
@@ -105,8 +107,8 @@ export const CTA = () => {
               {/* Opening Schedule (Hidden on Mobile) */}
               <div className="hidden sm:block text-right shrink-0">
                 <p className="text-muted-foreground font-sans text-sm leading-relaxed">
-                  Sel - Jum: 13:00 - 18:00<br />
-                  Sab - Min: 10:00 - 18:00
+                  Selasa - Jumat: 13.00 - 18.00<br />
+                  Sabtu - Minggu: 10.00 - 18.00
                 </p>
               </div>
             </div>
