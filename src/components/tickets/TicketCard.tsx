@@ -100,8 +100,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         <div className="ticket-notch-body bg-background p-5 md:p-6 flex flex-col flex-1 gap-3">
           <div>
             {ticket.badge && (
-              <div className="flex justify-between items-start mb-3">
-                <TicketBadge badge={ticket.badge} savings={ticket.savings} />
+              <div className="flex justify-between items-start mb-2">
+                <TicketBadge badge={ticket.badge} savings={ticket.savings} isAccent={isAccent} />
               </div>
             )}
 
@@ -111,8 +111,6 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             <p className="text-muted-foreground font-sans text-sm mb-3 leading-relaxed text-balance">
               {ticket.description}
             </p>
-
-
           </div>
 
           {/* Image stays full-color with no hover effects */}
@@ -170,7 +168,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             <div>
               {ticket.badge && (
                 <div className="flex justify-between items-start mb-3">
-                  <TicketBadge badge={ticket.badge} savings={ticket.savings} />
+                  <TicketBadge badge={ticket.badge} savings={ticket.savings} isAccent={isAccent} />
                 </div>
               )}
 
@@ -237,7 +235,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           <div className="order-1 md:order-2 flex-1 flex flex-col justify-start">
             {ticket.badge && (
               <div className="flex justify-between items-start mb-2">
-                <TicketBadge badge={ticket.badge} savings={ticket.savings} />
+                <TicketBadge badge={ticket.badge} savings={ticket.savings} isAccent={isAccent} />
               </div>
             )}
 
@@ -289,7 +287,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         <div>
           {ticket.badge && (
             <div className="flex justify-between items-start mb-2">
-              <TicketBadge badge={ticket.badge} savings={ticket.savings} />
+              <TicketBadge badge={ticket.badge} savings={ticket.savings} isAccent={isAccent} />
             </div>
           )}
 
