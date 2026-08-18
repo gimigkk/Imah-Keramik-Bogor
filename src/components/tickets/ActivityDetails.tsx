@@ -8,7 +8,7 @@ interface ActivityDetailsProps {
   className?: string;
 }
 
-const ActivityVideo: React.FC<{ video: TicketVideo }> = ({ video }) => {
+const ActivityVideo: React.FC<{ video: TicketVideo; ticketTitle?: string }> = ({ video, ticketTitle }) => {
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const [hasError, setHasError] = React.useState(false);
 
@@ -35,23 +35,23 @@ const ActivityVideo: React.FC<{ video: TicketVideo }> = ({ video }) => {
 
   if (hasError) return null;
 
+  const label = video.title || `Video aktivitas ${ticketTitle || 'Imah Keramik Bogor'}`;
+
   return (
-    <figure className="min-w-0 overflow-hidden border border-foreground/15 bg-background">
+    <figure className="min-w-0 overflow-hidden border border-foreground/15 bg-background rounded-sm">
       <video
         ref={videoRef}
-        aria-label={video.title}
+        aria-label={label}
+        title={label}
         loop
         muted
         playsInline
         preload="metadata"
         onError={() => setHasError(true)}
-        className="aspect-video w-full bg-muted object-cover opacity-100"
+        className="aspect-[4/5] max-h-[320px] w-full bg-muted object-cover opacity-100"
       >
         <source src={video.src} type="video/mp4" />
       </video>
-      <figcaption className="px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-        {video.title}
-      </figcaption>
     </figure>
   );
 };
@@ -90,7 +90,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ ticket, onClos
         <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 md:grid md:grid-cols-2 xl:grid-cols-3 md:overflow-visible md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {ticket.videos.map((video, idx) => (
             <div key={`${video.src}-${idx}`} className="w-[85%] shrink-0 snap-start md:w-auto md:shrink">
-              <ActivityVideo video={video} />
+              <ActivityVideo video={video} ticketTitle={ticket.title} />
             </div>
           ))}
         </div>
