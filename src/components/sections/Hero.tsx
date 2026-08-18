@@ -94,7 +94,7 @@ const marqueeSlots = [...trustSlots, ...trustSlots, ...trustSlots, ...trustSlots
 
 export const Hero: React.FC = () => {
   const [visible, setVisible] = useState(false);
-  const [videoEnabled, setVideoEnabled] = useState(true);
+  const videoEnabled = true;
   const [activeVideo, setActiveVideo] = useState(0);
   const [trustIndex, setTrustIndex] = useState(0);
   const [transitioningFrom, setTransitioningFrom] = useState<number | null>(null);
@@ -119,7 +119,6 @@ export const Hero: React.FC = () => {
     return () => clearInterval(timer);
   }, [reduceMotion]);
 
-  const requestVideo = useCallback(() => setVideoEnabled(true), []);
 
   const transitionToVideo = useCallback((nextVideo: number) => {
     const previousVideo = activeVideoRef.current;
@@ -372,10 +371,22 @@ export const Hero: React.FC = () => {
         {/* Massive Cinematic Video Slider */}
         <div
           id="hero-video-container"
-          className="w-full aspect-video md:aspect-[377/180] overflow-hidden rounded-sm bg-background relative border border-foreground/10 mb-4"
-          onPointerEnter={requestVideo}
-          onFocusCapture={requestVideo}
-          onClick={requestVideo}
+          className="group relative mb-4 w-full aspect-video md:aspect-[377/180] cursor-pointer overflow-hidden rounded-sm border border-foreground/10 bg-background"
+          onClick={() => {
+            if (currentVideo.youtubeUrl) {
+              window.open(currentVideo.youtubeUrl, '_blank', 'noopener,noreferrer');
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if ((event.key === 'Enter' || event.key === ' ') && currentVideo.youtubeUrl) {
+              event.preventDefault();
+              window.open(currentVideo.youtubeUrl, '_blank', 'noopener,noreferrer');
+            }
+          }}
+          title={currentVideo.youtubeUrl ? `Tonton ${currentVideo.title} di YouTube` : currentVideo.title}
+          aria-label={currentVideo.youtubeUrl ? `Tonton ${currentVideo.title} di YouTube` : currentVideo.title}
         >
           <div
             className="absolute inset-0 flex h-full transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
@@ -482,6 +493,15 @@ export const Hero: React.FC = () => {
               />
             ))}
           </div>
+
+          {currentVideo.youtubeUrl && (
+            <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/25 pointer-events-none">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/80 px-4 py-2 font-sans text-xs font-bold uppercase tracking-wider text-white shadow-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+                <ExternalLink size={14} aria-hidden="true" />
+                Tonton di YouTube
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Video Controls */}

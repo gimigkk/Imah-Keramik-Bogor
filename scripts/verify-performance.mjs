@@ -34,20 +34,8 @@ try {
     ],
   }));
 
-  assert.equal(initial.iframes, 0, 'Third-party iframes should be deferred on initial load');
-
-  await page.waitForTimeout(1500);
-  const deferredHero = await page.evaluate(() => ({
-    heroIframeSource: document.querySelector('#hero-video-container iframe')?.getAttribute('src') ?? null,
-  }));
-  assert.equal(deferredHero.heroIframeSource, null, 'The video iframe should remain deferred until requested');
-
-  await page.locator('#hero-video-container').click();
-  await page.waitForTimeout(150);
-  const activatedHero = await page.evaluate(() => ({
-    heroIframeSource: document.querySelector('#hero-video-container iframe')?.getAttribute('src') ?? null,
-  }));
-  assert.match(activatedHero.heroIframeSource ?? '', /autoplay=1/, 'The hero player must autoplay after activation');
+  assert.equal(initial.iframes, 1, 'Hero video iframe should load immediately for autoplay');
+  assert.match(initial.heroIframeSource ?? '', /autoplay=1/, 'The hero player must autoplay immediately on load');
   assert(!initial.preconnects.some((href) => /fonts\.googleapis|fonts\.gstatic/.test(href)),
     'Google Fonts preconnects must be removed');
   assert(!initial.externalStylesheets.some((href) => href.includes('fonts.googleapis.com')),
@@ -69,8 +57,6 @@ try {
   console.log(JSON.stringify({
     status: 'passed',
     initial,
-    deferredHero,
-    activatedHero,
     requests: [...new Set(requests.filter((request) => /youtube|ytimg|googleapis|gstatic/.test(request)))],
     catalogueSources,
   }, null, 2));

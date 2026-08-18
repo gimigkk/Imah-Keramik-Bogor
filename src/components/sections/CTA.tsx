@@ -105,8 +105,8 @@ export const CTA = () => {
               {/* Opening Schedule (Hidden on Mobile) */}
               <div className="hidden sm:block text-right shrink-0">
                 <p className="text-muted-foreground font-sans text-sm leading-relaxed">
-                  Selasa - Minggu<br />
-                  10:00 - 18:00 WIB
+                  Sel - Jum: 13:00 - 18:00<br />
+                  Sab - Min: 10:00 - 18:00
                 </p>
               </div>
             </div>
