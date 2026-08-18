@@ -130,6 +130,34 @@ export const Hero: React.FC = () => {
     });
   }, [activeVideo, readyVideoKeys, videoEnabled]);
 
+  // Automatically pause video when Hero container scrolls out of the viewport
+  useEffect(() => {
+    const container = document.getElementById('hero-video-container');
+    if (!container || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && videoEnabled) {
+          const iframe = iframeRefs.current[activeVideoRef.current];
+          if (iframe && iframe.contentWindow) {
+            try {
+              iframe.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+                YOUTUBE_EMBED_ORIGIN,
+              );
+            } catch {
+              // Ignore cross-origin issues
+            }
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [videoEnabled]);
+
   // Listen for YouTube embed ENDED state or time end to auto-advance
   useEffect(() => {
     const handleYouTubeMessage = (event: MessageEvent) => {
@@ -348,7 +376,7 @@ export const Hero: React.FC = () => {
 
         {/* Video Controls */}
         <div
-          className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} flex justify-between items-center px-1`}
+          className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} flex justify-between items-center px-0`}
           style={{ '--reveal-delay': '720ms' } as React.CSSProperties}
         >
           {currentVideo.youtubeUrl ? (
@@ -369,31 +397,31 @@ export const Hero: React.FC = () => {
               vid. {activeVideo + 1}: {currentVideo.title}
             </div>
           )}
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex items-center gap-1.5 md:gap-2">
             <button
               type="button"
               onClick={handlePrevVideo}
-              className="flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-sm border border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+              className="flex items-center justify-center w-5.5 h-5.5 md:w-6 md:h-6 rounded-xs bg-foreground text-background hover:bg-foreground/85 active:scale-95 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
               aria-label="Video sebelumnya"
             >
-              <ChevronLeft className="w-3 h-3 md:w-3.5 md:h-3.5" />
+              <ChevronLeft className="w-3.5 h-3.5" />
             </button>
-            <div className="flex gap-1.5 md:gap-2 mx-1">
+            <div className="flex gap-1 md:gap-1.5 mx-0.5">
               {heroVideos.map((_, idx) => (
                 <div
                   key={idx}
                   aria-hidden="true"
-                  className={`w-1 h-1 md:w-1.5 md:h-1.5 rounded-none transition-colors duration-500 ${idx === activeVideo ? 'bg-foreground' : 'bg-foreground/20'}`}
+                  className={`w-1 h-1 md:w-1.5 md:h-1.5 rounded-none transition-colors duration-500 ${idx === activeVideo ? 'bg-foreground' : 'bg-foreground/30'}`}
                 />
               ))}
             </div>
             <button
               type="button"
               onClick={handleNextVideo}
-              className="flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-sm border border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+              className="flex items-center justify-center w-5.5 h-5.5 md:w-6 md:h-6 rounded-xs bg-foreground text-background hover:bg-foreground/85 active:scale-95 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
               aria-label="Video berikutnya"
             >
-              <ChevronRight className="w-3 h-3 md:w-3.5 md:h-3.5" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
