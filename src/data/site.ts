@@ -13,7 +13,7 @@ export const site = {
     whatsappNumber: '628128145417',
   },
   contact: {
-    whatsappLabel: 'WhatsApp (0812-8145-417)',
+    whatsappLabel: 'wa.me/+628128145417',
     email: 'imahkeramikbogor@gmail.com',
     instagramHandle: '@imahkeramikbogor',
     instagramUrl: 'https://instagram.com/imahkeramikbogor',
