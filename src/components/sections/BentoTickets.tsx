@@ -20,6 +20,7 @@ type TicketTab = (typeof TICKET_TABS)[number]['id'];
 
 export const BentoTickets: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TicketTab>('keramik');
+  const [hasSeenBundling, setHasSeenBundling] = useState(false);
   const [sectionRef, sectionVisible] = useRevealOnIntersect<HTMLElement>();
   const [infoRef, infoVisible] = useRevealOnIntersect<HTMLDivElement>();
   const {
@@ -29,6 +30,13 @@ export const BentoTickets: React.FC = () => {
     openTicket,
     closeTicket,
   } = useTicketModal();
+
+  const handleSelectTab = (tabId: TicketTab) => {
+    setActiveTab(tabId);
+    if (tabId === 'bundling') {
+      setHasSeenBundling(true);
+    }
+  };
 
   useEffect(() => {
     const allSources = [
@@ -58,7 +66,7 @@ export const BentoTickets: React.FC = () => {
 
     event.preventDefault();
     const nextTab = TICKET_TABS[nextIndex];
-    setActiveTab(nextTab.id);
+    handleSelectTab(nextTab.id);
     window.requestAnimationFrame(() => document.getElementById(`tab-${nextTab.id}`)?.focus());
   };
 
@@ -99,7 +107,35 @@ export const BentoTickets: React.FC = () => {
           <div role="tablist" aria-label="Kategori aktivitas" className="flex flex-row w-full sm:w-auto gap-1 sm:gap-2">
             {TICKET_TABS.map((tab) => {
               const isActive = activeTab === tab.id;
-              return <button key={tab.id} id={`tab-${tab.id}`} role="tab" aria-selected={isActive} aria-controls={`panel-${tab.id}`} tabIndex={isActive ? 0 : -1} onClick={() => setActiveTab(tab.id)} onKeyDown={(event) => handleTabKeyDown(event, tab.id)} className={`flex-1 sm:flex-none px-2 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-colors ${isActive ? 'bg-foreground text-background border-foreground' : 'bg-transparent text-foreground/70 border-foreground/20 hover:border-foreground/50 hover:text-foreground'}`}>{tab.label}</button>;
+              const showBundlingBadge = tab.id === 'bundling' && !hasSeenBundling;
+              return (
+                <div key={tab.id} className="relative flex-1 sm:flex-none">
+                  <button
+                    id={`tab-${tab.id}`}
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-controls={`panel-${tab.id}`}
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={() => handleSelectTab(tab.id)}
+                    onKeyDown={(event) => handleTabKeyDown(event, tab.id)}
+                    className={`w-full inline-flex items-center justify-center px-3 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-all ${
+                      isActive
+                        ? 'bg-foreground text-background border-foreground'
+                        : 'bg-transparent text-foreground border-foreground hover:bg-foreground hover:text-background'
+                    } ${showBundlingBadge ? 'scoop-tr-corner' : ''}`}
+                  >
+                    <span>{tab.label}</span>
+                  </button>
+                  {showBundlingBadge && (
+                    <span
+                      className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full pointer-events-none z-20 animate-subtle-pulse ${
+                        isActive ? 'bg-background' : 'bg-foreground'
+                      }`}
+                      title="Promo Bundling"
+                    />
+                  )}
+                </div>
+              );
             })}
           </div>
           <span className="hidden md:inline-block font-mono text-xs text-muted-foreground uppercase tracking-widest">{activeTabSummary}</span>

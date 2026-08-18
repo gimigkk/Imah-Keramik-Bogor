@@ -162,6 +162,29 @@
     }
   }
 
+  .scoop-corner {
+    border-radius: 16px;
+    corner-shape: scoop;
+  }
+
+  .scoop-tr-corner {
+    border-top-right-radius: 10px;
+    corner-shape: scoop;
+  }
+
+  .animate-subtle-pulse {
+    animation: subtlePulse 1.8s ease-in-out infinite;
+  }
+
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
   .modal-reveal-panel {
     opacity: 0;
     filter: blur(20px);
