@@ -102,7 +102,9 @@ export const Hero: React.FC = () => {
   const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([]);
   const activeVideoRef = useRef(0);
   const transitionTimerRef = useRef<number | null>(null);
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduceMotion = typeof window !== 'undefined' && window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false;
   const todaySchedule = getTodayScheduleWIB();
   const currentVideo = heroVideos[activeVideo];
 
@@ -112,12 +114,11 @@ export const Hero: React.FC = () => {
 
   // 5-second slot roll-up rotation for trust building facts
   useEffect(() => {
-    if (reduceMotion) return;
     const timer = setInterval(() => {
       setTrustIndex((prev) => (prev + 1) % trustSlots.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [reduceMotion]);
+  }, []);
 
 
   const transitionToVideo = useCallback((nextVideo: number) => {
