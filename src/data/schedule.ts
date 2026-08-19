@@ -52,7 +52,8 @@ const getWibDateParts = (date: Date) => {
     hourCycle: 'h23',
   }).formatToParts(date);
   const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
-  const dayIndex = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].indexOf(values.weekday);
+  const weekdayLower = values.weekday ? values.weekday.toLowerCase() : '';
+  const dayIndex = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].indexOf(weekdayLower);
 
   return {
     dayIndex: dayIndex === -1 ? 0 : dayIndex,
@@ -81,7 +82,7 @@ export const getTodayScheduleWIB = (date = new Date()): DaySchedule & { isOpenNo
     return {
       ...todaySchedule,
       isOpenNow,
-      displayText: `BUKA HARI INI: ${todaySchedule.open}`,
+      displayText: `BUKA HARI INI: ${todaySchedule.open} - ${todaySchedule.close}`,
     };
   }
 
@@ -91,7 +92,7 @@ export const getTodayScheduleWIB = (date = new Date()): DaySchedule & { isOpenNo
       return {
         ...todaySchedule,
         isOpenNow,
-        displayText: `BUKA ${nextDay.day.toUpperCase()}: ${nextDay.open}`,
+        displayText: `BUKA ${nextDay.day.toUpperCase()}: ${nextDay.open} - ${nextDay.close}`,
       };
     }
   }
