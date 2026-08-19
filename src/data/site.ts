@@ -10,10 +10,10 @@
 export const site = {
   name: 'Imah Keramik Bogor',
   booking: {
-    whatsappNumber: '628128145417',
+    whatsappNumber: '628129387076',
   },
   contact: {
-    whatsappLabel: 'wa.me/+628128145417',
+    whatsappLabel: 'wa.me/+628129387076',
     email: 'imahkeramikbogor@gmail.com',
     instagramHandle: '@imahkeramikbogor',
     instagramUrl: 'https://instagram.com/imahkeramikbogor',

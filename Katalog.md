@@ -8,7 +8,7 @@ Sumber: brosur resmi (foto katalog). Semua harga dan deskripsi di bawah ini disa
 
 - **Nama:** Imah Keramik Bogor
 - **Tagline:** Wisata Edukasi Keramik. Mempelajari Proses Produksi & Membuat Keramik. Terbuka untuk umum, dengan reservasi.
-- **Telp/WA:** +62 812-8145-417
+- **Telp/WA:** +62 812-9387-076
 - **Email:** imahkeramikbogor@gmail.com
 - **Alamat:** Jl. Pembangunan No. 22 & 23a, RT 3/RW 5, Kedung Halang Talang, Bogor Utara 16158, Jawa Barat, Indonesia
 - **Instagram:** @imahkeramikbogor
