@@ -109,7 +109,7 @@ export const BentoTickets: React.FC = () => {
               const isActive = activeTab === tab.id;
               const showBundlingBadge = tab.id === 'bundling' && !hasSeenBundling;
               return (
-                <div key={tab.id} className="relative flex-1 sm:flex-none">
+                <div key={tab.id} className="relative flex-auto sm:flex-none">
                   <button
                     id={`tab-${tab.id}`}
                     role="tab"
@@ -118,12 +118,12 @@ export const BentoTickets: React.FC = () => {
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => handleSelectTab(tab.id)}
                     onKeyDown={(event) => handleTabKeyDown(event, tab.id)}
-                    className={`w-full inline-flex items-center justify-center px-3 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-widest font-bold border transition-all ${isActive
+                    className={`w-full inline-flex items-center justify-center px-2.5 sm:px-5 py-2 font-mono text-[9px] sm:text-xs uppercase tracking-wider sm:tracking-widest font-bold whitespace-nowrap border transition-all ${isActive
                       ? 'bg-foreground text-background border-foreground'
                       : 'bg-transparent text-foreground border-foreground hover:bg-foreground hover:text-background'
                       } ${showBundlingBadge ? 'scoop-tr-corner' : ''}`}
                   >
-                    <span>{tab.label}</span>
+                    <span className="whitespace-nowrap">{tab.label}</span>
                   </button>
                   {showBundlingBadge && (
                     <span
