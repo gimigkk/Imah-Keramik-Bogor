@@ -280,7 +280,7 @@ export const Hero: React.FC = () => {
                 className={`reveal-panel ${visible ? 'reveal-panel-visible' : ''} block`}
                 style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
               >
-                <span className="font-nanum text-[0.75em] md:text-[0.85em] tracking-normal text-foreground/90 lowercase block mt-1">tanah liat & Keramik</span>
+                <span className="font-nanum text-[1em] md:text-[1em] tracking-normal text-foreground/90 lowercase block mt-2">tanah liat & Keramik</span>
               </span>
             </h1>
           </div>
